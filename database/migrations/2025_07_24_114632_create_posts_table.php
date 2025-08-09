@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('slug');
             $table->longText('desc');
             $table->boolean('comment_able')->default(1);
+            $table->bigInteger('nums_of_view')->default(0);
             $table->boolean('status')->default(1);
 
-            
+
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');

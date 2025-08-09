@@ -205,190 +205,91 @@
                 <div class="col-md-6">
                     <ul class="nav nav-pills nav-justified">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#featured">Featured News</a>
+                            <a class="nav-link active" data-toggle="pill" href="#featured">Latest News</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#popular">Popular News</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#latest">Latest News</a>
-                        </li>
+
                     </ul>
 
                     <div class="tab-content">
                         <div id="featured" class="container tab-pane active">
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-1.jpg') }}" />
+                            @foreach ($oldes_news as $post)
+                                <div class="tn-news">
+                                    <div class="tn-img">
+                                        <img src="{{ $post->images->first()->path }}" />
+                                    </div>
+                                    <div class="tn-title">
+                                        <a href="">{{ $post->title }}</a>
+                                    </div>
                                 </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-2.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-3.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
                         <div id="popular" class="container tab-pane fade">
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-4.jpg') }}" />
+                            @foreach ($gretest_post_news as $post)
+                                <div class="tn-news">
+                                    <div class="tn-img">
+                                        <img src="{{ $post->images->first()->path }}" />
+                                    </div>
+                                    <div class="tn-title">
+                                        <a href="">{{ $post->title }}</a>
+                                    </div>
                                 </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-5.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-1.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
-                        <div id="latest" class="container tab-pane fade">
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-2.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-3.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-4.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <ul class="nav nav-pills nav-justified">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="pill" href="#m-viewed">Most Viewed</a>
+                            <a class="nav-link active" data-toggle="pill" href="#m-viewed">Latest Viewed</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="pill" href="#m-read">Most Read</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="pill" href="#m-recent">Most Recent</a>
-                        </li>
+
                     </ul>
+
+                    {{-- write php code to get the last three news with out write more query in the same controller --}}
+
+                    @php
+                        $latest_three_news = $posts->take(3);
+                    @endphp
+
 
                     <div class="tab-content">
                         <div id="m-viewed" class="container tab-pane active">
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-5.jpg') }}" />
+                            @foreach ($latest_three_news as $post)
+                                <div class="tn-news">
+                                    <div class="tn-img">
+                                        <img src="{{ $post->images->first()->path }}" />
+                                    </div>
+                                    <div class="tn-title">
+                                        <a href="">{{ $post->title }}</a>
+                                    </div>
                                 </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-4.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-3.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
                         <div id="m-read" class="container tab-pane fade">
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-2.jpg') }}" />
+                            @foreach ($most_view as $post)
+                                <div class="tn-news">
+                                    <div class="tn-img">
+                                        <img src="{{ $post->images->first()->path }}" />
+                                    </div>
+                                    <div class="tn-title">
+                                        <a href="">{{ $post->title }} ({{ $post->nums_of_view }} views)</a>
+                                    </div>
                                 </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-1.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-3.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
-                        <div id="m-recent" class="container tab-pane fade">
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-4.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-5.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                            <div class="tn-news">
-                                <div class="tn-img">
-                                    <img src="{{ Vite::asset('resources/images/news-350x223-1.jpg') }}" />
-                                </div>
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -405,7 +306,7 @@
                         @foreach ($posts as $post)
                             <div class="col-md-4">
                                 <div class="mn-img">
-                                    <img src="{{$post->images->first()->path }}" />
+                                    <img src="{{ $post->images->first()->path }}" />
                                     <div class="mn-title">
                                         <a href="">{{ $post->title }}</a>
                                     </div>
@@ -413,7 +314,7 @@
                             </div>
                         @endforeach
 
-                        {{ $posts -> links() }}
+                        {{ $posts->links() }}
 
                     </div>
                 </div>
