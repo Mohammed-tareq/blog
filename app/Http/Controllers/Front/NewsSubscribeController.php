@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Front\NewSubscribeMail;
 use App\Models\NewsSubscribe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class NewsSubscribeController extends Controller
@@ -30,6 +32,7 @@ class NewsSubscribeController extends Controller
             'email' => $request->email
         ]);
 
+        Mail::to($request->email)->send(new NewSubscribeMail($request->email));
 
         Session::flash('success', 'You have successfully subscribed our news letter');
         return redirect()->back();
