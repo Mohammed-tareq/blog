@@ -1,62 +1,46 @@
 <x-layouts.guest-layout>
+
+
     <!-- Top News Start-->
     <div class="top-news">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 tn-left">
+                    @php
+                        $latest_three_news = $posts->take(3);
+                    @endphp
                     <div class="row tn-slider">
+                        @foreach($latest_three_news as $post)
+
                         <div class="col-md-6">
                             <div class="tn-img">
-                                <img src="{{ Vite::asset('resources/images/news-450x350-1.jpg') }}" />
+                                <img src="{{ $post->images->first()->path }}" />
                                 <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit amet</a>
+                                    <a href="">{{ $post->title }}</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="tn-img">
-                                <img src="{{ Vite::asset('resources/images/news-450x350-2.jpg') }}" />
-                                <div class="tn-title">
-                                    <a href="">Integer hendrerit elit eget purus sodales maximus</a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
+                @php
+                $latest_four_news = $posts->take(4);
+            @endphp
                 <div class="col-md-6 tn-right">
                     <div class="row">
+                        @foreach ($latest_four_news as $post)
+
                         <div class="col-md-6">
                             <div class="tn-img">
-                                <img src="{{ Vite::asset('resources/images/news-350x223-1.jpg') }}" />
+                                <img src="{{ $post->images->first()->path }}" />
                                 <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit</a>
+                                    <a href="">{{ $post->title }}</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="tn-img">
-                                <img src="{{ Vite::asset('resources/images/news-350x223-2.jpg') }}" />
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="tn-img">
-                                <img src="{{ Vite::asset('resources/images/news-350x223-3.jpg') }}" />
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="tn-img">
-                                <img src="{{ Vite::asset('resources/images/news-350x223-4.jpg') }}" />
-                                <div class="tn-title">
-                                    <a href="">Lorem ipsum dolor sit</a>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -67,25 +51,24 @@
     <!-- Category News Start-->
     <div class="cat-news">
         <div class="container">
-            <div class="row">
+            <div class="row ">
                 @foreach ($categories as $category)
-
-                <div class="col-md-6">
-                    <h2>{{ $category->name }}</h2>
-                    <div class="row cn-slider">
-                        @foreach ($category->posts as $post )
-                        <div class="col-md-6">
-                            <div class="cn-img">
-                                <img src="{{ $post->images->first()->path }}" />
-                                <div class="cn-title">
-                                    <a href="">{{ $post->title }}</a>
+                    <div class="col-md-6">
+                        <h2>{{ $category->name }}</h2>
+                        <div class="row cn-slider">
+                            @foreach ($category->posts as $post)
+                                <div class="col-md-6">
+                                    <div class="cn-img">
+                                        <img src="{{ $post->images->first()->path }}" />
+                                        <div class="cn-title">
+                                            <a href="">{{ $post->title }}</a>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        @endforeach
+                            @endforeach
 
+                        </div>
                     </div>
-                </div>
                 @endforeach
 
             </div>
@@ -132,7 +115,8 @@
                                     </div>
                                     <div class="tn-title">
                                         {{--  or you can write $post->comments_count => it was get for controller because using withCount --}}
-                                        <a href="">{{ $post->title }}  comment ({{ $post->comments->count() }})</a>
+                                        <a href="">{{ $post->title }} comment
+                                            ({{ $post->comments->count() }})</a>
                                     </div>
                                 </div>
                             @endforeach
