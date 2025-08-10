@@ -9,7 +9,7 @@
     <meta content="Bootstrap News Template - Free HTML Templates" name="description" />
 
     <!-- Favicon -->
-    <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Logo">
+    <img src="{{ asset('storage/images/'.$setting->favicon) }}" alt="Logo">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet" />
@@ -44,7 +44,7 @@
 
     <!-- Footer End -->
 
-   
+
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

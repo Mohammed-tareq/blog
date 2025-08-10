@@ -23,11 +23,10 @@
                 <div class="footer-widget">
                     <h3 class="title">Useful Links</h3>
                     <ul>
-                        <li><a href="#">Lorem ipsum</a></li>
-                        <li><a href="#">Pellentesque</a></li>
-                        <li><a href="#">Aenean vulputate</a></li>
-                        <li><a href="#">Vestibulum sit amet</a></li>
-                        <li><a href="#">Nam dignissim</a></li>
+                        @foreach ($relateSite as $site )
+
+                        <li><a href="{{ $site->url }}" title="{{ $site->name }}">{{ $site->name }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
