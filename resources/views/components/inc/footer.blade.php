@@ -6,14 +6,15 @@
                 <div class="footer-widget">
                     <h3 class="title">Get in Touch</h3>
                     <div class="contact-info">
-                        <p><i class="fa fa-map-marker"></i>{{ $setting->country }} , {{ $setting->city }} , {{ $setting->street }}</p>
+                        <p><i class="fa fa-map-marker"></i>{{ $setting->country }} , {{ $setting->city }} ,
+                            {{ $setting->street }}</p>
                         <p><i class="fa fa-envelope"></i>{{ $setting->email }}</p>
                         <p><i class="fa fa-phone"></i>{{ $setting->phone }}</p>
                         <div class="social">
-                            <a href="{{ $setting->twitter }}"title ="twitter" ><i class="fab fa-twitter"></i></a>
-                            <a href="{{ $setting->facebook }}"title ="facebook" ><i class="fab fa-facebook-f"></i></a>
-                            <a href="{{ $setting->instagram }}"title ="instagram" ><i class="fab fa-instagram"></i></a>
-                            <a href="{{ $setting->youtube }}"title ="youtube" ><i class="fab fa-youtube"></i></a>
+                            <a href="{{ $setting->twitter }}"title="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="{{ $setting->facebook }}"title="facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{ $setting->instagram }}"title="instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="{{ $setting->youtube }}"title="youtube"><i class="fab fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -23,9 +24,8 @@
                 <div class="footer-widget">
                     <h3 class="title">Useful Links</h3>
                     <ul>
-                        @foreach ($relateSite as $site )
-
-                        <li><a href="{{ $site->url }}" title="{{ $site->name }}">{{ $site->name }}</a></li>
+                        @foreach ($relateSite as $site)
+                            <li><a href="{{ $site->url }}" title="{{ $site->name }}">{{ $site->name }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -52,8 +52,16 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             Vivamus sed porta dui. Class aptent taciti sociosqu
                         </p>
-                        <form>
-                            <input class="form-control" type="email" placeholder="Your email here" />
+                        <form action="{{ route('front.news.subscribe') }}" method = "post">
+                            @csrf
+                            <input class="form-control" type="email" name="email" placeholder="Your email here" />
+                            @if ($errors->any())
+
+                                @foreach ($errors->all() as $error)
+                                    <div class="text-danger">{{ $error }}</div>
+                                @endforeach
+
+                            @endif
                             <button class="btn">Submit</button>
                         </form>
                     </div>
@@ -64,8 +72,8 @@
 </div>
 <!-- Footer End -->
 
- <!-- Footer Menu Start -->
- <div class="footer-menu">
+<!-- Footer Menu Start -->
+<div class="footer-menu">
     <div class="container">
         <div class="f-menu">
             <a href="">Terms of use</a>

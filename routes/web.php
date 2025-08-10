@@ -1,14 +1,20 @@
 <?php
 
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\NewsSubscribeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
 
-Route::get("/", [HomeController::class ,"index"])->name("home");
+Route::group(["as"=>"front."], function () {
+
+    Route::get("/", [HomeController::class ,"index"])->name("home");
+    Route::post("new-subscribe" , [NewsSubscribeController::class, "subscribe"])->name("news.subscribe");
+});
+
 Route::get("/contact", function () {
     return view('front.contact');
-})->name('contact');
+})->name('front.contact');
 
