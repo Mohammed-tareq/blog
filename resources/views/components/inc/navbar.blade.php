@@ -8,7 +8,7 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav mr-auto">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="{{ route('home') }}" class="nav-item nav-link active">Home</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
                         <div class="dropdown-menu">
@@ -21,11 +21,10 @@
                     <a href="{{ route('contact') }}" class="nav-item nav-link">Contact Us</a>
                 </div>
                 <div class="social ml-auto">
-                    <a href=""><i class="fab fa-twitter"></i></a>
-                    <a href=""><i class="fab fa-facebook-f"></i></a>
-                    <a href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a href=""><i class="fab fa-instagram"></i></a>
-                    <a href=""><i class="fab fa-youtube"></i></a>
+                    <a href="{{ $setting->twitter }}"title ="twitter" ><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $setting->facebook }}"title ="facebook" ><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $setting->instagram }}"title ="instagram" ><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $setting->youtube }}"title ="youtube" ><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </nav>

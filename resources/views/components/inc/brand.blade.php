@@ -4,15 +4,13 @@
             <div class="col-lg-3 col-md-4">
                 <div class="b-logo">
                     <a href="index.html">
-                        <img src="{{ Vite::asset('resources/images/logo.png') }}" alt="Logo" />
+                        <img src="{{ asset("storage/images/".$setting->logo) }}" alt="Logo" />
                     </a>
                 </div>
             </div>
             <div class="col-lg-6 col-md-4">
                 <div class="b-ads">
-                    <a href="https://htmlcodex.com">
-                        <img src="{{ Vite::asset('resources/images/ads-1.jpg') }}" alt="Ads" />
-                    </a>
+
                 </div>
             </div>
             <div class="col-lg-3 col-md-4">
