@@ -19,6 +19,7 @@ class Post extends Model
         'desc',
         'comment_able',
         'status',
+        'nums_of_view',
         'user_id',
         'category_id',
     ];
