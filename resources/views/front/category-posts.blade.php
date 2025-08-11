@@ -12,7 +12,7 @@
                                     <div class="mn-img">
                                         <img src="{{ $category_post->images->first()->path }}" />
                                         <div class="mn-title">
-                                            <a href="">{{ $category_post->title }}</a>
+                                            <a href="{{ route('front.show.post', $category_post->slug) }}" title="{{ $category_post->title }}">{{ $category_post->title }}</a>
                                         </div>
                                     </div>
                                 </div>

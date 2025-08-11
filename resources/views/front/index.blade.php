@@ -6,9 +6,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 tn-left">
+
                     @php
                         $latest_three_news = $posts->take(3);
                     @endphp
+
                     <div class="row tn-slider">
                         @foreach($latest_three_news as $post)
 
@@ -16,7 +18,7 @@
                             <div class="tn-img">
                                 <img src="{{ $post->images->first()->path }}" />
                                 <div class="tn-title">
-                                    <a href="">{{ $post->title }}</a>
+                                    <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                 </div>
                             </div>
                         </div>
@@ -24,9 +26,11 @@
 
                     </div>
                 </div>
+
                 @php
                 $latest_four_news = $posts->take(4);
-            @endphp
+                @endphp
+
                 <div class="col-md-6 tn-right">
                     <div class="row">
                         @foreach ($latest_four_news as $post)
@@ -35,7 +39,7 @@
                             <div class="tn-img">
                                 <img src="{{ $post->images->first()->path }}" />
                                 <div class="tn-title">
-                                    <a href="">{{ $post->title }}</a>
+                                    <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +65,7 @@
                                     <div class="cn-img">
                                         <img src="{{ $post->images->first()->path }}" />
                                         <div class="cn-title">
-                                            <a href="">{{ $post->title }}</a>
+                                            <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +105,7 @@
                                         <img src="{{ $post->images->first()->path }}" />
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $post->title }}</a>
+                                        <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -115,7 +119,7 @@
                                     </div>
                                     <div class="tn-title">
                                         {{--  or you can write $post->comments_count => it was get for controller because using withCount --}}
-                                        <a href="">{{ $post->title }} comment
+                                        <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }} comment
                                             ({{ $post->comments->count() }})</a>
                                     </div>
                                 </div>
@@ -152,7 +156,7 @@
                                         <img src="{{ $post->images->first()->path }}" />
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $post->title }}</a>
+                                        <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -165,7 +169,7 @@
                                         <img src="{{ $post->images->first()->path }}" />
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $post->title }} ({{ $post->nums_of_view }} views)</a>
+                                        <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }} ({{ $post->nums_of_view }} views)</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -190,7 +194,7 @@
                                 <div class="mn-img">
                                     <img src="{{ $post->images->first()->path }}" />
                                     <div class="mn-title">
-                                        <a href="">{{ $post->title }}</a>
+                                        <a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +212,7 @@
                         <ul>
                             @foreach($read_more_posts as $post)
 
-                            <li><a href="">{{ $post->title }}</a></li>
+                            <li><a href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a></li>
                             @endforeach
 
                         </ul>
