@@ -12,8 +12,10 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Sub Item 1</a>
-                            <a href="#" class="dropdown-item">Sub Item 2</a>
+                            @foreach ($categories as $category)
+                                <a href="{{ route('front.category.posts', $category->slug) }}"
+                                    title="{{ $category->name }}" class="dropdown-item">{{ $category->name }}</a>
+                            @endforeach
                         </div>
                     </div>
                     <a href="single-page.html" class="nav-item nav-link">Single Page</a>
@@ -21,10 +23,10 @@
                     <a href="{{ route('front.contact') }}" class="nav-item nav-link">Contact Us</a>
                 </div>
                 <div class="social ml-auto">
-                    <a href="{{ $setting->twitter }}"title ="twitter" ><i class="fab fa-twitter"></i></a>
-                    <a href="{{ $setting->facebook }}"title ="facebook" ><i class="fab fa-facebook-f"></i></a>
-                    <a href="{{ $setting->instagram }}"title ="instagram" ><i class="fab fa-instagram"></i></a>
-                    <a href="{{ $setting->youtube }}"title ="youtube" ><i class="fab fa-youtube"></i></a>
+                    <a href="{{ $setting->twitter }}"title="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $setting->facebook }}"title="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $setting->instagram }}"title="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $setting->youtube }}"title="youtube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </nav>

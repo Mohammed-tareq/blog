@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Front\CategoryController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\NewsSubscribeController;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ Route::group(["as"=>"front."], function () {
 
     Route::get("/", [HomeController::class ,"index"])->name("home");
     Route::post("new-subscribe" , [NewsSubscribeController::class, "subscribe"])->name("news.subscribe");
+    Route::get("category/{slug}",CategoryController::class)->name("category.posts");
 });
 
 Route::get("/contact", function () {

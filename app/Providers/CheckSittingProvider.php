@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\RelatedSite;
 use App\Models\Setting;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,7 +20,7 @@ class CheckSittingProvider extends ServiceProvider
      */
     public function boot(): void
     {
-       $setting  = Setting::firstOr(function () {
+        $setting  = Setting::firstOr(function () {
             Setting::create([
                 'site_name' => 'news',
                 'email' => 'Laravel@gmail.com',
@@ -38,12 +37,10 @@ class CheckSittingProvider extends ServiceProvider
             ]);
         });
 
-        $relateSite = RelatedSite::select('name', 'url')->get();
 
 
         view()->share([
-            'setting'=> $setting,
-            'relateSite'=> $relateSite
+            'setting' => $setting,
         ]);
     }
 }
