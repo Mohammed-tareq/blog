@@ -10,7 +10,7 @@
                 <div class="navbar-nav mr-auto">
                     <a href="{{ route('front.home') }}" class="nav-item nav-link active">Home</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
                         <div class="dropdown-menu">
                             @foreach ($categories as $category)
                                 <a href="{{ route('front.category.posts', $category->slug) }}"

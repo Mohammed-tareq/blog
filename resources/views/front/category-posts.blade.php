@@ -2,36 +2,38 @@
 
 
 
-        <div class="main-news">
+    <div class="main-news py-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
-                        {{-- @foreach ($posts as $post)
-                            <div class="col-md-4">
-                                <div class="mn-img">
-                                    <img src="{{ $post->images->first()->path }}" />
-                                    <div class="mn-title">
-                                        <a href="">{{ $post->title }}</a>
+                        @forelse ($post as $category_post)
+                                <div class="col-md-4">
+                                    <div class="mn-img">
+                                        <img src="{{ $category_post->images->first()->path }}" />
+                                        <div class="mn-title">
+                                            <a href="">{{ $category_post->title }}</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-
-                        {{ $posts->links() }} --}}
+                        @empty
+                            <div class="text-scendery">No Post</div>
+                        @endforelse
 
                     </div>
+                    {{ $post->links() }}
                 </div>
 
 
                 <div class="col-lg-3">
                     <div class="mn-list">
-                        <h2>Read More</h2>
+                        <h2>Other Category</h2>
                         <ul>
-                            {{-- @foreach($read_more_posts as $post)
-
-                            <li><a href="">{{ $post->title }}</a></li>
-                            @endforeach --}}
+                            @foreach ($categories as $category)
+                                <li>
+                                    <a href="{{ route('front.category.posts', $category->slug) }}" title="{{ $category->name }}">{{ $category->name }}</a>
+                                </li>
+                            @endforeach
 
                         </ul>
                     </div>
