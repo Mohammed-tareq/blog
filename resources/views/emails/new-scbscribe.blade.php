@@ -1,4 +1,4 @@
-<x-mail::message>
+ <x-mail::message>
 
 
 thank you for subscribing
@@ -10,3 +10,4 @@ Button Text {{ $email }}
 Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>
+
