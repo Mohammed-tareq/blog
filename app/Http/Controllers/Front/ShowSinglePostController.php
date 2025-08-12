@@ -11,11 +11,10 @@ class ShowSinglePostController extends Controller
     public function showSinglePost($slug)
     {
 
-        $post = Post::whereSlug($slug)->firstOrFail();
+        $post = Post::with(['comments'=> fn($q)=>  $q->take(3)])->whereSlug($slug)->firstOrFail();
         $post->increment('nums_of_view');
         $category = $post->category;
-        $posts_of_category = $category->posts()->where('slug', '!=', $post->slug)->latest()->take(5)->get();
-
+        $posts_of_category = $category->posts()->where('slug', '!=', $post->slug)->latest()->take(6)->get();
 
         $latest_post = Post::latest()->take(5)->get();
         $gretest_post_news = Post::withCount('comments')->orderBy('comments_count', 'desc')->take(5)->get();

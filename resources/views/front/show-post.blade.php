@@ -28,7 +28,7 @@
                         <div class="carousel-inner">
                             @foreach ($post->images as $image)
                                 <div class="carousel-item @if ($loop->index == 0) active @endif">
-                                    <img src="{{ $image->path }}" class="d-block w-100" alt="First Slide">
+                                    <img src="{{ $image->path }}" class="d-block w-100" alt="{{$post->title}}">
                                 </div>
                             @endforeach
 
@@ -54,26 +54,22 @@
                     <div class="comment-section">
                         <!-- Comment Input -->
                         <div class="comment-input">
-                            <input type="text" placeholder="Add a comment..." id="commentBox" />
+                            <input type="text" placeholder="Add a comment..." id="commentBox"/>
                             <button id="addCommentBtn">Post</button>
                         </div>
 
                         <!-- Display Comments -->
                         <div class="comments">
+                            @foreach($post->comments as $comment)
+
                             <div class="comment">
-                                <img src="./img/news-450x350-2.jpg" alt="User Image" class="comment-img" />
+                                <img src="{{$comment->user->image}}" class="comment-img" alt="{{ $comment->user->name }}"/>
                                 <div class="comment-content">
-                                    <span class="username">User1</span>
-                                    <p class="comment-text">This is an example comment.</p>
+                                    <span class="username">{{$comment->user->name}}</span>
+                                    <p class="comment-text">{{$comment->comment}}</p>
                                 </div>
                             </div>
-                            <div class="comment">
-                                <img src="./img/news-450x350-2.jpg" alt="User Image" class="comment-img" />
-                                <div class="comment-content">
-                                    <span class="username">User2</span>
-                                    <p class="comment-text">This is an example comment.</p>
-                                </div>
-                            </div>
+                            @endforeach
                             <!-- Add more comments here for demonstration -->
                         </div>
 
@@ -84,39 +80,23 @@
                     <!-- Related News -->
                     <div class="sn-related">
                         <h2>Related News</h2>
-                        <div class="row sn-slider">
+                        <div class="sn-slider">
+
+                            @foreach($posts_of_category as $post)
+
                             <div class="col-md-4">
                                 <div class="sn-img">
-                                    <img src="img/news-350x223-1.jpg" class="img-fluid" alt="Related News 1" />
+                                    <img src="{{ $post->images->first()->path }}" class="img-fluid" alt="{{$post->title}}"/>
                                     <div class="sn-title">
-                                        <a href="#">Interdum et fames ac ante</a>
+                                        <a href="{{ route('front.show.post', $post->slug) }}" title="{{$post->title}}">
+                                            {{ substr($post->title, 0, 20) }}</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="img/news-350x223-2.jpg" class="img-fluid" alt="Related News 2" />
-                                    <div class="sn-title">
-                                        <a href="#">Interdum et fames ac ante</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="img/news-350x223-3.jpg" class="img-fluid" alt="Related News 3" />
-                                    <div class="sn-title">
-                                        <a href="#">Interdum et fames ac ante</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="img/news-350x223-4.jpg" class="img-fluid" alt="Related News 4" />
-                                    <div class="sn-title">
-                                        <a href="#">Interdum et fames ac ante</a>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
+
+
+
                         </div>
                     </div>
                 </div>
@@ -126,10 +106,13 @@
                         <div class="sidebar-widget">
                             <h2 class="sw-title">In This Category</h2>
                             <div class="news-list">
-                                @foreach ($posts_of_category as $post)
+                                @php
+                                    $posts_of_category_limit = $posts_of_category->take(5);
+                                @endphp
+                                @foreach ($posts_of_category_limit as $post)
                                     <div class="nl-item">
                                         <div class="nl-img">
-                                            <img src="{{ $post->images->first()->path }}" />
+                                            <img src="{{ $post->images->first()->path }}" alt="{{$post->title}}"/>
                                         </div>
                                         <div class="nl-title">
                                             <a
@@ -156,16 +139,18 @@
 
                                 <div class="tab-content">
                                     <div id="popular" class="container tab-pane active">
-                                    @foreach ( $gretest_post_news as  $post )
+                                        @foreach ( $gretest_post_news as  $post )
 
-                                        <div class="tn-news">
-                                            <div class="tn-img">
-                                                <img src="{{ $post->images->first()->path }}" />
+                                            <div class="tn-news">
+                                                <div class="tn-img">
+                                                    <img src="{{ $post->images->first()->path }}"/>
+                                                </div>
+                                                <div class="tn-title">
+                                                    <a href="{{ route('front.show.post', $post->slug) }}"
+                                                       title="{{ $post->title }}">{{ substr($post->title, 0, 21 ) }}
+                                                        comments ({{ $post->comments_count }}) </a>
+                                                </div>
                                             </div>
-                                            <div class="tn-title">
-                                                <a href="{{ route('front.show.post', $post->slug) }}" title="{{ $post->title }}">{{ substr($post->title, 0, 21 ) }} comments ({{ $post->comments_count }}) </a>
-                                            </div>
-                                        </div>
 
                                         @endforeach
                                     </div>
@@ -173,15 +158,15 @@
                                     <div id="latest" class="container tab-pane fade">
                                         @foreach ($latest_post as  $post)
 
-                                        <div class="tn-news">
-                                            <div class="tn-img">
-                                                <img src="{{ $post->images->first()->path }}" />
+                                            <div class="tn-news">
+                                                <div class="tn-img">
+                                                    <img src="{{ $post->images->first()->path }}"/>
+                                                </div>
+                                                <div class="tn-title">
+                                                    <a href="{{ route('front.show.post', $post->slug) }}"
+                                                       title="{{ $post->title }}">{{ $post->title }}</a>
+                                                </div>
                                             </div>
-                                            <div class="tn-title">
-                                                <a href="{{ route('front.show.post', $post->slug) }}"
-                                                    title="{{ $post->title }}">{{ $post->title }}</a>
-                                            </div>
-                                        </div>
                                         @endforeach
 
                                     </div>
@@ -189,45 +174,35 @@
                             </div>
                         </div>
 
-                        <div class="sidebar-widget">
-                            <div class="image">
-                                <a href="https://htmlcodex.com"><img src="img/ads-2.jpg" alt="Image" /></a>
-                            </div>
-                        </div>
+{{--                        <div class="sidebar-widget">--}}
+{{--                            <div class="image">--}}
+{{--                                <a href="https://htmlcodex.com"><img src="img/ads-2.jpg" alt="Image"/></a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <div class="sidebar-widget">
                             <h2 class="sw-title">News Category</h2>
                             <div class="category">
                                 <ul>
-                                    <li><a href="">National</a><span>(98)</span></li>
-                                    <li><a href="">International</a><span>(87)</span></li>
-                                    <li><a href="">Economics</a><span>(76)</span></li>
-                                    <li><a href="">Politics</a><span>(65)</span></li>
-                                    <li><a href="">Lifestyle</a><span>(54)</span></li>
-                                    <li><a href="">Technology</a><span>(43)</span></li>
-                                    <li><a href="">Trades</a><span>(32)</span></li>
+                                    @foreach ($categories as $category)
+                                        <li>
+                                            <a href="{{ route('front.category.posts', $category->slug) }}">
+                                                {{ $category->name }}</a><span>({{$category->posts()->count()}})</span>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
 
+
+                        {{--
                         <div class="sidebar-widget">
                             <div class="image">
-                                <a href="https://htmlcodex.com"><img src="img/ads-2.jpg" alt="Image" /></a>
+                                <a href="https://htmlcodex.com"><img src="img/ads-2.jpg" alt="Image"/></a>
                             </div>
                         </div>
+                        --}}
 
-                        <div class="sidebar-widget">
-                            <h2 class="sw-title">Tags Cloud</h2>
-                            <div class="tags">
-                                <a href="">National</a>
-                                <a href="">International</a>
-                                <a href="">Economics</a>
-                                <a href="">Politics</a>
-                                <a href="">Lifestyle</a>
-                                <a href="">Technology</a>
-                                <a href="">Trades</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -235,5 +210,15 @@
     </div>
     <!-- Single News End-->
 
+    <x-slot name="script">
+        <script>
+            $(document).on('click', '#showMoreBtn',function (e){
+                e.preventDefault();
+                alert('clicked');
+            })
+        </script>
+
+
+    </x-slot>
 
 </x-layouts.guest-layout>
