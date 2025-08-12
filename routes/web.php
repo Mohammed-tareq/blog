@@ -16,6 +16,7 @@ Route::group(["as"=>"front."], function () {
     Route::post("new-subscribe" , [NewsSubscribeController::class, "subscribe"])->name("news.subscribe");
     Route::get("category/{slug}",CategoryController::class)->name("category.posts");
     Route::get("post/{slug}",[ShowSinglePostController::class, "showSinglePost"])->name("show.post");
+    Route::get("post/comments/{slug}",[ShowSinglePostController::class, "showPostCommentes"])->name("show.post.comments");
 });
 
 Route::get("/contact", function () {

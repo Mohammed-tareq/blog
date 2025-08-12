@@ -26,9 +26,9 @@
                             <li data-target="#newsCarousel" data-slide-to="2"></li>
                         </ol>
                         <div class="carousel-inner">
-                            @foreach ($post->images as $image)
+                            @foreach ($main_post->images as $image)
                                 <div class="carousel-item @if ($loop->index == 0) active @endif">
-                                    <img src="{{ $image->path }}" class="d-block w-100" alt="{{$post->title}}">
+                                    <img src="{{ $image->path }}" class="d-block w-100" alt="{{$main_post->title}}">
                                 </div>
                             @endforeach
 
@@ -44,9 +44,9 @@
                         </a>
                     </div>
                     <div class="sn-content">
-                        <h2>{{ $post->title }}</h2>
+                        <h2>{{ $main_post->title }}</h2>
                         <p>
-                            {{ $post->desc }}
+                            {{ $main_post->desc }}
                         </p>
                     </div>
 
@@ -60,15 +60,16 @@
 
                         <!-- Display Comments -->
                         <div class="comments">
-                            @foreach($post->comments as $comment)
+                            @foreach($main_post->comments as $comment)
 
-                            <div class="comment">
-                                <img src="{{$comment->user->image}}" class="comment-img" alt="{{ $comment->user->name }}"/>
-                                <div class="comment-content">
-                                    <span class="username">{{$comment->user->name}}</span>
-                                    <p class="comment-text">{{$comment->comment}}</p>
+                                <div class="comment">
+                                    <img src="{{$comment->user->image}}" class="comment-img"
+                                         alt="{{ $comment->user->name }}"/>
+                                    <div class="comment-content">
+                                        <span class="username">{{$comment->user->name}}</span>
+                                        <p class="comment-text">{{$comment->comment}}</p>
+                                    </div>
                                 </div>
-                            </div>
                             @endforeach
                             <!-- Add more comments here for demonstration -->
                         </div>
@@ -84,17 +85,18 @@
 
                             @foreach($posts_of_category as $post)
 
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="{{ $post->images->first()->path }}" class="img-fluid" alt="{{$post->title}}"/>
-                                    <div class="sn-title">
-                                        <a href="{{ route('front.show.post', $post->slug) }}" title="{{$post->title}}">
-                                            {{ substr($post->title, 0, 20) }}</a>
+                                <div class="col-md-4">
+                                    <div class="sn-img">
+                                        <img src="{{ $post->images->first()->path }}" class="img-fluid"
+                                             alt="{{$post->title}}"/>
+                                        <div class="sn-title">
+                                            <a href="{{ route('front.show.post', $post->slug) }}"
+                                               title="{{$post->title}}">
+                                                {{ substr($post->title, 0, 20) }}</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
-
 
 
                         </div>
@@ -174,11 +176,11 @@
                             </div>
                         </div>
 
-{{--                        <div class="sidebar-widget">--}}
-{{--                            <div class="image">--}}
-{{--                                <a href="https://htmlcodex.com"><img src="img/ads-2.jpg" alt="Image"/></a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="sidebar-widget">--}}
+                        {{--                            <div class="image">--}}
+                        {{--                                <a href="https://htmlcodex.com"><img src="img/ads-2.jpg" alt="Image"/></a>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
 
                         <div class="sidebar-widget">
                             <h2 class="sw-title">News Category</h2>
@@ -211,14 +213,34 @@
     <!-- Single News End-->
 
     <x-slot name="script">
+        @php
+            $commentsUrl = route('front.show.post.comments', $main_post->slug);
+        @endphp
         <script>
-            $(document).on('click', '#showMoreBtn',function (e){
+            $(document).on('click' , '#showMoreBtn',function (e){
                 e.preventDefault();
-                alert('clicked');
-            })
+                $.ajax({
+                    url:'{{$commentsUrl}}',
+                    method:'get',
+                    success:function(data){
+                        $('.comments').empty();
+                        $.each(data , function(key , comment){
+                            $('.comments').append(`<div class="comment">
+                                <img src="${comment.user.image}" class="comment-img" alt="${comment.user.name}"/>
+                                <div class="comment-content">
+                                    <span class="username">${comment.user.name}</span>
+                                    <p class="comment-text">${comment.comment}</p>
+                                </div>
+                            </div>`);
+                        })
+                    },
+                    error:function(data){
+
+                    }
+                })
+            });
+
         </script>
-
-
     </x-slot>
 
 </x-layouts.guest-layout>
