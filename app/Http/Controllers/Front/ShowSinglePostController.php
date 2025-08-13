@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -28,11 +29,38 @@ class ShowSinglePostController extends Controller
         ]);
     }
 
-    public function showPostCommentes($slug)
+    public function showPostComments($slug)
     {
         $post_comments = Post::whereSlug($slug)->first();
 
         $comment = $post_comments->comments()->with(['user' => fn($q) => $q->select('id', 'name', 'image')])->get();
             return response()->json($comment);
+    }
+
+    public function storePostComment(Request $request)
+    {
+        $request->validate([
+            'comment' => 'required',
+            'post_id' => 'required | exists:posts,id',
+            'user_id' => 'required | exists:users,id',
+        ]);
+
+        $comment = Comment::create([
+            'comment' => $request->comment,
+            'post_id' => $request->post_id,
+            'user_id' => $request->user_id,
+            'ip_address' => $request->ip(),
+        ])->load(['user' => fn($q) => $q->select('id', 'name', 'image')]);
+        if(!$comment){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Something went wrong'
+            ]);
+        }
+        return response()->json([
+            'status' => 201,
+            'message' => 'Comment added successfully',
+            "comment" => $comment
+        ]);
     }
 }

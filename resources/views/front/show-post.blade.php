@@ -50,12 +50,25 @@
                         </p>
                     </div>
 
+
                     <!-- Comment Section -->
                     <div class="comment-section">
                         <!-- Comment Input -->
-                        <div class="comment-input">
-                            <input type="text" placeholder="Add a comment..." id="commentBox"/>
-                            <button id="addCommentBtn">Post</button>
+                        <form id="commentForm">
+                            @csrf
+                            <div class="comment-input">
+                                <input name="comment" type="text" placeholder="Add a comment..." id="commentBox"/>
+                                <input name=" post_id" type="hidden" value="{{$main_post->id}}"/>
+                                <input name=" user_id" type="hidden" value="1"/>
+                                <button type="submit" id="submitComment">Comment</button>
+                            </div>
+                        </form>
+
+
+                        {{--  error input required --}}
+
+                        <div id="commentError" class="alert alert-danger " style="display: none">
+
                         </div>
 
                         <!-- Display Comments -->
@@ -215,16 +228,62 @@
     <x-slot name="script">
         @php
             $commentsUrl = route('front.show.post.comments', $main_post->slug);
+            $storeCommentUrl = route('front.store.post.comments');
         @endphp
         <script>
-            $(document).on('click' , '#showMoreBtn',function (e){
+            // store comment
+
+            $(document).on("submit", '#commentForm', function (e) {
+                e.preventDefault();
+
+                $('#submitComment').prop('disabled', true).text('Please wait...');
+
+
+                let formData = new FormData(this);
+                $.ajax({
+                    url: "{{$storeCommentUrl}}",
+                    method: 'post',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+
+                        $("#commentError").hide();
+
+                        $('.comments').prepend(`<div class="comment">
+                                <img src="${data.comment.user.image}" class="comment-img" alt="${data.comment.user.name}"/>
+                                <div class="comment-content">
+                                    <span class="username">${data.comment.user.name}</span>
+                                    <p class="comment-text">${data.comment.comment}</p>
+                                </div>
+                            </div>`)
+                        $('#commentBox').val('');
+
+
+                    },
+                    error: function (data) {
+
+                        let response = $.parseJSON(data.responseText);
+                        $('#commentError').text(response.errors.comment).show();
+
+                    },
+                    Always: function () {
+                        $('#submitComment').prop('disabled', false).text('Submit');
+                    }
+                });
+
+            });
+
+
+            // show more comments
+            $(document).on('click', '#showMoreBtn', function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url:'{{$commentsUrl}}',
-                    method:'get',
-                    success:function(data){
+                    url: '{{$commentsUrl}}',
+                    method: 'get',
+                    success: function (data) {
                         $('.comments').empty();
-                        $.each(data , function(key , comment){
+                        $.each(data, function (key, comment) {
                             $('.comments').append(`<div class="comment">
                                 <img src="${comment.user.image}" class="comment-img" alt="${comment.user.name}"/>
                                 <div class="comment-content">
@@ -232,9 +291,10 @@
                                     <p class="comment-text">${comment.comment}</p>
                                 </div>
                             </div>`);
-                        })
+                        });
+                        $('#showMoreBtn').hide();
                     },
-                    error:function(data){
+                    error: function (data) {
 
                     }
                 })
