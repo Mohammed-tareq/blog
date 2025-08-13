@@ -20,12 +20,12 @@ class CheckSittingProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $setting  = Setting::firstOr(function () {
+        $setting = Setting::firstOr(function () {
             Setting::create([
                 'site_name' => 'news',
                 'email' => 'Laravel@gmail.com',
                 'favicon' => 'logo.png',
-                'logo' => "logo.png",
+                'logo' => 'logo.png',
                 'facebook' => 'https://www.facebook.com',
                 'instagram' => 'https://www.instagram.com',
                 'youtube' => 'https://www.youtube.com',
@@ -36,8 +36,6 @@ class CheckSittingProvider extends ServiceProvider
                 'street' => 'street',
             ]);
         });
-
-
 
         view()->share([
             'setting' => $setting,

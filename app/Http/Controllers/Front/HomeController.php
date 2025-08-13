@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -31,17 +30,12 @@ class HomeController extends Controller
             $query->take(4);
         }])->latest()->take(4)->get();
 
-
-
-
-
-
         return view('front.index', [
             'posts' => $posts,
             'most_view' => $most_view,
             'oldes_news' => $oldes_news,
             'gretest_post_news' => $gretest_post_news,
-            'categories'=> $categories
+            'categories' => $categories,
         ]);
     }
 }
