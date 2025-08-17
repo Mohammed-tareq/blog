@@ -63,4 +63,31 @@ class ShowSinglePostController extends Controller
             "comment" => $comment
         ]);
     }
+
+    public function storePostComment(Request $request)
+    {
+        $request->validate([
+            'comment' => 'required',
+            'post_id' => 'required | exists:posts,id',
+            'user_id' => 'required | exists:users,id',
+        ]);
+
+        $comment = Comment::create([
+            'comment' => $request->comment,
+            'post_id' => $request->post_id,
+            'user_id' => $request->user_id,
+            'ip_address' => $request->ip(),
+        ])->load(['user' => fn($q) => $q->select('id', 'name', 'image')]);
+        if(!$comment){
+            return response()->json([
+                'status' => 403,
+                'message' => 'Something went wrong'
+            ]);
+        }
+        return response()->json([
+            'status' => 201,
+            'message' => 'Comment added successfully',
+            "comment" => $comment
+        ]);
+    }
 }
