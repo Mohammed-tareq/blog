@@ -2,15 +2,7 @@
 
 
     <!-- Breadcrumb Start -->
-    <div class="breadcrumb-wrap">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">News</a></li>
-                <li class="breadcrumb-item active">News details</li>
-            </ul>
-        </div>
-    </div>
+
     <!-- Breadcrumb End -->
 
     <!-- Single News Start-->
@@ -50,26 +42,18 @@
                         </p>
                     </div>
 
-
                     <!-- Comment Section -->
                     <div class="comment-section">
                         <!-- Comment Input -->
                         <form id="commentForm">
                             @csrf
+                            <input type="hidden" name="post_id" value="{{ $main_post->id }}">
+                            <input type="hidden" name="user_id" value="1">
                             <div class="comment-input">
-                                <input name="comment" type="text" placeholder="Add a comment..." id="commentBox"/>
-                                <input name=" post_id" type="hidden" value="{{$main_post->id}}"/>
-                                <input name=" user_id" type="hidden" value="1"/>
-                                <button type="submit" id="submitComment">Comment</button>
+                                <input type="text" name="comment" placeholder="Add a comment..." id="commentBox"/>
+                                <button id="addCommentBtn">Add Comment</button>
                             </div>
                         </form>
-
-
-                        {{--  error input required --}}
-
-                        <div id="commentError" class="alert alert-danger " style="display: none">
-
-                        </div>
 
                         <!-- Display Comments -->
                         <div class="comments">
@@ -131,7 +115,7 @@
                                         </div>
                                         <div class="nl-title">
                                             <a
-                                                href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
+                                                    href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -228,54 +212,44 @@
     <x-slot name="script">
         @php
             $commentsUrl = route('front.show.post.comments', $main_post->slug);
-            $storeCommentUrl = route('front.store.post.comments');
+            $addCommentUrl = route('front.show.store.post.comments',);
+
         @endphp
         <script>
-            // store comment
 
-            $(document).on("submit", '#commentForm', function (e) {
+            {{-- add comment by ajax            --}}
+            $(document).on('submit', '#commentForm', function (e) {
                 e.preventDefault();
-
-                $('#submitComment').prop('disabled', true).text('Please wait...');
-
+                $('#addCommentBtn').prop('disabled', true).text('pending')
 
                 let formData = new FormData(this);
                 $.ajax({
-                    url: "{{$storeCommentUrl}}",
-                    method: 'post',
+                    url:"{{$addCommentUrl}}",
+                    method: 'POST',
                     data: formData,
-                    processData: false,
                     contentType: false,
-                    success: function (data) {
-
-                        $("#commentError").hide();
-
-                        $('.comments').prepend(`<div class="comment">
+                    processData: false,
+                    success: function(data){
+                    $('.comments').prepend(`<div class="comment">
                                 <img src="${data.comment.user.image}" class="comment-img" alt="${data.comment.user.name}"/>
                                 <div class="comment-content">
                                     <span class="username">${data.comment.user.name}</span>
                                     <p class="comment-text">${data.comment.comment}</p>
                                 </div>
-                            </div>`)
-                        $('#commentBox').val('');
+                            </div>`);
 
-
-                    },
-                    error: function (data) {
-
-                        let response = $.parseJSON(data.responseText);
-                        $('#commentError').text(response.errors.comment).show();
+                    $('#commentBox').val("");
 
                     },
+                    error: function(data){
 
+                    }
                 }).always(function () {
-                    $('#submitComment').prop('disabled', false).text('Submit');
-                });
+                    $('#addCommentBtn').prop('disabled', false).text('Add Comment')
+                })
+            })
 
-            });
-
-
-            // show more comments
+            {{-- get more comments in ajax in frist when add comment            --}}
             $(document).on('click', '#showMoreBtn', function (e) {
                 e.preventDefault();
                 $.ajax({
@@ -291,12 +265,13 @@
                                     <p class="comment-text">${comment.comment}</p>
                                 </div>
                             </div>`);
-                        });
-                        $('#showMoreBtn').hide();
+                        })
+                        $('#showMoreBtn').remove();
                     },
                     error: function (data) {
 
                     }
+
                 })
             });
 

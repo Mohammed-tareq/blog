@@ -34,6 +34,7 @@ class ShowSinglePostController extends Controller
         $post_comments = Post::whereSlug($slug)->first();
 
         $comment = $post_comments->comments()->with(['user' => fn($q) => $q->select('id', 'name', 'image')])->get();
+
         return response()->json($comment);
     }
 
@@ -63,4 +64,6 @@ class ShowSinglePostController extends Controller
             "comment" => $comment
         ]);
     }
+
+
 }

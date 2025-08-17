@@ -1,7 +1,10 @@
 <x-layouts.guest-layout>
 
+    @section('breadcrumb')
+        @parent
+        <li class="breadcrumb-item active"> {{$category->name}}</li>
 
-
+    @endsection
     <div class="main-news py-5">
         <div class="container">
             <div class="row">

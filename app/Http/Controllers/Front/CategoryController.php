@@ -15,6 +15,6 @@ class CategoryController extends Controller
     {
         $category =Category::whereSlug($slug)->firstOrFail();
         $post = $category->posts()->latest()->paginate(9);
-        return view('front.category-posts',compact('post'));
+        return view('front.category-posts',compact('post' , 'category'));
     }
 }
