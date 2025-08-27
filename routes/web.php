@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Front\CategoryController;
+use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\NewsSubscribeController;
 use App\Http\Controllers\Front\ShowSinglePostController;
+use App\Http\Controllers\Front\SearchController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,12 +16,25 @@ Route::group(['as' => 'front.'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::post('new-subscribe', [NewsSubscribeController::class, 'subscribe'])->name('news.subscribe');
     Route::get('category/{slug}', CategoryController::class)->name('category.posts');
-    Route::get('post/{slug}', [ShowSinglePostController::class, 'showSinglePost'])->name('show.post');
-    Route::get('post/comments/{slug}', [ShowSinglePostController::class, 'showPostComments'])->name('show.post.comments');
-    Route::post('post/comments/store', [ShowSinglePostController::class, 'storePostComment'])->name('store.post.comments');
+
+    Route::controller(ShowSinglePostController::class)->name('show.')->prefix('post')->group(function () {
+
+        Route::get('{slug}', 'showSinglePost')->name('post');
+        Route::get('comments/{slug}', 'showPostComments')->name('comments');
+        Route::post('comments/store', 'storePostComment')->name('store.comments');
+    });
+
+    Route::controller(ContactController::class)->name('contact.')->prefix('contact-us')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('store', 'store')->name('store');
+    });
+
+    Route::match(["get","post"],'search', SearchController::class)->name('search');
 });
 
 
-Route::get('/contact', function () {
-    return view('front.contact');
-})->name('front.contact');
+
+
+Auth::routes();
+
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

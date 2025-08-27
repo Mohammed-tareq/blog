@@ -1,17 +1,11 @@
 <x-layouts.guest-layout>
 
 
-    <!-- Breadcrumb Start -->
-    <div class="breadcrumb-wrap">
-        <div class="container">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">News</a></li>
-                <li class="breadcrumb-item active">News details</li>
-            </ul>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
+   @section('breadcrumb')
+       @parent
+       <li class="breadcrumb-item active"> {{$category->name}} / {{$main_post->title}} </li>
+
+   @endsection
 
     <!-- Single News Start-->
     <div class="single-news">
@@ -53,10 +47,15 @@
                     <!-- Comment Section -->
                     <div class="comment-section">
                         <!-- Comment Input -->
-                        <div class="comment-input">
-                            <input type="text" placeholder="Add a comment..." id="commentBox"/>
-                            <button id="addCommentBtn">Post</button>
-                        </div>
+                        <form id="commentForm">
+                            @csrf
+                           <input type="hidden" name="post_id" value="{{$main_post->id}}">
+                           <input type="hidden" name="user_id" value="5">
+                            <div class="comment-input">
+                                <input type="text" name="comment" placeholder="Add a comment..." id="commentBox"/>
+                                <button id="addCommentBtn">Add Comment</button>
+                            </div>
+                        </form>
 
                         <!-- Display Comments -->
                         <div class="comments">
@@ -118,7 +117,7 @@
                                         </div>
                                         <div class="nl-title">
                                             <a
-                                                href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
+                                                    href="{{ route('front.show.post', $post->slug) }}">{{ $post->title }}</a>
                                         </div>
                                     </div>
                                 @endforeach
@@ -214,17 +213,48 @@
 
     <x-slot name="script">
         @php
-            $commentsUrl = route('front.show.post.comments', $main_post->slug);
+            $commentsUrl = route('front.show.comments', $main_post->slug);
+            $commentStoreUrl = route('front.show.store.comments');
         @endphp
         <script>
-            $(document).on('click' , '#showMoreBtn',function (e){
+            $(document).on('submit', '#commentForm', function (e) {
+                e.preventDefault();
+                $('#addCommentBtn').prop('disabled', true).text('Please wait')
+                let dataForm = new FormData(this);
+                $.ajax({
+                    url: '{{$commentStoreUrl}}',
+                    method: 'post',
+                    data: dataForm,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $('.comments').prepend(`<div class="comment">
+                                <img src="${data.comment.user.image}" class="comment-img" alt="${data.comment.user.name}"/>
+                                <div class="comment-content">
+                                    <span class="username">${data.comment.user.name}</span>
+                                    <p class="comment-text">${data.comment.comment}</p>
+                                </div>
+                            </div>`);
+
+                        $('#commentBox').val('');
+                    },
+                    error: function (data) {
+
+                    }
+                }).always(function () {
+                    $(addCommentBtn).prop('disabled', false).text('Add Comment');
+                })
+            })
+
+
+            $(document).on('click', '#showMoreBtn', function (e) {
                 e.preventDefault();
                 $.ajax({
-                    url:'{{$commentsUrl}}',
-                    method:'get',
-                    success:function(data){
+                    url: '{{$commentsUrl}}',
+                    method: 'get',
+                    success: function (data) {
                         $('.comments').empty();
-                        $.each(data , function(key , comment){
+                        $.each(data, function (key, comment) {
                             $('.comments').append(`<div class="comment">
                                 <img src="${comment.user.image}" class="comment-img" alt="${comment.user.name}"/>
                                 <div class="comment-content">
@@ -234,7 +264,7 @@
                             </div>`);
                         })
                     },
-                    error:function(data){
+                    error: function (data) {
 
                     }
                 })

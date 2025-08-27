@@ -1,6 +1,5 @@
-@extends('layouts.app')
+<x-layouts.guest-layout>
 
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -25,4 +24,5 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layouts.guest-layout>
+

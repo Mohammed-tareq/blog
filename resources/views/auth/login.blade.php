@@ -1,6 +1,5 @@
-@extends('layouts.app')
+<x-layouts.guest-layout>
 
-@section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -8,7 +7,7 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }} " enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -70,4 +69,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layouts.guest-layout>

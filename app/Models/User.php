@@ -63,4 +63,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class , 'user_id');
     }
+
+    public function scopeActiveUser($q)
+    {
+        return $q->where('status', 1);
+    }
+
+    public function getImageUser()
+    {
+        return $this->image ? asset('uploads/users' . $this->image) : null;
+    }
 }

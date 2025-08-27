@@ -44,6 +44,11 @@ class Post extends Model
         return $this->hasMany(Image::class ,'post_id');
     }
 
+    public function scopeActivePost($q)
+    {
+        return $q->where('status', 1);
+    }
+
     public function sluggable(): array
     {
         return [

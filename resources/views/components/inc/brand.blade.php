@@ -14,10 +14,13 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-4">
+                <form action="{{ route('front.search') }}" method="post">
+                    @csrf
                 <div class="b-search">
-                    <input type="text" placeholder="Search" />
+                    <input type="text" name="search" placeholder="Search" />
                     <button><i class="fa fa-search"></i></button>
                 </div>
+                </form>
             </div>
         </div>
     </div>

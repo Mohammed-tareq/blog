@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function __invoke($slug)
     {
-        $category =Category::whereSlug($slug)->firstOrFail();
+        $category =Category::ActiveCategory()->whereSlug($slug)->firstOrFail();
         $post = $category->posts()->latest()->paginate(9);
         return view('front.category-posts',compact('post' , 'category'));
     }

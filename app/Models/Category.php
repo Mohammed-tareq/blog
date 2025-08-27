@@ -20,4 +20,8 @@ class Category extends Model
     {
         return $this->hasMany(Post::class , 'category_id');
     }
+    public function scopeActiveCategory($q)
+    {
+        return $q->where('status', 1);
+    }
 }

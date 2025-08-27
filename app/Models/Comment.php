@@ -25,4 +25,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class , 'post_id');
     }
+
+    public function scopeActiveComment($q)
+    {
+        return $q->where('status', 1);
+    }
 }
