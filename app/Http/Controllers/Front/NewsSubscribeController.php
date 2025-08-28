@@ -32,7 +32,7 @@ class NewsSubscribeController extends Controller
             'email' => $request->email
         ]);
 
-        Mail::to($request->email)->send(new NewSubscribeMail($request->email));
+        Mail::to($request->email)->later(now()->addSeconds(5), new NewSubscribeMail($request->email));
 
         Session::flash('success', 'You have successfully subscribed our news letter');
         return redirect()->back();
