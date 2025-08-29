@@ -181,7 +181,9 @@
 
         <script>
             $(function() {
-                $("#postImage   ").fileinput();
+                $("#postImage").fileinput({
+                    theme: 'fs5'
+                });
             });
         </script>
     </x-slot>

@@ -4,7 +4,11 @@
 
 @import '../lib/slick/slick.css';
 @import '../lib/slick/slick-theme.css';
+/* file - input */
 @import '../vendor/input-file/css/fileinput.min.css';
+/* summerNote */
+@import '../vendor/summerNote/summernote-bs4.min.css';
+
 @import './style.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
