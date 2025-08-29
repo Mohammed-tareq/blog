@@ -18,7 +18,6 @@
                             @endforeach
                         </div>
                     </div>
-                    <a href="" class="nav-item nav-link">Single Page</a>
                     <a href="dashboard.html" class="nav-item nav-link">Dashboard</a>
                     <a href="{{ route('front.contact.index') }}" title="Contact Us" class="nav-item nav-link">Contact Us</a>
                 </div>

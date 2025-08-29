@@ -1,4 +1,9 @@
 <x-layouts.guest-layout>
+
+     <x-slot name="title">
+        Search Result
+    </x-slot>
+
     <!-- Main News Start-->
     <div class="main-news">
         <div class="container">

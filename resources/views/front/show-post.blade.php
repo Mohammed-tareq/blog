@@ -1,5 +1,9 @@
 <x-layouts.guest-layout>
 
+     <x-slot name="title">
+        {{$main_post->title}}
+    </x-slot>
+
 
    @section('breadcrumb')
        @parent

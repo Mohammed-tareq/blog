@@ -1,5 +1,9 @@
 <x-layouts.guest-layout>
 
+     <x-slot name="title">
+      {{$category->name}}
+    </x-slot>
+
     @section('breadcrumb')
         @parent
         <li class="breadcrumb-item active"> {{$category->name}}</li>

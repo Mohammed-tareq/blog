@@ -45,3 +45,7 @@ Route::prefix('email')->controller(VerificationController::class)->name('verific
 
 
 Auth::routes();
+
+Route::get('/profile', function(){
+    return view('front.dashboard.profile');
+} )->name('home');

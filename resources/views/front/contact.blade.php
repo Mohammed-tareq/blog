@@ -1,5 +1,9 @@
 <x-layouts.guest-layout>
 
+     <x-slot name="title">
+        Contact-Us
+    </x-slot>
+
     @section('breadcrumb')
         @parent
         <li class="breadcrumb-item active"> Countact US</li>

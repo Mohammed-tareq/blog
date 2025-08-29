@@ -22,7 +22,7 @@ class ShareDataProvider extends ServiceProvider
     public function boot(): void
     {
         $relateSite = RelatedSite::select('name', 'url')->get();
-        $categories = Category::select('name', 'slug', 'id')->get();
+        $categories = Category::ActiveCategory()->select('name', 'slug', 'id')->get();
 
 
         view()->share([
