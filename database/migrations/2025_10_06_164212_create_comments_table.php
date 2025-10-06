@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->text('conmment');
+            $table->text('comment');
             $table->boolean('status')->default(true);
             $table->string('ip_address');
 
