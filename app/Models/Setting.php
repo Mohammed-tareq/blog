@@ -20,5 +20,6 @@ class Setting extends Model
         'twitter',
         'instagram',
         'youtube',
+        'linkedin',
     ];
 }

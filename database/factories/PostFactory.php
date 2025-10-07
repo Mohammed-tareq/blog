@@ -26,6 +26,7 @@ class PostFactory extends Factory
                 'slug' => Str::slug($name),
                 'description' => fake()->paragraph(3),
                 'status' => 1,
+                'num_of_views' => rand(0,1000),
                 'user_id' => User::inRandomOrder()->first()->id,
                 'category_id' => Category::inRandomOrder()->first()->id,
                 'comment_able' => 1,

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('twitter');
             $table->string('instagram');
             $table->string('youtube');
+            $table->string('linkedin');
             $table->timestamps();
         });
     }
