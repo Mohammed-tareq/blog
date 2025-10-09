@@ -6,15 +6,17 @@
                 <div class="footer-widget">
                     <h3 class="title">Get in Touch</h3>
                     <div class="contact-info">
-                        <p><i class="fa fa-map-marker"></i>123 News Street, NY, USA</p>
-                        <p><i class="fa fa-envelope"></i>info@example.com</p>
-                        <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                        <p>
+                            <i class="fa fa-map-marker"></i>{{ $setting->street }} {{ $setting->city }}  {{ $setting->country }}
+                        </p>
+                        <p><i class="fa fa-envelope"></i>{{ $setting->email }}</p>
+                        <p><i class="fa fa-phone"></i>{{ $setting->phone }}</p>
                         <div class="social">
-                            <a href=""><i class="fab fa-twitter"></i></a>
-                            <a href=""><i class="fab fa-facebook-f"></i></a>
-                            <a href=""><i class="fab fa-linkedin-in"></i></a>
-                            <a href=""><i class="fab fa-instagram"></i></a>
-                            <a href=""><i class="fab fa-youtube"></i></a>
+                            <a href="{{ $setting->facebook }}" title="facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="{{ $setting->twitter}}" title="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="{{ $setting->linkedin }}" title="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="{{ $setting->instagram }}" title="instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="{{ $setting->youtube }}" title=""><i class="fab fa-youtube"></i></a>
                         </div>
                     </div>
                 </div>
@@ -24,11 +26,10 @@
                 <div class="footer-widget">
                     <h3 class="title">Useful Links</h3>
                     <ul>
-                        <li><a href="#">Lorem ipsum</a></li>
-                        <li><a href="#">Pellentesque</a></li>
-                        <li><a href="#">Aenean vulputate</a></li>
-                        <li><a href="#">Vestibulum sit amet</a></li>
-                        <li><a href="#">Nam dignissim</a></li>
+                        @foreach($related_sites as $related_site)
+                            <li><a href="{{ $related_site->url }}" title="{{ $related_site->name }}"
+                                   target="_blank">{{ $related_site->name }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -54,14 +55,19 @@
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                             Vivamus sed porta dui. Class aptent taciti sociosqu
                         </p>
-                        <form>
+                        <form action="{{ route('front.new-subscribe') }}" method="post">
+                            @csrf
                             <input
                                     class="form-control"
                                     type="email"
+                                    name="email"
                                     placeholder="Your email here"
                             />
                             <button class="btn">Submit</button>
                         </form>
+                        @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
             </div>

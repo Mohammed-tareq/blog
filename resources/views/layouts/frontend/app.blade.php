@@ -40,14 +40,14 @@
 @include('layouts.frontend.inc.header.index');
 
 
-@yield('content');
+@yield('content')
 
 
 
 
 
 <!-- Footer Start -->
-@include('layouts.frontend.inc.footer.index');
+@include('layouts.frontend.inc.footer.index')
 
 
 <!-- JavaScript Libraries -->

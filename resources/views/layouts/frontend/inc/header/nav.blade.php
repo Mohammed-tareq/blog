@@ -1,4 +1,8 @@
 <!-- Nav Bar Start -->
+
+@php
+    $categories =  $categories_share->take(5);
+@endphp
 <div class="nav-bar">
     <div class="container">
         <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -17,7 +21,7 @@
                     id="navbarCollapse"
             >
                 <div class="navbar-nav mr-auto">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="{{route('front.index')}}" class="nav-item nav-link active">Home</a>
                     <div class="nav-item dropdown">
                         <a
                                 href="#"
@@ -26,8 +30,10 @@
                         >Dropdown</a
                         >
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Sub Item 1</a>
-                            <a href="#" class="dropdown-item">Sub Item 2</a>
+                            @foreach($categories as $category)
+                                <a href="{{ route('front.category', $category->slug) }}" title="{{ $category->name }}" class="dropdown-item">{{ $category->name }}</a>
+
+                            @endforeach
                         </div>
                     </div>
                     <a href="single-page.html" class="nav-item nav-link"
@@ -37,11 +43,11 @@
                     <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                 </div>
                 <div class="social ml-auto">
-                    <a href=""><i class="fab fa-twitter"></i></a>
-                    <a href=""><i class="fab fa-facebook-f"></i></a>
-                    <a href=""><i class="fab fa-linkedin-in"></i></a>
-                    <a href=""><i class="fab fa-instagram"></i></a>
-                    <a href=""><i class="fab fa-youtube"></i></a>
+                    <a href="{{ $setting->facebook }}" title="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $setting->twitter}}" title="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $setting->linkedin }}" title="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="{{ $setting->instagram }}" title="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $setting->youtube }}" title=""><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </nav>
