@@ -15,28 +15,31 @@
                     <div class="row tn-slider">
                         @foreach($latestPosts as $latestPost_top )
 
-                        <div class="col-md-6">
-                            <div class="tn-img">
-                                <img src="{{ $latestPost_top->images->first()->path }}" alt="{{ $latestPost_top->title }}"/>
-                                <div class="tn-title">
-                                    <a href="">{{$latestPost_top->title}}</a>
+                            <div class="col-md-6">
+                                <div class="tn-img">
+                                    <img src="{{ $latestPost_top->images->first()->path }}"
+                                         alt="{{ $latestPost_top->title }}"/>
+                                    <div class="tn-title">
+                                        <a href="{{ route('front.single-post' , $latestPost_top->slug )  }} "
+                                           title="{{ $latestPost_top->title }}">{{$latestPost_top->title}}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="col-md-6 tn-right">
                     <div class="row">
                         @foreach($fourthPosts as $fourthPost )
-                        <div class="col-md-6">
-                            <div class="tn-img">
-                                <img src="{{ $fourthPost->images->first()->path }}" alt="{{ $fourthPost->title }}"/>
-                                <div class="tn-title">
-                                    <a href="">{{ $fourthPost->title }}</a>
+                            <div class="col-md-6">
+                                <div class="tn-img">
+                                    <img src="{{ $fourthPost->images->first()->path }}" alt="{{ $fourthPost->title }}"/>
+                                    <div class="tn-title">
+                                        <a href="{{ route('front.single-post' , $fourthPost->slug) }}"
+                                           title="{{ $fourthPost->tilte }}">{{ $fourthPost->title }}</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endforeach
 
                     </div>
@@ -60,7 +63,8 @@
                                         <img src="{{ $category_post->images->first()->path }}"
                                              alt="{{$category_post}}"/>
                                         <div class="cn-title">
-                                            <a href="">{{ $category_post->title }}</a>
+                                            <a href="{{ route('front.single-post' , $category_post->slug) }}"
+                                               title="{{ $category_post->title }}">{{ $category_post->title }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -105,8 +109,9 @@
                                              alt="{{ $greatest_post_comment->title }}"/>
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $greatest_post_comment->title }}
-                                            .({{ $greatest_post_comment->comments_count }})</a>
+                                        <a href="{{ route('front.single-post' , $greatest_post_comment->slug) }}"
+                                           title="{{ $greatest_post_comment->title }}">{{ $greatest_post_comment->title }}
+                                            .comment ({{ $greatest_post_comment->comments_count }})</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -120,7 +125,8 @@
                                              alt="{{ $oldest_post->title }}">
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $oldest_post->title }}</a>
+                                        <a href="{{ route('front.single-post' , $oldest_post->slug) }}"
+                                           title="{{ $oldest_post->title }}">{{ $oldest_post->title }}</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -154,7 +160,8 @@
                                         <img src="{{ $lastPost->images->first()->path }}" alt="{{ $lastPost->title }}">
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $lastPost->title }}</a>
+                                        <a href="{{ route('front.single-post' , $lastPost->slug) }}"
+                                           title="{{ $lastPost->title }}">{{ $lastPost->title }}</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -169,7 +176,9 @@
                                              alt="{{ $greatest_post->title }}">
                                     </div>
                                     <div class="tn-title">
-                                        <a href="">{{ $greatest_post->title }}.({{ $greatest_post->num_of_views }})</a>
+                                        <a href="{{ route('front.single-post' , $greatest_post->slug) }}"
+                                           title="{{ $greatest_post->title }}">{{ $greatest_post->title }}
+                                            .({{ $greatest_post->num_of_views }})</a>
                                     </div>
                                 </div>
                             @endforeach
@@ -193,7 +202,8 @@
                                 <div class="mn-img">
                                     <img src="{{ $post->images->first()->path }}" alt="{{ $post->title }}">
                                     <div class="mn-title">
-                                        <a href="">{{$post->title}}</a>
+                                        <a href="{{ route('front.single-post' , $post->slug) }}"
+                                           title="{{ $post->title }}">{{$post->title}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +211,7 @@
 
 
                     </div>
-                        {{$posts->links()}}
+                    {{$posts->links()}}
                 </div>
 
                 <div class="col-lg-3">
@@ -210,7 +220,9 @@
                         <ul>
                             @foreach($read_more_posts as $read_more_post)
 
-                            <li><a href="" title="{{ $read_more_post->title }}">{{ $read_more_post->title }}</a></li>
+                                <li><a href="{{ route('front.single-post' , $read_more_post->slug) }}"
+                                       title="{{ $read_more_post->title }}">{{ $read_more_post->title }}</a>
+                                </li>
                             @endforeach
 
                         </ul>

@@ -13,7 +13,7 @@
                                 <div class="mn-img">
                                     <img src="{{ $post->images->first()->path }}" alt="{{ $post->title }}">
                                     <div class="mn-title">
-                                        <a href="">{{$post->title}}</a>
+                                        <a href="{{route('front.single-post' , $post->slug)}}" title="{{$post->title}}">{{$post->title}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -26,7 +26,7 @@
 
                 <div class="col-lg-3">
                     <div class="mn-list">
-                        <h2>Read More</h2>
+                        <h2>Other Categories</h2>
                         <ul>
                             @foreach($categories_share as $category)
 

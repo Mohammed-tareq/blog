@@ -88,7 +88,7 @@
 
   // Related News Slider
   $(".sn-slider").slick({
-    autoplay: false,
+    autoplay: true,
     infinite: true,
     dots: false,
     slidesToShow: 3,

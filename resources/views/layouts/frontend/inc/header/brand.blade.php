@@ -5,8 +5,8 @@
         <div class="row align-items-center">
             <div class="col-lg-3 col-md-4">
                 <div class="b-logo">
-                    <a href="index.html">
-                        <img src="{{$setting->logo}}" alt="Logo" />
+                    <a href="">
+                        <img src="{{asset($setting->logo)}}" alt="Logo" />
                     </a>
                 </div>
             </div>

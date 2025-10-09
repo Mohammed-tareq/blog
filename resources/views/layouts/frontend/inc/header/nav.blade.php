@@ -27,7 +27,7 @@
                                 href="#"
                                 class="nav-link dropdown-toggle"
                                 data-toggle="dropdown"
-                        >Dropdown</a
+                        >Categories</a
                         >
                         <div class="dropdown-menu">
                             @foreach($categories as $category)
@@ -36,9 +36,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <a href="single-page.html" class="nav-item nav-link"
-                    >Single Page</a
-                    >
+
                     <a href="dashboard.html" class="nav-item nav-link">Dashboard</a>
                     <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                 </div>
