@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Bootstrap News Template - Free HTML Templates</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta
             content="Bootstrap News Template - Free HTML Templates"
             name="keywords"
@@ -14,7 +14,7 @@
     />
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon" />
+    <link href="img/favicon.ico" rel="icon"/>
 
     <!-- Google Fonts -->
     <link
@@ -39,6 +39,18 @@
 <!-- Top Bar Start -->
 @include('layouts.frontend.inc.header.index')
 
+
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-wrap mb-3">
+    <div class="container">
+        <ul class="breadcrumb">
+            @section('breadcrumb-body')
+                <li class="breadcrumb-item"><a href="{{route('front.index')}}">Home</a></li>
+            @show
+        </ul>
+    </div>
+</div>
+<!-- Breadcrumb End -->
 
 @yield('content')
 

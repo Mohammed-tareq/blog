@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -49,9 +51,15 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:30'],
+            'user_name' => ['required', 'string', 'max:30', 'unique:users,user_name'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['required', 'string', 'unique:users,phone'],
+            'city' => ['nullable', 'string', 'max:30'],
+            'country' => ['nullable', 'string', 'max:30'],
+            'street' => ['nullable', 'string', 'max:30'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ]);
     }
 
@@ -63,10 +71,30 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'user_name' => $data['user_name'],
+            'phone' => $data['phone'],
+            'city' => $data['city'],
+            'country' => $data['country'],
+            'street' => $data['street'],
         ]);
+        if($data['image']){
+            $file = $data['image'];
+            $newImageName = $user->id .'.' .$file->getClientOriginalExtension();
+            $path = $file->StoreAs('uploads/users',$newImageName,['disk' => 'store']);
+            $user->update(
+                ['image' => $path]
+            );
+        }
+        return $user;
     }
+
+    public function registered(Request $request)
+    {
+        Session::flash('success', 'You have registered successfully');
+    }
+
 }

@@ -20,7 +20,7 @@
                                     <img src="{{ $latestPost_top->images->first()->path }}"
                                          alt="{{ $latestPost_top->title }}"/>
                                     <div class="tn-title">
-                                        <a href="{{ route('front.single-post' , $latestPost_top->slug )  }} "
+                                        <a href="{{ route('front.post.single-post' , $latestPost_top->slug )  }} "
                                            title="{{ $latestPost_top->title }}">{{$latestPost_top->title}}</a>
                                     </div>
                                 </div>
@@ -35,7 +35,7 @@
                                 <div class="tn-img">
                                     <img src="{{ $fourthPost->images->first()->path }}" alt="{{ $fourthPost->title }}"/>
                                     <div class="tn-title">
-                                        <a href="{{ route('front.single-post' , $fourthPost->slug) }}"
+                                        <a href="{{ route('front.post.single-post' , $fourthPost->slug) }}"
                                            title="{{ $fourthPost->tilte }}">{{ $fourthPost->title }}</a>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@
                                         <img src="{{ $category_post->images->first()->path }}"
                                              alt="{{$category_post}}"/>
                                         <div class="cn-title">
-                                            <a href="{{ route('front.single-post' , $category_post->slug) }}"
+                                            <a href="{{ route('front.post.single-post' , $category_post->slug) }}"
                                                title="{{ $category_post->title }}">{{ $category_post->title }}</a>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                              alt="{{ $greatest_post_comment->title }}"/>
                                     </div>
                                     <div class="tn-title">
-                                        <a href="{{ route('front.single-post' , $greatest_post_comment->slug) }}"
+                                        <a href="{{ route('front.post.single-post' , $greatest_post_comment->slug) }}"
                                            title="{{ $greatest_post_comment->title }}">{{ $greatest_post_comment->title }}
                                             .comment ({{ $greatest_post_comment->comments_count }})</a>
                                     </div>
@@ -125,7 +125,7 @@
                                              alt="{{ $oldest_post->title }}">
                                     </div>
                                     <div class="tn-title">
-                                        <a href="{{ route('front.single-post' , $oldest_post->slug) }}"
+                                        <a href="{{ route('front.post.single-post' , $oldest_post->slug) }}"
                                            title="{{ $oldest_post->title }}">{{ $oldest_post->title }}</a>
                                     </div>
                                 </div>
@@ -160,7 +160,7 @@
                                         <img src="{{ $lastPost->images->first()->path }}" alt="{{ $lastPost->title }}">
                                     </div>
                                     <div class="tn-title">
-                                        <a href="{{ route('front.single-post' , $lastPost->slug) }}"
+                                        <a href="{{ route('front.post.single-post' , $lastPost->slug) }}"
                                            title="{{ $lastPost->title }}">{{ $lastPost->title }}</a>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                              alt="{{ $greatest_post->title }}">
                                     </div>
                                     <div class="tn-title">
-                                        <a href="{{ route('front.single-post' , $greatest_post->slug) }}"
+                                        <a href="{{ route('front.post.single-post' , $greatest_post->slug) }}"
                                            title="{{ $greatest_post->title }}">{{ $greatest_post->title }}
                                             .({{ $greatest_post->num_of_views }})</a>
                                     </div>
@@ -202,7 +202,7 @@
                                 <div class="mn-img">
                                     <img src="{{ $post->images->first()->path }}" alt="{{ $post->title }}">
                                     <div class="mn-title">
-                                        <a href="{{ route('front.single-post' , $post->slug) }}"
+                                        <a href="{{ route('front.post.single-post' , $post->slug) }}"
                                            title="{{ $post->title }}">{{$post->title}}</a>
                                     </div>
                                 </div>
@@ -220,7 +220,7 @@
                         <ul>
                             @foreach($read_more_posts as $read_more_post)
 
-                                <li><a href="{{ route('front.single-post' , $read_more_post->slug) }}"
+                                <li><a href="{{ route('front.post.single-post' , $read_more_post->slug) }}"
                                        title="{{ $read_more_post->title }}">{{ $read_more_post->title }}</a>
                                 </li>
                             @endforeach

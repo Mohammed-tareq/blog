@@ -1,5 +1,10 @@
 @extends('layouts.frontend.app')
 
+@section('breadcrumb')
+    @parent
+    <li class="breadcrumb-item active">{{$post->title}}</li>
+@endsection
+
 @section('content')
 
     <!-- Single News Start-->
@@ -48,9 +53,17 @@
                     <!-- Comment Section -->
                     <div class="comment-section">
                         <!-- Comment Input -->
-                        <div class="comment-input">
-                            <input type="text" placeholder="Add a comment..." id="commentBox"/>
-                            <button id="addCommentBtn">Post</button>
+                        <form id="commentForm">
+                            @csrf
+                            <div class="comment-input">
+                                <input type="hidden" name="post_id" value="{{$post->id}}">
+                                <input type="hidden" name="user_id" value="1">
+                                <input type="text" name="comment" placeholder="Add a comment..." id="commentBox"/>
+                                <button>Comment</button>
+                            </div>
+                        </form>
+                        <div class="alert alert-danger" style="display: none;" id="commentError">
+
                         </div>
 
                         <!-- Display Comments -->
@@ -85,7 +98,7 @@
                                         <img src="{{ $category_post_related->images->first()->path }}" class="img-fluid"
                                              alt="{{ $category_post_related->title }}"/>
                                         <div class="sn-title">
-                                            <a href="{{route('front.single-post', $category_post_related->slug)}}"
+                                            <a href="{{route('front.post.single-post', $category_post_related->slug)}}"
                                                title="{{ $category_post_related->title }}">{{ $category_post_related->title }}</a>
                                         </div>
                                     </div>
@@ -108,7 +121,7 @@
                                             <img src="{{ $category_post->images->first()->path }}"/>
                                         </div>
                                         <div class="nl-title">
-                                            <a href="{{route('front.single-post', $category_post->slug)}}"
+                                            <a href="{{route('front.post.single-post', $category_post->slug)}}"
                                                title="{{ $category_post->title }}"
                                             >{{$category_post->title}}</a
                                             >
@@ -145,7 +158,7 @@
                                                          class="img-fluid" alt="{{ $greatest_post_comment->title }}"/>
                                                 </div>
                                                 <div class="tn-title">
-                                                    <a href="{{route('front.single-post', $greatest_post_comment->slug)}}"
+                                                    <a href="{{route('front.post.single-post', $greatest_post_comment->slug)}}"
                                                        title="{{ $greatest_post_comment->title }}">{{ $greatest_post_comment->title }}
                                                         .
                                                         comment({{$greatest_post_comment->comments_count}})</a
@@ -162,7 +175,7 @@
                                                          alt="{{ $latest_post->title }}"/>
                                                 </div>
                                                 <div class="tn-title">
-                                                    <a href="{{route('front.single-post', $latest_post->slug)}}"
+                                                    <a href="{{route('front.post.single-post', $latest_post->slug)}}"
                                                        title="{{ $latest_post->title }}">{{ $latest_post->title }}</a
                                                     >
                                                 </div>
@@ -206,12 +219,12 @@
 
 @push('js')
     <script>
-
+        // get all comment for post
         $(document).on('click', '#showMoreBtn', function (e) {
             e.preventDefault();
 
             $.ajax({
-                url: "{{route('front.getAllComments',$post->slug)}}",
+                url: "{{route('front.post.getAllComments',$post->slug)}}",
                 type: "GET",
                 success: function (data) {
                     $('#comments').empty();
@@ -226,12 +239,47 @@
                             </div>
                         </div>
                     `);
+                        $('#showMoreBtn').hide();
                     })
-                },
-                error: function (data) {
                 },
             })
         })
+
+        //store comment
+        $(document).on('submit', '#commentForm', function (e) {
+            e.preventDefault();
+
+            let formData = new FormData($(this)[0]);
+            $.ajax({
+                url: "{{ route('front.post.comment.store') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#commentBox').val('');
+                    $("#commentError").hide();
+                    $('#comments').prepend(`
+                        <div class="comment">
+                            <img src="${data.comment.user.image}" alt="${data.comment.user.name}"
+                                 class="comment-img"/>
+                            <div class="comment-content">
+                                <span class="username">${data.comment.user.user_name}</span>
+                                <p class="comment-text">${data.comment.comment}</p>
+                            </div>
+                        </div>
+                    `);
+                },
+
+                error: function (data) {
+                    // let response = $.parseJSON(data.responseText);
+                    let response = data.responseJSON;
+                    $('#commentError').show();
+                    $('#commentError').text(response.errors.comment);
+                },
+            });
+
+        });
     </script>
 
 @endpush

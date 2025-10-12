@@ -12,4 +12,10 @@ get data from database by using controller and view.
 #install redis to cache data.
 #make email to suscribe user to uptade with new posts.
 #make category route and controller with posts with pages have there posts with pagenation.
-.
+
+#make page for single post and comment and show and add comment by ajax.
+#make search post.
+
+#make auth for user by using ui package with login and reset password and remember me.
+#handle files to save image for user
+
