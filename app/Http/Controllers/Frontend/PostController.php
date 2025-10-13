@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -24,6 +26,7 @@ class PostController extends Controller
             ->select('id', 'title', 'slug')
             ->take(5)
             ->get();
+        $post->increment('num_of_views');
 
         return view('frontend.single-post', compact('post', 'category_with_posts'));
     }
@@ -41,7 +44,16 @@ class PostController extends Controller
         $request->validate([
             'comment' => 'required|max:300|string',
             'post_id' => 'required|exists:posts,id',
-            'user_id' => 'required|exists:users,id',
+        ]);
+        if (!Auth::check()) {
+//
+            return response()->json([
+                'status' => '401',
+                'data' => 'You must be logged in to comment'
+            ], 401);
+        }
+        $request->merge([
+            'user_id' => Auth::id(),
         ]);
 
         $comment = Comment::create([
@@ -55,12 +67,12 @@ class PostController extends Controller
             return response()->json([
                 'status' => '403',
                 'data' => 'Something went wrong'
-            ]);
+            ], 403);
         }
         return response()->json([
             'status' => '201',
             'comment' => $comment
-        ]);
+        ],201);
 
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class ImageManegment
@@ -17,6 +18,17 @@ class ImageManegment
                 $post->images()->create([
                     'path' => $path,
                 ]);
+            endforeach;
+        endif;
+    }
+
+    public static function deleteImage($post)
+    {
+        if ($post->images->count() > 0):
+            foreach ($post->images as $image):
+                if(File::exists(public_path($image->path))){
+                    File::delete(public_path($image->path));
+                }
             endforeach;
         endif;
     }

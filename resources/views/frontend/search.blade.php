@@ -20,7 +20,7 @@
                         @forelse($posts as $post)
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="mn-img">
-                                    <img src="{{ $post->images->first()->path }}" alt="{{ $post->title }}">
+                                    <img src="{{ asset($post->images->first()->path) }}" alt="{{ $post->title }}">
                                     <div class="mn-title">
                                         <a href="{{ route('front.post.single-post' , $post->slug) }}"
                                            title="{{ $post->title }}">{{$post->title}}</a>

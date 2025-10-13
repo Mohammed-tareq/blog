@@ -73,7 +73,8 @@
                             @enderror
 
                             <!-- Image Upload -->
-                            <input type="file" id="postImage" name="images[]" class="form-control mb-2" accept="image/*" multiple/>
+                            <input type="file" id="postImage" name="images[]" class="form-control mb-2" accept="image/*"
+                                   multiple/>
                             <div class="tn-slider mb-2 text-center">
                                 <div id="imagePreview" class="slick-slider"></div>
                             </div>
@@ -107,96 +108,101 @@
                 <section id="posts" class="posts-section">
                     <h2>Recent Posts</h2>
                     <div class="post-list">
-                        <!-- Post Item -->
-                        <div class="post-item mb-4 p-3 border rounded">
-                            <div class="post-header d-flex align-items-center mb-2">
-                                <img src="{{asset('img/news-350x223-2.jpg')}}" alt="User Image" class="rounded-circle"
-                                     style="width: 50px; height: 50px;"/>
-                                <div class="ms-3">
-                                    <h5 class="mb-0">Salem Taha</h5>
-                                    <small class="text-muted">2 hours ago</small>
-                                </div>
-                            </div>
-                            <h4 class="post-title">Post Title Here</h4>
-                            <p class="post-content">This is an example post content. The user can share their thoughts,
-                                upload images, and more.</p>
-
-                            <div id="newsCarousel" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                    <li data-target="#newsCarousel" data-slide-to="0" class="active"></li>
-                                    <li data-target="#newsCarousel" data-slide-to="1"></li>
-                                    <li data-target="#newsCarousel" data-slide-to="2"></li>
-                                </ol>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item  active">
-                                        <img src="{{asset('img/news-350x223-2.jpg')}}" class="d-block w-100"
-                                             alt="First Slide">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>dsfdk</h5>
-                                            <p>
-                                                oookok
-                                            </p>
-                                        </div>
+                        @forelse($posts as $post)
+                            <!-- Post Item -->
+                            <div class="post-item mb-4 p-3 border rounded">
+                                <div class="post-header d-flex align-items-center mb-2">
+                                    <img src="{{asset(auth()->user()->image)}}" alt="User Image"
+                                         class="rounded-circle"
+                                         style="width: 50px; height: 50px;"/>
+                                    <div class="ms-3">
+                                        <h5 class="mb-0">{{ auth()->user()->name }}</h5>
+                                        <small class="text-muted">{{ $post->created_at->diffForHumans() }}</small>
                                     </div>
-                                    <div class="carousel-item ">
-                                        <img src="{{asset('img/news-350x223-2.jpg')}}" class="d-block w-100"
-                                             alt="First Slide">
-                                        <div class="carousel-caption d-none d-md-block">
-                                            <h5>dsfdk</h5>
-                                            <p>
-                                                oookok
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Add more carousel-item blocks for additional slides -->
                                 </div>
-                                <a class="carousel-control-prev" href="#newsCarousel" role="button" data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" href="#newsCarousel" role="button" data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
+                                <h4 class="post-title">{{$post->title}}</h4>
+                                <p class="post-content"> {!!   chunk_split($post->description,40) !!} </p>
 
-                            <div class="post-actions d-flex justify-content-between">
-                                <div class="post-stats">
-                                    <!-- View Count -->
-                                    <span class="me-3">
-                                  <i class="fas fa-eye"></i> 123 views
+                                <div id="newsCarousel" class="carousel slide" data-ride="carousel">
+
+                                    <ol class="carousel-indicators">
+                                        @foreach($post->images as $count_of_silde)
+                                            <li data-target="#newsCarousel" data-slide-to="{{$loop->index}}"
+                                                class="{{$loop->first ? 'active': ''}}">{{$loop->index}}</li>
+                                        @endforeach
+
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        @foreach($post->images as $post_image)
+                                            <div class="carousel-item  {{$loop->first  ? 'active': ''}}">
+                                                <img src="{{asset($post_image->path)}}" class="d-block w-100"
+                                                     alt="{{$post->title}}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <a class="carousel-control-prev" href="#newsCarousel" role="button"
+                                       data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#newsCarousel" role="button"
+                                       data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+
+                                <div class="post-actions d-flex justify-content-between">
+                                    <div class="post-stats">
+                                        <!-- View Count -->
+                                        <span class="me-3">
+                                  <i class="fas fa-eye"></i> {{ $post->num_of_views }}
                               </span>
-                                </div>
+                                    </div>
 
-                                <div>
-                                    <a href="" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </a>
-                                    <a href="" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-thumbs-up"></i> Delete
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-secondary">
-                                        <i class="fas fa-comment"></i> Comments
-                                    </button>
-                                </div>
-                            </div>
+                                    <div>
+                                        <a href="{{route('front.dashboard.post.update' , $post->slug)}}"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <a href="javascript:void(0)" onclick="if(confirm('Are you sure you want to delete this post?')){
+                                            document.getElementById('formDelete_{{$post->id}}').submit();} return false;"
+                                           class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-thumbs-up"></i> Delete
+                                        </a>
+                                        <button id="btnCommentForPost-{{ $post->id }}" post-id="{{$post->id}}"
+                                                class="btn btn-sm btn-outline-secondary btnCommentForPost">
+                                            <i class="fas fa-comment"></i> Comments
+                                        </button>
 
-                            <!-- Display Comments -->
-                            <div class="comments">
-                                <div class="comment">
-                                    <img src="{{asset('img/news-350x223-2.jpg')}}" alt="User Image"
-                                         class="comment-img"/>
-                                    <div class="comment-content">
-                                        <span class="username"></span>
-                                        <p class="comment-text">first comment</p>
+                                        <button id="btnHideCommentForPost-{{ $post->id }}" post-id="{{$post->id}}"
+                                                class="btn btn-sm btn-outline-secondary btnHideCommentForPost" style="display: none">
+                                            <i class="fas fa-comment"></i> Hide Comments
+                                        </button>
+
+                                        <form id="formDelete_{{$post->id}}"
+                                              action="{{route('front.dashboard.post.destroy')}}"
+                                              method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <input type="hidden" name="id" value="{{$post->id}}">
+
+                                        </form>
                                     </div>
                                 </div>
-                                <!-- Add more comments here for demonstration -->
-                            </div>
-                        </div>
 
-                        <!-- Add more posts here dynamically -->
+                                <!-- Display Comments -->
+                                <div class="comments" id="comments-{{$post->id}}" style="display: none">
+
+                                    <!-- Add more comments here for demonstration -->
+                                </div>
+                            </div>
+                        @empty
+                            <div class="alert alert-info text-center">
+                                You have no posts yet.
+                            </div>
+                        @endforelse
+
                     </div>
                 </section>
             </section>
@@ -212,7 +218,7 @@
         $(function () {
             $('#postImage').fileinput({
                 theme: 'fa5',
-                types: 'jpg,png,gif',
+                types: 'jpg,png,gif,jpeg,webp',
                 maxFilesNum: 5,
                 showUpload: false,
                 showClose: false,
@@ -237,6 +243,46 @@
                     ['view', ['fullscreen']]
                 ]
             });
+
+        })
+
+        $(document).on('click', '.btnCommentForPost', function (e) {
+            e.preventDefault();
+            let postId = $(this).attr('post-id');
+
+            $.ajax({
+                url: "{{route('front.dashboard.post.getComments', ":post-Id")}}".replace(':post-Id', postId),
+                type: "GET",
+                success: function (data) {
+                    $('#comments-'+postId).empty();
+                    $.each(data.comments, function (index, comment) {
+                        $('#comments-'+postId).append(`
+                        <div class="comment">
+                        <img src="{{asset("")}}${comment.user.image}" alt="${comment.user.name}"
+                             class="comment-img"/>
+                        <div class="comment-content">
+                            <span class="username">${comment.user.name}</span>
+                            <p class="comment-text">${comment.comment}</p>
+                        </div>
+                    </div>`).show();
+                    });
+                    $('#btnCommentForPost-'+postId).hide();
+                    $('#btnHideCommentForPost-'+postId).show();
+
+                },
+                error: function (data) {
+                    let response = data.responseJSON;
+                }
+            });
+        });
+
+        $(document).on('click', '.btnHideCommentForPost', function (e) {
+            e.preventDefault();
+            let postId = $(this).attr('post-id');
+            $('#comments-'+postId).empty();
+            $('#btnHideCommentForPost-'+postId).hide();
+            $('#btnCommentForPost-'+postId).show();
+            $()
 
         })
     </script>

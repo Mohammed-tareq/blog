@@ -46,6 +46,9 @@ Route::name('front.')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/profile', 'index')->name('profile');
             Route::post('/post/store', 'store')->name('post.store');
+            Route::get('/update/{slug}', 'update')->name('post.update');
+            Route::delete('/destroy', 'destroy')->name('post.destroy');
+            Route::get('/get-comments/{id}','getComments')->name('post.getComments');
         });
     });
 

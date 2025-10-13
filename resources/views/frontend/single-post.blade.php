@@ -20,7 +20,8 @@
                     <div id="newsCarousel" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             @foreach($post->images as $count_of_silde)
-                            <li data-target="#newsCarousel" data-slide-to="{{$loop->index == 0? 'active' : ''}}"></li>
+                                <li data-target="#newsCarousel"
+                                    data-slide-to="{{$loop->index == 0? 'active' : ''}}">{{$loop->index}}</li>
                             @endforeach
                         </ol>
                         <div class="carousel-inner">
@@ -51,9 +52,10 @@
                                         class="fa fa-calendar"></i> {{ $post->created_at->diffForHumans() }}</span>
                             <span class="m-1"><i class="fa fa-tags"></i> {{ $post->category->name }}</span>
                         </div>
-                        {!!  $post->description !!}
+                        {!! chunk_split($post->description, 40) !!}
                     </div>
 
+                    @if(!empty($post->comment_able))
                     <!-- Comment Section -->
                     <div class="comment-section">
                         <!-- Comment Input -->
@@ -61,7 +63,6 @@
                             @csrf
                             <div class="comment-input">
                                 <input type="hidden" name="post_id" value="{{$post->id}}">
-                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="text" name="comment" placeholder="Add a comment..." id="commentBox"/>
                                 <button>Comment</button>
                             </div>
@@ -75,7 +76,7 @@
                             @foreach($post->comments as $post_comment)
 
                                 <div class="comment">
-                                    <img src="{{$post_comment->user->image}}" alt="{{$post_comment->user->name}}"
+                                    <img src="{{asset($post_comment->user->image)}}" alt="{{$post_comment->user->name}}"
                                          class="comment-img"/>
                                     <div class="comment-content">
                                         <span class="username">{{$post_comment->user->name}}</span>
@@ -86,10 +87,12 @@
 
                             <!-- Add more comments here for demonstration -->
                         </div>
-
-                        <!-- Show More Button -->
-                        <button id="showMoreBtn" class="show-more-btn">Show more</button>
+                        @if($post->comments()->count() > 2)
+                            <!-- Show More Button -->
+                            <button id="showMoreBtn" class="show-more-btn">Show more</button>
+                        @endif
                     </div>
+                    @endif
 
                     <!-- Related News -->
                     <div class="sn-related">
@@ -99,7 +102,8 @@
 
                                 <div class="col-md-4">
                                     <div class="sn-img">
-                                        <img src="{{ $category_post_related->images->first()->path }}" class="img-fluid"
+                                        <img src="{{ asset($category_post_related->images->first()->path) }}"
+                                             class="img-fluid"
                                              alt="{{ $category_post_related->title }}"/>
                                         <div class="sn-title">
                                             <a href="{{route('front.post.single-post', $category_post_related->slug)}}"
@@ -122,7 +126,7 @@
 
                                     <div class="nl-item">
                                         <div class="nl-img">
-                                            <img src="{{ $category_post->images->first()->path }}"/>
+                                            <img src="{{ asset($category_post->images->first()->path) }}"/>
                                         </div>
                                         <div class="nl-title">
                                             <a href="{{route('front.post.single-post', $category_post->slug)}}"
@@ -158,7 +162,7 @@
                                         @foreach($greatest_posts_comments as $greatest_post_comment)
                                             <div class="tn-news">
                                                 <div class="tn-img">
-                                                    <img src="{{ $greatest_post_comment->images->first()->path }}"
+                                                    <img src="{{ asset($greatest_post_comment->images->first()->path) }}"
                                                          class="img-fluid" alt="{{ $greatest_post_comment->title }}"/>
                                                 </div>
                                                 <div class="tn-title">
@@ -175,7 +179,7 @@
                                         @foreach($latest_posts as $latest_post)
                                             <div class="tn-news">
                                                 <div class="tn-img">
-                                                    <img src="{{ $latest_post->images->first()->path }}"
+                                                    <img src="{{ asset($latest_post->images->first()->path) }}"
                                                          alt="{{ $latest_post->title }}"/>
                                                 </div>
                                                 <div class="tn-title">
@@ -235,7 +239,7 @@
                     $.each(data, function (key, comment) {
                         $('#comments').append(`
                         <div class="comment">
-                            <img src="${comment.user.image}" alt="${comment.user.name}"
+                            <img src="{{asset('')}}${comment.user.image}" alt="${comment.user.name}"
                                  class="comment-img"/>
                             <div class="comment-content">
                                 <span class="username">${comment.user.user_name}</span>
@@ -265,7 +269,7 @@
                     $("#commentError").hide();
                     $('#comments').prepend(`
                         <div class="comment">
-                            <img src="${data.comment.user.image}" alt="${data.comment.user.name}"
+                            <img src="{{asset('')}}${data.comment.user.image}" alt="${data.comment.user.name}"
                                  class="comment-img"/>
                             <div class="comment-content">
                                 <span class="username">${data.comment.user.user_name}</span>
@@ -276,10 +280,10 @@
                 },
 
                 error: function (data) {
-                    // let response = $.parseJSON(data.responseText);
-                    let response = data.responseJSON;
+                    let response = $.parseJSON(data.responseText);
+                    // let response = data.responseJSON;
                     $('#commentError').show();
-                    $('#commentError').text(response.errors.comment);
+                    $('#commentError').text(response.data);
                 },
             });
 

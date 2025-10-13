@@ -64,8 +64,8 @@
                             @foreach($category->posts as $category_post)
                                 <div class="col-md-6">
                                     <div class="cn-img">
-                                        <img src="{{ $category_post->images->first()->path }}"
-                                             alt="{{$category_post}}"/>
+                                        <img src="{{ asset($category_post->images->first()->path )}}"
+                                             alt="{{$category_post->title}}"/>
                                         <div class="cn-title">
                                             <a href="{{ route('front.post.single-post' , $category_post->slug) }}"
                                                title="{{ $category_post->title }}">{{ $category_post->title }}</a>
@@ -109,7 +109,7 @@
 
                                 <div class="tn-news">
                                     <div class="tn-img">
-                                        <img src="{{ $greatest_post_comment->images->first()->path }}"
+                                        <img src="{{ asset($greatest_post_comment->images->first()->path) }}"
                                              alt="{{ $greatest_post_comment->title }}"/>
                                     </div>
                                     <div class="tn-title">
@@ -125,7 +125,7 @@
                             @foreach($oldest_posts as $oldest_post)
                                 <div class="tn-news">
                                     <div class="tn-img">
-                                        <img src="{{ $oldest_post->images->first()->path }}"
+                                        <img src="{{ asset($oldest_post->images->first()->path) }}"
                                              alt="{{ $oldest_post->title }}">
                                     </div>
                                     <div class="tn-title">
@@ -161,7 +161,7 @@
 
                                 <div class="tn-news">
                                     <div class="tn-img">
-                                        <img src="{{ $lastPost->images->first()->path }}" alt="{{ $lastPost->title }}">
+                                        <img src="{{ asset($lastPost->images->first()->path) }}" alt="{{ $lastPost->title }}">
                                     </div>
                                     <div class="tn-title">
                                         <a href="{{ route('front.post.single-post' , $lastPost->slug) }}"
@@ -176,7 +176,7 @@
 
                                 <div class="tn-news">
                                     <div class="tn-img">
-                                        <img src="{{ $greatest_post->images->first()->path }}"
+                                        <img src="{{ asset($greatest_post->images->first()->path) }}"
                                              alt="{{ $greatest_post->title }}">
                                     </div>
                                     <div class="tn-title">
@@ -204,7 +204,7 @@
                         @foreach($posts as $post)
                             <div class="col-md-4">
                                 <div class="mn-img">
-                                    <img src="{{ $post->images->first()->path }}" alt="{{ $post->title }}">
+                                    <img src="{{ asset($post->images->first()->path) }}" alt="{{ $post->title }}">
                                     <div class="mn-title">
                                         <a href="{{ route('front.post.single-post' , $post->slug) }}"
                                            title="{{ $post->title }}">{{$post->title}}</a>
