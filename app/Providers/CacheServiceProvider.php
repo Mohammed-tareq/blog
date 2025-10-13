@@ -27,7 +27,6 @@ class CacheServiceProvider extends ServiceProvider
             Cache::remember('read_more_posts', 3600, fn()=>$read_more_posts);
         }
 
-        $read_more_posts =Cache::get('read_more_posts');
 
         if(!Cache::has('greatest_posts_comments')){
 
@@ -38,11 +37,14 @@ class CacheServiceProvider extends ServiceProvider
 
             Cache::remember('greatest_posts_comments', 3600, fn()=>$greatest_posts_comments);
         }
-        $greatest_posts_comments = Cache::get('greatest_posts_comments');
+
         if(!Cache::has('latest_posts')){
             $latest_posts = Post::with('images')->latest()->take(5)->get();
             Cache::remember('latest_posts', 3600, fn()=>$latest_posts);
         }
+
+        $read_more_posts =Cache::get('read_more_posts');
+        $greatest_posts_comments = Cache::get('greatest_posts_comments');
         $latest_posts = Cache::get('latest_posts');
 
 

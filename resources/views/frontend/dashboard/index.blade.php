@@ -1,0 +1,244 @@
+@extends('layouts.frontend.app')
+
+@section('title')
+    Dashboard
+@endsection
+
+@section('breadcrumb')
+    @parent
+    <li class="breadcrumb-item active">Dashboard</li>
+@endsection
+
+@section('content')
+    <!-- Profile Start -->
+    <div class="dashboard container">
+        <!-- Sidebar -->
+        <aside class="col-md-3 nav-sticky dashboard-sidebar">
+            <!-- User Info Section -->
+            <div class="user-info text-center p-3">
+                <img src="{{ asset(Auth::user()->image) }}" alt="User Image" class="rounded-circle mb-2"
+                     style="width: 80px; height: 80px; object-fit: cover"/>
+                <h5 class="mb-0" style="color: #ff6f61">{{ Auth::user()->name }}</h5>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <div class="list-group profile-sidebar-menu">
+                <a href="{{route('front.dashboard.profile')}}"
+                   class="list-group-item list-group-item-action active menu-item"
+                   data-section="profile">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a href="./notifications.html" class="list-group-item list-group-item-action menu-item"
+                   data-section="notifications">
+                    <i class="fas fa-bell"></i> Notifications
+                </a>
+                <a href="./setting.html" class="list-group-item list-group-item-action menu-item"
+                   data-section="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Profile Section -->
+            <section id="profile" class="content-section active">
+                <h2>User Profile</h2>
+                <div class="user-profile mb-3">
+                    <img src="{{asset(Auth::user()->image)}}" alt="User Image" class="profile-img rounded-circle"
+                         style="width: 100px; height: 100px;"/>
+                    <span class="username">{{ Auth::user()->name }}</span>
+                </div>
+                <br>
+
+                <!-- Add Post Section -->
+                <form action="{{route('front.dashboard.post.store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <section id="add-post" class="add-post-section mb-5">
+                        <h2>Add Post</h2>
+                        <div class="post-form p-3 border rounded">
+                            <!-- Post Title -->
+                            <input type="text" name="title" id="postTitle" class="form-control mb-2"
+                                   placeholder="Post Title"/>
+
+                            @error('title')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                            <!-- Post Content -->
+                            <textarea id="postContent" class="form-control mb-3" rows="3"
+                                      name="description" placeholder="What's on your mind?"></textarea>
+
+                            @error('description')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+
+                            <!-- Image Upload -->
+                            <input type="file" id="postImage" name="images[]" class="form-control mb-2" accept="image/*" multiple/>
+                            <div class="tn-slider mb-2 text-center">
+                                <div id="imagePreview" class="slick-slider"></div>
+                            </div>
+                            @error('images')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+
+                            <!-- Category Dropdown -->
+                            <select id="postCategory" name="category_id" class="form-select mb-2">
+                                <option selected disabled>Select Category</option>
+                                @foreach($categories_share as $category)
+                                    <option value="{{$category->id}}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+
+                            <!-- Enable Comments Checkbox -->
+                            <label class="form-check-label mb-2 d-block mx-4">
+                                <input name="comment_able" type="checkbox" class="form-check-input"/> Enable Comments
+                            </label><br>
+
+                            <!-- Post Button -->
+                            <button type="submit" class="btn btn-primary post-btn">Post</button>
+                        </div>
+                    </section>
+                </form>
+
+                <!-- Posts Section -->
+                <section id="posts" class="posts-section">
+                    <h2>Recent Posts</h2>
+                    <div class="post-list">
+                        <!-- Post Item -->
+                        <div class="post-item mb-4 p-3 border rounded">
+                            <div class="post-header d-flex align-items-center mb-2">
+                                <img src="{{asset('img/news-350x223-2.jpg')}}" alt="User Image" class="rounded-circle"
+                                     style="width: 50px; height: 50px;"/>
+                                <div class="ms-3">
+                                    <h5 class="mb-0">Salem Taha</h5>
+                                    <small class="text-muted">2 hours ago</small>
+                                </div>
+                            </div>
+                            <h4 class="post-title">Post Title Here</h4>
+                            <p class="post-content">This is an example post content. The user can share their thoughts,
+                                upload images, and more.</p>
+
+                            <div id="newsCarousel" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#newsCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#newsCarousel" data-slide-to="1"></li>
+                                    <li data-target="#newsCarousel" data-slide-to="2"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item  active">
+                                        <img src="{{asset('img/news-350x223-2.jpg')}}" class="d-block w-100"
+                                             alt="First Slide">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>dsfdk</h5>
+                                            <p>
+                                                oookok
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item ">
+                                        <img src="{{asset('img/news-350x223-2.jpg')}}" class="d-block w-100"
+                                             alt="First Slide">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>dsfdk</h5>
+                                            <p>
+                                                oookok
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add more carousel-item blocks for additional slides -->
+                                </div>
+                                <a class="carousel-control-prev" href="#newsCarousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#newsCarousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+
+                            <div class="post-actions d-flex justify-content-between">
+                                <div class="post-stats">
+                                    <!-- View Count -->
+                                    <span class="me-3">
+                                  <i class="fas fa-eye"></i> 123 views
+                              </span>
+                                </div>
+
+                                <div>
+                                    <a href="" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a href="" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-thumbs-up"></i> Delete
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-comment"></i> Comments
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Display Comments -->
+                            <div class="comments">
+                                <div class="comment">
+                                    <img src="{{asset('img/news-350x223-2.jpg')}}" alt="User Image"
+                                         class="comment-img"/>
+                                    <div class="comment-content">
+                                        <span class="username"></span>
+                                        <p class="comment-text">first comment</p>
+                                    </div>
+                                </div>
+                                <!-- Add more comments here for demonstration -->
+                            </div>
+                        </div>
+
+                        <!-- Add more posts here dynamically -->
+                    </div>
+                </section>
+            </section>
+        </div>
+    </div>
+    <!-- Profile End -->
+@endsection
+
+@push('js')
+
+    <script>
+
+        $(function () {
+            $('#postImage').fileinput({
+                theme: 'fa5',
+                types: 'jpg,png,gif',
+                maxFilesNum: 5,
+                showUpload: false,
+                showClose: false,
+                showCaption: false,
+                browseClass: "btn btn-primary btn-sm",
+                removeClass: "btn btn-danger btn-sm",
+                previewFileIcon: "<i class='fas fa-file'></i>",
+                allowedFileExtensions: ["jpg", "png", "gif"],
+
+            });
+
+            $("#postContent").summernote({
+                placeholder: "Write your post title here...",
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen']]
+                ]
+            });
+
+        })
+    </script>
+
+@endpush

@@ -1,7 +1,11 @@
-@import 'tailwindcss';
+/*@import 'tailwindcss';*/
+
+
+
 @import '../lib/slick/slick.css';
 @import "../lib/slick/slick-theme.css";
 @import "./style.css";
+@import "../vendor/front/file-input/css/fileinput.min.css";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

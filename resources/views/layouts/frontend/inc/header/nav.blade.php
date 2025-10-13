@@ -37,8 +37,8 @@
                         </div>
                     </div>
 
-                    <a href="dashboard.html" class="nav-item nav-link">Dashboard</a>
-                    <a href="{{ route('front.contact.index') }}" class="nav-item nav-link">Contact Us</a>
+                    <a href="{{route('front.dashboard.profile')}}" title="Dashboard" class="nav-item nav-link">Dashboard</a>
+                    <a href="{{ route('front.contact.index') }}" title="Contact Us" class="nav-item nav-link">Contact Us</a>
                 </div>
                 <div class="social ml-auto">
                     <a href="{{ $setting->facebook }}" title="facebook"><i class="fab fa-facebook-f"></i></a>

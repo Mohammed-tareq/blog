@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>Bootstrap News Template - Free HTML Templates</title>
+    <title>{{ config('app.name')  }} | @yield('title')</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta
             content="Bootstrap News Template - Free HTML Templates"
@@ -27,11 +27,12 @@
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
             rel="stylesheet"
     />
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
-            rel="stylesheet"
-    />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+
+    @vite('resources/css/app.css')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -39,18 +40,19 @@
 <!-- Top Bar Start -->
 @include('layouts.frontend.inc.header.index')
 
-
-<!-- Breadcrumb Start -->
-<div class="breadcrumb-wrap mb-3">
-    <div class="container">
-        <ul class="breadcrumb">
-            @section('breadcrumb-body')
-                <li class="breadcrumb-item"><a href="{{route('front.index')}}">Home</a></li>
-            @show
-        </ul>
+@unless(View::hasSection('breadcrumbhide'))
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb-wrap mb-3">
+        <div class="container">
+            <ul class="breadcrumb">
+                @section('breadcrumb')
+                    <li class="breadcrumb-item"><a href="{{route('front.index')}}">Home</a></li>
+                @show
+            </ul>
+        </div>
     </div>
-</div>
-<!-- Breadcrumb End -->
+    <!-- Breadcrumb End -->
+@endunless
 
 @yield('content')
 
@@ -64,7 +66,11 @@
 
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+{{--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>--}}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+@vite('resources/js/app.js')
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
+
 @stack('js')
 </body>
 </html>

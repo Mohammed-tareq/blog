@@ -1,5 +1,9 @@
 @extends('layouts.frontend.app')
 
+@section('title')
+    Single Post {{$post->title}}
+@endsection
+
 @section('breadcrumb')
     @parent
     <li class="breadcrumb-item active">{{$post->title}}</li>
@@ -15,15 +19,15 @@
                     <!-- Carousel -->
                     <div id="newsCarousel" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#newsCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#newsCarousel" data-slide-to="1"></li>
-                            <li data-target="#newsCarousel" data-slide-to="2"></li>
+                            @foreach($post->images as $count_of_silde)
+                            <li data-target="#newsCarousel" data-slide-to="{{$loop->index == 0? 'active' : ''}}"></li>
+                            @endforeach
                         </ol>
                         <div class="carousel-inner">
                             @foreach($post->images as $post_image )
 
                                 <div class="carousel-item {{$loop->index == 0 ? 'active': ''}}">
-                                    <img src="{{ $post_image->first()->path }}" class="d-block w-100" alt="First Slide">
+                                    <img src="{{ asset($post_image->path) }}" class="d-block w-100" alt="First Slide">
 
                                 </div>
                             @endforeach
@@ -47,7 +51,7 @@
                                         class="fa fa-calendar"></i> {{ $post->created_at->diffForHumans() }}</span>
                             <span class="m-1"><i class="fa fa-tags"></i> {{ $post->category->name }}</span>
                         </div>
-                        {{$post->description}}
+                        {!!  $post->description !!}
                     </div>
 
                     <!-- Comment Section -->
@@ -57,7 +61,7 @@
                             @csrf
                             <div class="comment-input">
                                 <input type="hidden" name="post_id" value="{{$post->id}}">
-                                <input type="hidden" name="user_id" value="1">
+                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                                 <input type="text" name="comment" placeholder="Add a comment..." id="commentBox"/>
                                 <button>Comment</button>
                             </div>

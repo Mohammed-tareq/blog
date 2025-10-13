@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -81,10 +81,10 @@ class RegisterController extends Controller
             'country' => $data['country'],
             'street' => $data['street'],
         ]);
-        if($data['image']){
+        if(!empty($data['image'])){
             $file = $data['image'];
-            $newImageName = $user->id .'.' .$file->getClientOriginalExtension();
-            $path = $file->StoreAs('uploads/users',$newImageName,['disk' => 'store']);
+            $newImageName = $user->id . time() .'.' .$file->getClientOriginalExtension();
+            $path = $file->storeAs('uploads/users',$newImageName,['disk' => 'store']);
             $user->update(
                 ['image' => $path]
             );

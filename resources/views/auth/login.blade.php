@@ -1,7 +1,12 @@
 @extends('layouts.frontend.app')
+@section('title')
+    Login
+@endsection
+
+@section('breadcrumbhide',true)
 
 @section('content')
-<div class="container mb-4">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
