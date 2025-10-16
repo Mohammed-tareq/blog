@@ -12,32 +12,8 @@
 @section('content')
     <!-- Profile Start -->
     <div class="dashboard container">
-        <!-- Sidebar -->
-        <aside class="col-md-3 nav-sticky dashboard-sidebar">
-            <!-- User Info Section -->
-            <div class="user-info text-center p-3">
-                <img src="{{ asset(Auth::user()->image) }}" alt="User Image" class="rounded-circle mb-2"
-                     style="width: 80px; height: 80px; object-fit: cover"/>
-                <h5 class="mb-0" style="color: #ff6f61">{{ Auth::user()->name }}</h5>
-            </div>
 
-            <!-- Sidebar Menu -->
-            <div class="list-group profile-sidebar-menu">
-                <a href="{{route('front.dashboard.profile')}}"
-                   class="list-group-item list-group-item-action active menu-item"
-                   data-section="profile">
-                    <i class="fas fa-user"></i> Profile
-                </a>
-                <a href="./notifications.html" class="list-group-item list-group-item-action menu-item"
-                   data-section="notifications">
-                    <i class="fas fa-bell"></i> Notifications
-                </a>
-                <a href="./setting.html" class="list-group-item list-group-item-action menu-item"
-                   data-section="settings">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
-            </div>
-        </aside>
+        @include('layouts.frontend.inc.dashboard.profile-side')
 
         <!-- Main Content -->
         <div class="main-content">
@@ -123,7 +99,7 @@
                                 <h4 class="post-title">{{$post->title}}</h4>
                                 <p class="post-content"> {!!   chunk_split($post->description,40) !!} </p>
 
-                                <div id="newsCarousel" class="carousel slide" data-ride="carousel">
+                                <div id="newsCarousel-{{ $post->id }}" class="carousel slide" data-ride="carousel">
 
                                     <ol class="carousel-indicators">
                                         @foreach($post->images as $count_of_silde)
@@ -140,12 +116,12 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <a class="carousel-control-prev" href="#newsCarousel" role="button"
+                                    <a class="carousel-control-prev" href="#newsCarousel-{{ $post->id }}" role="button"
                                        data-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span class="sr-only">Previous</span>
                                     </a>
-                                    <a class="carousel-control-next" href="#newsCarousel" role="button"
+                                    <a class="carousel-control-next" href="#newsCarousel-{{ $post->id }}" role="button"
                                        data-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span class="sr-only">Next</span>
@@ -161,7 +137,7 @@
                                     </div>
 
                                     <div>
-                                        <a href="{{route('front.dashboard.post.update' , $post->slug)}}"
+                                        <a href="{{route('front.dashboard.post.edit' , $post->slug)}}"
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
@@ -226,7 +202,6 @@
                 browseClass: "btn btn-primary btn-sm",
                 removeClass: "btn btn-danger btn-sm",
                 previewFileIcon: "<i class='fas fa-file'></i>",
-                allowedFileExtensions: ["jpg", "png", "gif"],
 
             });
 

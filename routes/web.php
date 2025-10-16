@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Frontend\NotificationController;
+use App\Http\Controllers\Frontend\SettingUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewSubscribeController;
@@ -31,7 +33,7 @@ Route::name('front.')->group(function () {
     //get all comments by ajax for single post
     Route::get('/{slug}/comments',  'getComments')->name('getAllComments');
     //store comment
-    Route::post('/comment/store',  'storePost')->name('comment.store');
+    Route::post('/comment/store',  'storeComment')->name('comment.store');
     });
 
 
@@ -46,9 +48,22 @@ Route::name('front.')->group(function () {
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/profile', 'index')->name('profile');
             Route::post('/post/store', 'store')->name('post.store');
-            Route::get('/update/{slug}', 'update')->name('post.update');
+            Route::get('/edit/{slug}', 'edit')->name('post.edit');
+            Route::put('/edit/{id}', 'update')->name('post.update');
             Route::delete('/destroy', 'destroy')->name('post.destroy');
+            Route::post('/post/delete-image/{id}', 'deleteImagePost')->name('post.destroy-image');
             Route::get('/get-comments/{id}','getComments')->name('post.getComments');
+        });
+
+        Route::prefix('/setting')->name('profile.setting.')->controller(SettingUserController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::put('/update', 'update')->name('update');
+            Route::put('/update-password', 'updatePassword')->name('update-password');
+        });
+
+        Route::controller(NotificationController::class)->prefix('notification')->name('profile.notification.')->group(function () {
+            Route::get('/', 'index')->name('index');
+//            Route::get('/mark-as-read', 'markAsRead')->name('mark-as-read');
         });
     });
 

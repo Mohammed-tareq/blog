@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\StorePostRequest;
+use App\Http\Requests\Front\PostUpdateRequest;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Post;
 use App\Utils\ImageManegment;
 use Illuminate\Http\Request;
@@ -24,14 +26,14 @@ class ProfileController extends Controller
 
     public function store(StorePostRequest $request)
     {
+            $request->validated();
         try {
             DB::beginTransaction();
 
-            $request->validated();
-            $request->comment_able == 'on' ? $request->merge(['comment_able' => 1]) : $request->merge(['comment_able' => 0]);
+            $this->commentable($request);
             $post = auth()->user()->posts()->create($request->except('_token', 'images'));
 
-            ImageManegment::storeImage($request, $post);
+            ImageManegment::storeImage($request, $post, null);
             DB::commit();
 
             Cache::forget('read_more_posts');
@@ -46,8 +48,36 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
-    public function update(StorePostRequest $request)
+    public function edit($slug)
     {
+        $post = Post::with('images')->where('slug', $slug)->first();
+        return view('frontend.dashboard.edit-post', compact('post'));
+    }
+
+    public function update(PostUpdateRequest $request)
+    {
+        $request->validated();
+        try{
+            DB::beginTransaction();
+            $this->commentable($request);
+            $post = Post::findOrFail($request->id);
+            $post->update($request->except('_token', 'images'));
+
+            if($request->hasFile('images')){
+                ImageManegment::deleteImagesForPost($post);
+                ImageManegment::storeImage($request, $post);
+            }
+
+            DB::commit();
+
+        }catch (\Exception $e){
+            DB::rollBack();
+            Session::flash('error', 'Something went wrong');
+            return redirect()->back();
+        }
+
+        Session::flash('success', 'Post updated successfully');
+        return redirect()->back();
 
     }
 
@@ -55,10 +85,30 @@ class ProfileController extends Controller
     {
         $post = Post::with('images')->findOrFail($request->id);
         $post->load('comments');
-        ImageManegment::deleteImage($post);
+        ImageManegment::deleteImagesForPost($post);
         $post->delete();
         Session::flash('success', 'Post deleted successfully');
         return redirect()->back();
+    }
+
+    public function deleteImagePost(Request $request)
+    {
+        $request->validate([
+            'key' => 'required|string|exists:images,id'
+        ]);
+
+        $image = Image::find($request->id);
+        if(!$image){
+            return response()->json([
+                'status' => '404',
+                'data' => 'Image not found'], 404);
+        }
+        ImageManegment::deleteImageFormLocal($image->path);
+        $image->delete();
+        return response()->json([
+            'status' => '200',
+            'data' => 'Image deleted successfully'], 200);
+
     }
 
 
@@ -77,6 +127,12 @@ class ProfileController extends Controller
             'status' => '200',
             'comments' => $comment,
         ], 200);
+    }
+
+    private function commentable($request)
+    {
+      return  $request->comment_able == 'on' ? $request->merge(['comment_able' => 1]) : $request->merge(['comment_able' => 0]);
+
     }
 }
 

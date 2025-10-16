@@ -17,5 +17,8 @@ get data from database by using controller and view.
 #make search post.
 
 #make auth for user by using ui package with login and reset password and remember me.
-#handle files to save image for user
+#handle files to save image for user.
+#show all posts to user in profile and this comments for this post by ajax.
+#delete post and images and comments.
+
 
