@@ -15,7 +15,8 @@
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
         "php-flasher/flasher-laravel": "^2.1",
-        "predis/predis": "^3.2"
+        "predis/predis": "^3.2",
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

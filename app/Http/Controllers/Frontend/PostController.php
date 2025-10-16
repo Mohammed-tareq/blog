@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Notifications\NewCommentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -39,7 +40,7 @@ class PostController extends Controller
         return response()->json($comments);
     }
 
-    public function storePost(Request $request)
+    public function storeComment(Request $request)
     {
         $request->validate([
             'comment' => 'required|max:300|string',
@@ -61,7 +62,11 @@ class PostController extends Controller
             'post_id' => $request->post_id,
             'user_id' => $request->user_id,
             'ip_address' => $request->ip(),
-        ])->load('user');
+        ]);
+
+        $post = Post::findOrfail($request->post_id);
+        $post->user->notify( new NewCommentNotification($comment , $post));
+        $comment->load('user');
 
         if (!$comment) {
             return response()->json([
