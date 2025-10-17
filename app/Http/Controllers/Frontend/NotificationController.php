@@ -21,13 +21,9 @@ class NotificationController extends Controller
             if ($notification) {
                 $notification->markAsRead();
             }
-            return response()->json([
-                'success' => 'Notification marked as read',
-                'data' => auth()->user()->notifications()->latest()->take(7)->get(),
-                'count' => auth()->user()->unreadNotifications()->count()
-            ], 200);
+           return redirect()->back();
         }
-        return response()->json(['error' => 'Notification not found'], 404);
+        return redirect()->back()->with('error', 'Notification not found');
 
     }
 
@@ -40,10 +36,7 @@ class NotificationController extends Controller
 
         $notification->markAsRead();
 
-        return response()->json([
-            'success' => 'Notification marked as read',
-            'count' => auth()->user()->unreadNotifications()->count()
-        ]);
+       return redirect()->back()->with('success', 'All notifications marked as read');
     }
 
     public function deleteSingleNotifiy($id)
@@ -52,10 +45,7 @@ class NotificationController extends Controller
         if ($notification) {
             $notification->delete();
         }
-        return response()->json([
-            'success' => 'Notification delete successfully',
-            'data' => auth()->user()->notifications()->latest()->take(7)->get(),
-        ], 200);
+        return redirect()->back()->with('success', 'Notification deleted successfully');
     }
 
     public function deleteAllNotifications()
