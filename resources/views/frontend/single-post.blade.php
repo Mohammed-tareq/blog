@@ -1,4 +1,10 @@
 @extends('layouts.frontend.app')
+@section('tags')
+    {{ $post->tags }}
+@endsection
+@section('description')
+    {{ $post->small_desc }}
+@endsection
 
 @section('title')
     Single Post {{$post->title}}

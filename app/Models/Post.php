@@ -19,6 +19,12 @@ class Post extends Model
         'category_id',
         'user_id',
         'num_of_views',
+        'small_desc',
+        'tags',
+    ];
+
+    protected $casts = [
+        'tags' => 'array',
     ];
 
     public function category()

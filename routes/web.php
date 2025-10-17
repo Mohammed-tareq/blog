@@ -62,7 +62,7 @@ Route::name('front.')->group(function () {
         });
 
         Route::controller(NotificationController::class)->prefix('notification')->name('profile.notification.')->group(function () {
-            Route::get('/', 'index')->name('index')->middleware('readNotifiy');
+            Route::get('/', 'index')->name('index');
             Route::get('/mark-single-notification/{id}', 'markSingleNotifiyAsRead')->name('mark-single-notify');
             Route::get('/mark-all-notifications', 'markAllNotificationsAsRead')->name('markAll');
             Route::get('/delete-all-notifications-as-read', 'deleteAllNotifications')->name('deleteAll');

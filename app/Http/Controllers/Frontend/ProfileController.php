@@ -31,6 +31,7 @@ class ProfileController extends Controller
             DB::beginTransaction();
 
             $this->commentable($request);
+            $this->checktages($request);
             $post = auth()->user()->posts()->create($request->except('_token', 'images'));
 
             ImageManegment::storeImage($request, $post, null);
@@ -60,7 +61,8 @@ class ProfileController extends Controller
         try{
             DB::beginTransaction();
             $this->commentable($request);
-            $post = Post::findOrFail($request->id);
+            $this->checktages($request);
+            $post = Post::active()->findOrFail($request->id);
             $post->update($request->except('_token', 'images'));
 
             if($request->hasFile('images')){
@@ -134,6 +136,16 @@ class ProfileController extends Controller
       return  $request->comment_able == 'on' ? $request->merge(['comment_able' => 1]) : $request->merge(['comment_able' => 0]);
 
     }
+    private function checktages($request)
+    {
+        if(!empty($request->tags)){
+            $tags = collect(json_decode($request->tags))->pluck('value')->toArray();
+           return $request->merge(['tags' => $tags]);
+        }
+
+        return $request->merge(['tags' => explode(' ', $request->title)]);
+    }
+
 }
 
 

@@ -13,6 +13,7 @@ class Category extends Model
         'name',
         'slug',
         'status',
+        'description',
     ];
 
     public function posts()

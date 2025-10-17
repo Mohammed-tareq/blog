@@ -36,9 +36,12 @@ class CheckSettingProvider extends ServiceProvider
                 'instagram' => 'https://www.instagram.com/',
                 'linkedin' => 'https://www.linkedin.com/',
                 'youtube' => 'https://www.youtube.com/',
+                'desc_for_site' => 'Welcome to our blog — discover the latest articles, tutorials, and insights about web development, Laravel, PHP, and modern programming practices. Stay updated and keep learning!',
 
             ]);
         });
+
+        $setting->whatsapp = 'https://wa.me/' . $setting->phone;
 
 
         view()->share('setting', $setting);

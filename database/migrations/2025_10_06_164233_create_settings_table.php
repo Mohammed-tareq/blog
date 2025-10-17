@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('instagram');
             $table->string('youtube');
             $table->string('linkedin');
+            $table->text('desc_for_site');
+
             $table->timestamps();
         });
     }

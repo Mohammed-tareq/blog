@@ -1,6 +1,6 @@
 import './echo.js';
 
-window.Echo.private('App.Models.User.'+id).notification(
+window.Echo.private('users.'+id).notification(
     (event) => {
         $("#notification-list-id").prepend(`
               <div class="dropdown-item d-flex justify-content-between align-items-center notification-class ">
@@ -10,5 +10,12 @@ window.Echo.private('App.Models.User.'+id).notification(
         `);
         let count = $("#notificationCount").text();
         $("#notificationCount").text(++count);
+        $("#no-notify").text("");
+        $("#deleteAllNotification").empty().append(`
+        <h6 class="dropdown-header text-primary">Notifications</h6>
+        <a href="${route}" class="btn  btn-sm" ><i
+                    class="fas fa-trash"></i>
+            <b>Delete All</b></a>        
+        `);
     }
 );

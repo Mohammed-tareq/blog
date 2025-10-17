@@ -23,7 +23,7 @@ class ShareDataToViewsProvider extends ServiceProvider
     public function boot(): void
     {
         $related_sites = RelatedSite::select('name', 'url')->latest()->take(5)->get();
-        $categories_share = Category::select('name', 'slug','id')->get();
+        $categories_share = Category::active()->select('name', 'slug','id')->get();
 
 
         view()->share([

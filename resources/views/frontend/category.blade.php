@@ -1,5 +1,8 @@
 @extends('layouts.frontend.app')
 
+@section('description')
+    {{ $category->description }}
+@endsection
 @section('title')
 
     Category {{$category->name}}
@@ -18,7 +21,7 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
-                        @foreach($posts as $post)
+                        @forelse($posts as $post)
                             <div class="col-md-4">
                                 <div class="mn-img">
                                     <img src="{{ asset($post->images->first()->path) }}" alt="{{ $post->title }}">
@@ -27,7 +30,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="col-md-12 text-center alert alert-danger">
+                            <h1> No Posts In This Category Yet</h1>
+                            </div>
+                        @endforelse
 
 
                     </div>

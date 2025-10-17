@@ -4,7 +4,7 @@
     Verify Email
 @endsection
 
-@section('breadcrumbhide',true)
+@section('breadcrumb-hide',true)
 
 @section('content')
     <div class="container mt-5 mb-5">

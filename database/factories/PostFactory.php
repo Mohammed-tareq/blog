@@ -33,6 +33,7 @@ class PostFactory extends Factory
                 'created_at' => $date = fake()->date('Y-m-d H:i:s'),
                 'updated_at' => $date,
 
+
         ];
     }
 }

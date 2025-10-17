@@ -4,16 +4,12 @@
     Profile | Setting
 @endsection
 
-@section('breadcrumb')
-    @parent
-    <li class="breadcrumb-item">Profile</li>
-    <li class="breadcrumb-item active">Setting</li>
+@section('breadcrumb-hide',true)
 
-@endsection
 
 @section('content')
     <div class="dashboard container">
-            @include('layouts.frontend.inc.dashboard.profile-side')
+            @include('layouts.frontend.inc.dashboard.profile-side',['settingActive' => 'active'])
 
         <!-- Main Content -->
         <div class="main-content">

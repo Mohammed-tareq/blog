@@ -4,6 +4,8 @@
     Send Password Reset Link
 @endsection
 
+@section('breadcrumb-hide',true)
+
 @section('content')
 <div class="container mb-5 mt-5" >
     <div class="row justify-content-center">

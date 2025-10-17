@@ -65,9 +65,13 @@ class PostController extends Controller
         ]);
 
         $post = Post::findOrfail($request->post_id);
-        $post->user->notify( new NewCommentNotification($comment , $post));
-        $comment->load('user');
+        if (auth()->user()->id != $post->user_id) {
 
+            $post->user->notify(new NewCommentNotification($comment, $post));
+        }
+
+
+        $comment->load('user');
         if (!$comment) {
             return response()->json([
                 'status' => '403',
@@ -77,7 +81,7 @@ class PostController extends Controller
         return response()->json([
             'status' => '201',
             'comment' => $comment
-        ],201);
+        ], 201);
 
     }
 }

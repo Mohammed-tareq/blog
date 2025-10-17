@@ -19,7 +19,6 @@ class CheckNotificationRead
         if($request->query('notifiy')){
             $notification = auth()->user()->unreadNotifications()->where('id' , $request->query('notifiy'))->first();
           if($notification){
-
             $notification->markAsRead();
           }
         }

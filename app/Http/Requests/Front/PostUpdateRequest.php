@@ -28,6 +28,8 @@ class PostUpdateRequest extends FormRequest
             'images' => 'nullable|array|min:1|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'comment_able' => 'nullable|in:on',
+            'tags' => 'nullable',
+            'small_desc' => 'nullable|string|max:170',
 
         ];
     }

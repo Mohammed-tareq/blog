@@ -19,6 +19,8 @@ return new class extends Migration
             $table->bigInteger('num_of_views')->default(0);
             $table->boolean('comment_able')->default(true);
             $table->boolean('status')->default(true);
+            $table->json('tags')->nullable();
+            $table->text('small_desc',170)->nullable();
 
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();

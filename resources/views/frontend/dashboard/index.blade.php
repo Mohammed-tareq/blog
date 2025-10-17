@@ -1,19 +1,20 @@
 @extends('layouts.frontend.app')
 
+@push('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+@endpush
 @section('title')
     Dashboard
 @endsection
 
-@section('breadcrumb')
-    @parent
-    <li class="breadcrumb-item active">Dashboard</li>
-@endsection
+@section('breadcrumb-hide',true)
+
 
 @section('content')
     <!-- Profile Start -->
     <div class="dashboard container">
 
-        @include('layouts.frontend.inc.dashboard.profile-side')
+        @include('layouts.frontend.inc.dashboard.profile-side',['profileActive' => 'active'])
 
         <!-- Main Content -->
         <div class="main-content">
@@ -35,15 +36,26 @@
                         <div class="post-form p-3 border rounded">
                             <!-- Post Title -->
                             <input type="text" name="title" id="postTitle" class="form-control mb-2"
-                                   placeholder="Post Title"/>
+                                   placeholder="Post Title" value="{{old('title')}}"/>
 
                             @error('title')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
-                            <!-- Post Content -->
-                            <textarea id="postContent" class="form-control mb-3" rows="3"
-                                      name="description" placeholder="What's on your mind?"></textarea>
 
+                            <input name="tags" id="tagsInput"  class="form-control mb-2 h-25 " value="{{old('tags')}}" placeholder="Add Tags">
+                            @error('tags')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+
+                            <textarea class="form-control mb-3" rows="3"
+                                      name="small_desc" placeholder="Write Small Description">{{old('small_desc')}}</textarea>
+                            @error('small_desc')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+
+                            <textarea class="form-control mb-2 post-content" id="postDescription" name="description" placeholder="Write your post description here...">
+                            {{old('description')}}
+                            </textarea>
                             @error('description')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
@@ -104,7 +116,7 @@
                                     <ol class="carousel-indicators">
                                         @foreach($post->images as $count_of_silde)
                                             <li data-target="#newsCarousel" data-slide-to="{{$loop->index}}"
-                                                class="{{$loop->first ? 'active': ''}}">{{$loop->index}}</li>
+                                                class="{{$loop->index == 0 ? 'active': ''}}">{{$loop->index}}</li>
                                         @endforeach
 
                                     </ol>
@@ -132,8 +144,8 @@
                                     <div class="post-stats">
                                         <!-- View Count -->
                                         <span class="me-3">
-                                  <i class="fas fa-eye"></i> {{ $post->num_of_views }}
-                              </span>
+                                          <i class="fas fa-eye"></i> {{ $post->num_of_views }}
+                                          </span>
                                     </div>
 
                                     <div>
@@ -146,13 +158,14 @@
                                            class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-thumbs-up"></i> Delete
                                         </a>
-                                        <button id="btnCommentForPost-{{ $post->id }}" post-id="{{$post->id}}"
+                                        <button id="btnCommentForPost-{{ $post->id }}" data-post-id="{{$post->id}}"
                                                 class="btn btn-sm btn-outline-secondary btnCommentForPost">
                                             <i class="fas fa-comment"></i> Comments
                                         </button>
 
-                                        <button id="btnHideCommentForPost-{{ $post->id }}" post-id="{{$post->id}}"
-                                                class="btn btn-sm btn-outline-secondary btnHideCommentForPost" style="display: none">
+                                        <button id="btnHideCommentForPost-{{ $post->id }}" data-post-id="{{$post->id}}"
+                                                class="btn btn-sm btn-outline-secondary btnHideCommentForPost"
+                                                style="display: none">
                                             <i class="fas fa-comment"></i> Hide Comments
                                         </button>
 
@@ -205,7 +218,7 @@
 
             });
 
-            $("#postContent").summernote({
+            $("#postDescription").summernote({
                 placeholder: "Write your post title here...",
                 height: 300,
                 toolbar: [
@@ -223,15 +236,15 @@
 
         $(document).on('click', '.btnCommentForPost', function (e) {
             e.preventDefault();
-            let postId = $(this).attr('post-id');
+            let postId = $(this).data('post-id');
 
             $.ajax({
                 url: "{{route('front.dashboard.post.getComments', ":post-Id")}}".replace(':post-Id', postId),
                 type: "GET",
                 success: function (data) {
-                    $('#comments-'+postId).empty();
+                    $('#comments-' + postId).empty();
                     $.each(data.comments, function (index, comment) {
-                        $('#comments-'+postId).append(`
+                        $('#comments-' + postId).append(`
                         <div class="comment">
                         <img src="{{asset("")}}${comment.user.image}" alt="${comment.user.name}"
                              class="comment-img"/>
@@ -241,8 +254,8 @@
                         </div>
                     </div>`).show();
                     });
-                    $('#btnCommentForPost-'+postId).hide();
-                    $('#btnHideCommentForPost-'+postId).show();
+                    $('#btnCommentForPost-' + postId).hide();
+                    $('#btnHideCommentForPost-' + postId).show();
 
                 },
                 error: function (data) {
@@ -253,13 +266,16 @@
 
         $(document).on('click', '.btnHideCommentForPost', function (e) {
             e.preventDefault();
-            let postId = $(this).attr('post-id');
-            $('#comments-'+postId).empty();
-            $('#btnHideCommentForPost-'+postId).hide();
-            $('#btnCommentForPost-'+postId).show();
-            $()
-
+            let postId = $(this).data('post-id');
+            $('#comments-' + postId).empty();
+            $('#btnHideCommentForPost-' + postId).hide();
+            $('#btnCommentForPost-' + postId).show();
         })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script>
+        let input = document.querySelector('#tagsInput');
+        new Tagify(input);
     </script>
 
 @endpush

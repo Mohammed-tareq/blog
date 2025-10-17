@@ -3,7 +3,7 @@
     Register
 @endsection
 
-@section('breadcrumbhide',true)
+@section('breadcrumb-hide',true)
 
 @section('content')
     <div class="container mb-5 mt-5">

@@ -1,5 +1,7 @@
 @extends('layouts.frontend.app')
-
+@section('description')
+    {{ $setting->desc_for_site }}
+@endsection
 @section('title')
     Home
 @endsection
@@ -18,7 +20,6 @@
                 <div class="col-md-6 tn-left">
                     <div class="row tn-slider">
                         @foreach($latestPosts as $latestPost_top )
-
                             <div class="col-md-6">
                                 <div class="tn-img">
                                     <img src="{{ $latestPost_top->images->first()->path }}"

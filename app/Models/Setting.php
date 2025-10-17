@@ -21,5 +21,6 @@ class Setting extends Model
         'instagram',
         'youtube',
         'linkedin',
+        'desc_for_site',
     ];
 }

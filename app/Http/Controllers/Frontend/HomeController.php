@@ -22,9 +22,9 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        $categories = Category::active()->latest()->take(4)->get();
+        $categories = Category::active()->has('posts',">=",3)->latest()->take(4)->get();
         $categories_with_posts = $categories->map(function($category){
-            $category->posts = $category->posts()->with('images')->take(4)->get();
+            $category->posts = $category->posts()->active()->with('images')->take(4)->get();
             return $category;
 
         });

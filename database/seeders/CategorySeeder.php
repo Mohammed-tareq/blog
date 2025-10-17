@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -21,6 +22,7 @@ class CategorySeeder extends Seeder
                 'name' => $item,
                 'slug' => Str::slug($item),
                 'status' => true,
+                'description' => Factory::create()->paragraph(3),
             ]);
         }
     }

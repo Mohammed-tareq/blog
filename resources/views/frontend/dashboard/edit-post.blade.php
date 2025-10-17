@@ -5,10 +5,8 @@
 
     @endsection
 
-    @section('breadcrumb')
-        @parent
-        <li class="breadcrumb-item active">Edit / {{ $post->slug}}</li>
-    @endsection
+    @section('breadcrumb-hide',true)
+
 
     @section('content')
         <div class="dashboard container">
@@ -34,6 +32,18 @@
                                 @error('title')
                                 <span class="text-danger">{{$message}}</span>
                                 @enderror
+
+                                <input name="tags" id="tagsInput"  class="form-control mb-2 h-25 " value="{{$post->tags}}" placeholder="Add Tags">
+                                @error('tags')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+
+                                <textarea class="form-control mb-3" rows="3"
+                                          name="small_desc" placeholder="Write Small Description">{{$post->small_desc}}</textarea>
+                                @error('small_desc')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+
                                 <!-- Editable Content -->
                                 <textarea class="form-control mb-2 post-content" id="postDescription" name="description">
                                 {!! $post->description !!}

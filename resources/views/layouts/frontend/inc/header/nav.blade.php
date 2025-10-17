@@ -58,7 +58,7 @@
                         <div class="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="notificationDropdown"
                              style="width: 320px; max-height: 400px; overflow-y: auto;">
                             <div class="d-flex justify-content-between align-items-center" id="deleteAllNotification">
-                                <h6 class="dropdown-header text-primary">Notifications</h6>
+                                <h6 class="dropdown-header ">Notifications</h6>
                                 @if(auth()->user()->unreadNotifications->count() > 0)
                                     <a href="{{route('front.dashboard.profile.notification.markAll')}}" class="btn  btn-sm" ><i
                                                 class="fas fa-trash"></i>
@@ -67,7 +67,7 @@
                             </div>
 
                             <div id="notification-list-id">
-                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                @forelse(auth()->user()->unreadNotifications()->take(5)->get() as $notification)
                                     <div class="dropdown-item d-flex justify-content-between align-items-center notification-class ">
                                     <span style="max-width: 200px; "><a
                                                 href="{{ $notification->data['link'] }}?notifiy={{ $notification->id }}"> New Comment Post: {{ substr($notification->data['post_title'], 0, 10) }}</a></span>
@@ -82,11 +82,11 @@
                         </div>
                     @endauth
 
-                    <a href="{{ $setting->facebook }}" title="facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="{{ $setting->twitter}}" title="twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="{{ $setting->linkedin }}" title="linkedin"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="{{ $setting->instagram }}" title="instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="{{ $setting->youtube }}" title=""><i class="fab fa-youtube"></i></a>
+                    <a href="{{ $setting->facebook }}" rel="nofollow" title="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $setting->twitter}}" rel="nofollow" title="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $setting->linkedin }}" rel="nofollow" title="linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="{{ $setting->instagram }}" rel="nofollow" title="instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $setting->youtube }}" rel="nofollow" title=""><i class="fab fa-youtube"></i></a>
                 </div>
 
 
