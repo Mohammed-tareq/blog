@@ -26,6 +26,11 @@ get data from database by using controller and view.
 #add notifiction page and handel it by ajax.
 #add pusher to notification.
 #connect to pusher.
+#handel seo by using mata robtos and description for all posts and cannonical link for all posts.
+#make tags for all posts by user to use it in meta  keyword.
+
+----------------------------------------------------------------
+Admin.
 
 
 

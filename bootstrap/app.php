@@ -1,20 +1,34 @@
 <?php
 
+use App\Http\Middleware\Admin\CheckRedirectAuth;
 use App\Http\Middleware\CheckNotificationRead;
-use App\Http\Middleware\NotificationReadCount;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
-        channels: __DIR__.'/../routes/channels.php',
-        health: '/up'
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
+        channels: __DIR__ . '/../routes/channels.php',
+        health: '/up',
+        then: function () {
+            Route::middleware(['web'])->group(base_path('routes/admin.php'));
+        },
+
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->appendToGroup('web',[CheckNotificationRead::class]);
+        $middleware->appendToGroup('web', [CheckNotificationRead::class]);
+        $middleware->redirectUsersTo(function () {
+            if (Auth::guard('admin')->check()) {
+                return route('admin.home');
+            }
+            return route('admin.login.show');
+        });
+        $middleware->alias([
+            'auth-admin' => CheckRedirectAuth::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -11,9 +11,7 @@ use App\Http\Controllers\Frontend\ContactUsController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Frontend\ProfileController;
-
-
-
+use Illuminate\Support\Facades\Auth;
 
 Route::redirect('/', '/home');
 
@@ -76,9 +74,6 @@ Route::name('front.')->group(function () {
 
 
 
-Route::get('/dashboard', function (){
-    return view('frontend.dashboard.index');
-});
 
 
 

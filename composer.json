@@ -11,10 +11,12 @@
     "require": {
         "php": "^8.4",
         "cviebrock/eloquent-sluggable": "^12.0",
+        "ichtrojan/laravel-otp": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6",
         "php-flasher/flasher-laravel": "^2.1",
+        "php-flasher/flasher-noty-laravel": "^2.1",
         "predis/predis": "^3.2",
         "pusher/pusher-php-server": "^7.2"
     },
