@@ -13,23 +13,16 @@
             <div class="card p-sm-7 p-2">
                 <div class="card-body mt-1">
                     <p class="mb-5">Please sign-in to your account and start the adventure</p>
-                    <form class="mb-5" action="{{ route('admin.login.check') }}" method="POST">
-
+                    <form class="mb-5" action="{{ route('admin.password.reset.update') }}" method="POST">
                         @csrf
                         <div class="form-floating form-floating-outline mb-5 form-control-validation">
                             <input
-                                    type="text"
+                                    type="hidden"
                                     class="form-control"
                                     id="email"
                                     name="email"
-                                    placeholder="Enter your email"
-                                    autofocus/>
-                            <label for="email">Email </label>
-                            @error('email')
-                            <span class="text-danger">
-                                {{ $message }}
-                            </span>
-                            @enderror
+                                    value="{{ $email }}"
+                                    />
                         </div>
                         <div class="mb-5">
                             <div class="form-password-toggle form-control-validation">

@@ -61,7 +61,7 @@
                                 <input class="form-check-input" name="remember" type="checkbox" id="remember-me"/>
                                 <label class="form-check-label" for="remember-me"> Remember Me </label>
                             </div>
-                            <a href="{{ route('admin.password.reset.show') }}" class="float-end mb-1">
+                            <a href="{{ route('admin.password.reset.show.email') }}" class="float-end mb-1">
                                 <span>Forgot Password?</span>
                             </a>
                         </div>

@@ -31,6 +31,8 @@ get data from database by using controller and view.
 
 ----------------------------------------------------------------
 Admin.
-
-
+#make login and  password and remember me.
+#using otp to rest password for admin
+#make reset password page and handel it.
+#using noty by php flasher to show massage for admin.
 

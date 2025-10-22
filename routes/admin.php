@@ -15,15 +15,15 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
     });
 
     Route::name('password.')->prefix('password')->controller(ForgetPasswordController::class)->group(function () {
-        Route::get('/email', 'showResetForm')->name('reset.show');
+        Route::get('/email', 'showResetFormEmail')->name('reset.show.email');
         Route::post('/email', 'sendOtp')->name('send.otp');
         Route::get('/verify/{email}', 'verifyOtp')->name('verify.otp');
         Route::post('/verify', 'verifyOtpcheck')->name('verify.otp.check');
     });
 
-    Route::name('reset.')->prefix('reset')->controller(ResetPasswordController::class)->group(function () {
-        Route::get('/', 'showResetForm')->name('reset.show');
-        Route::post('/', 'resetPassword')->name('reset.update');
+    Route::name('password.reset.')->prefix('reset')->controller(ResetPasswordController::class)->group(function () {
+        Route::get('/{email}', 'showResetForm')->name('show');
+        Route::post('/', 'resetPassword')->name('update');
     });
 
     Route::middleware('auth-admin')->group(function () {
