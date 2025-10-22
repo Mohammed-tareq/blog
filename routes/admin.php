@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\ForgetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,6 +27,11 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
         Route::post('/', 'resetPassword')->name('update');
     });
 
+    Route::middleware('auth-admin')->group(function () {
+        // users route for CRUD
+        Route::resource('users', UserController::class);
+        Route::get('/users/status/{id}',[UserController::class ,'changeStatus'])->name('users.status');
+    });
     Route::middleware('auth-admin')->group(function () {
 
         Route::get('/home', function () {

@@ -6,8 +6,10 @@ It includes user authentication, admin management, caching with Redis, notificat
 ---
 
 ## 📘 1. ERD Diagram
-Database schema design:  
-🔗 [View ERD on DrawSQL](https://drawsql.app/teams/admin-192/diagrams/blog)
+- **ERD :
+🔗[View ERD on ERDPLUS ](https://erdplus.com/diagrams/87934)**
+- **Database schema design:  
+🔗 [View Schema on DrawSQL](https://drawsql.app/teams/admin-192/diagrams/blog)**
 
 ---
 

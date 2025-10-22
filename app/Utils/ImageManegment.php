@@ -38,11 +38,11 @@ class ImageManegment
         endif;
     }
 
-    public static function deleteImageFormLocal($image):void
+    public static function deleteImageFormLocal($image_path):void
     {
 
-        if(File::exists(public_path($image))){
-            File::delete(public_path($image));
+        if(File::exists(public_path($image_path))){
+            File::delete(public_path($image_path));
         }
     }
 
