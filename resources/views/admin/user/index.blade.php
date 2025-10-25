@@ -8,8 +8,11 @@
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
-        <h5 class="card-header">Users Data</h5>
-      @include('admin.filter.user-filter')
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"> User Data</h5>
+            <a href="{{ route('admin.users.index') }}" class="btn btn-primary">Refresh Search</a>
+        </div>
+        @include('admin.user.filter.search-filter')
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
@@ -47,11 +50,18 @@
                                         <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
                                         Change Status</a
                                     >
-                                    <a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('fromId-{{ $user->id }}').submit();">
+                                    <a class="dropdown-item" href="{{ route('admin.users.show', $user->id) }}">
+                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                        Show user</a
+                                    >
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                       onclick="submitDeleteForm({{$user->id}})">
                                         <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
                                         Delete</a
                                     >
-                                    <form id='fromId-{{ $user->id }}' action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none;">
+                                    <form id='fromId-{{ $user->id }}'
+                                          action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
+                                          style="display: none;">
                                         @csrf
                                         @method('DELETE')
 
@@ -61,11 +71,14 @@
                         </td>
                     </tr>
                 @empty
+                    <tr>
+                        <td colspan="6" class="text-center">No Users Found</td>
+                    </tr>
                 @endforelse
 
                 </tbody>
             </table>
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center mt-3">
 
                 {{ $users->appends(request()->input())->links() }}
             </div>
@@ -74,4 +87,24 @@
     <!--/ Basic Bootstrap Table -->
 
 @endsection
+@push('js')
 
+    <script>
+        function submitDeleteForm(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't to delete this user!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#8c57ff',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    document.getElementById('fromId-' + id).submit();
+                }
+            })
+
+        }
+    </script>
+@endpush

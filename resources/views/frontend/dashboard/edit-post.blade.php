@@ -36,8 +36,8 @@
                             @enderror
 
 
-                                <input name="tags" id="tagsInput" class="form-control mb-2 h-25 "
-                                       value='@json($post->tags)' placeholder="Add Tags">
+                            <input name="tags" id="tagsInput" class="form-control mb-2 h-25 "
+                                   value='@json($post->tags)' placeholder="Add Tags">
                             @error('tags')
                             <span class="text-danger">{{$message}}</span>
                             @enderror

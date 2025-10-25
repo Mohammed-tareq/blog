@@ -37,6 +37,8 @@
 
     <!-- Config (Theme options) -->
     <script src="{{ asset('assets/admin/js/config.js') }}"></script>
+
+    @stack('css')
 </head>
 
 <body>
@@ -86,5 +88,7 @@
 <!-- Page JS -->
 <script src="{{ asset('assets/admin/js/dashboards-analytics.js') }}"></script>
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@stack('js')
 </body>
 </html>

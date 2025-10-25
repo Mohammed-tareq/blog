@@ -52,4 +52,6 @@ class ImageManegment
         return $image->storeAs('uploads/'.$path, $file, ['disk' => 'store']);
 
     }
+
+    
 }

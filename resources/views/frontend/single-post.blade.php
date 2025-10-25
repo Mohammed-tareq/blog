@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 @section('tags')
-    {{ $post->tags }}
+    {{ implode(',', $post->tags) }}
 @endsection
 @section('description')
     {{ $post->small_desc }}

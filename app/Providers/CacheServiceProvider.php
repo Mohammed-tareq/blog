@@ -23,14 +23,14 @@ class CacheServiceProvider extends ServiceProvider
     {
         if(!Cache::has('read_more_posts')){
 
-            $read_more_posts = Post::select('id' , 'title','slug')->latest()->take(10)->get();
+            $read_more_posts = Post::active()->select('id' , 'title','slug')->latest()->take(10)->get();
             Cache::remember('read_more_posts', 3600, fn()=>$read_more_posts);
         }
 
 
         if(!Cache::has('greatest_posts_comments')){
 
-            $greatest_posts_comments = Post::withCount('comments')
+            $greatest_posts_comments = Post::active()->withCount('comments')
                 ->orderBy('comments_count', 'desc')
                 ->take(5)
                 ->get();
@@ -39,7 +39,7 @@ class CacheServiceProvider extends ServiceProvider
         }
 
         if(!Cache::has('latest_posts')){
-            $latest_posts = Post::with('images')->latest()->take(5)->get();
+            $latest_posts = Post::active()->with('images')->latest()->take(5)->get();
             Cache::remember('latest_posts', 3600, fn()=>$latest_posts);
         }
 
