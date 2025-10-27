@@ -23,7 +23,8 @@ return new class extends Migration
             $table->text('small_desc',170)->nullable();
 
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignId('admin_id')->nullable()->constrained('admins')->cascadeOnDelete();
 
             $table->timestamps();
         });

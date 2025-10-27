@@ -53,7 +53,7 @@
                     <div class="sn-content ">
                         <h1 class="sn-title">{{ $post->title }}</h1>
                         <div class="sn-meta mb-4">
-                            <span class="m-1"><i class="fa fa-user"></i> {{ $post->user->name }}</span>
+                            <span class="m-1"><i class="fa fa-user"></i> {{ $post->user->name ?? $post->admin->name }}</span>
                             <span class="m-1"><i
                                         class="fa fa-calendar"></i> {{ $post->created_at->diffForHumans() }}</span>
                             <span class="m-1"><i class="fa fa-tags"></i> {{ $post->category->name }}</span>

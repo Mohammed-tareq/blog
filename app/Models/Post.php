@@ -18,6 +18,7 @@ class Post extends Model
         'status',
         'category_id',
         'user_id',
+        'admin_id',
         'num_of_views',
         'small_desc',
         'tags',
@@ -35,6 +36,11 @@ class Post extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
     }
 
     public function comments()

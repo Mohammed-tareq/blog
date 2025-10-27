@@ -66,7 +66,6 @@ class ProfileController extends Controller
             $post->update($request->except('_token', 'images'));
 
             if($request->hasFile('images')){
-                ImageManegment::deleteImagesForPost($post);
                 ImageManegment::storeImage($request, $post);
             }
 

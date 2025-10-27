@@ -1,8 +1,7 @@
-@php use Illuminate\Support\Facades\Auth; @endphp
 @extends('layouts.admin.app')
 
 @section('title')
-    Users
+    Admins
 @endsection
 
 @section('content')
@@ -10,43 +9,36 @@
     <!-- Basic Bootstrap Table -->
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"> Posts Data</h5>
-            <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">Create Post</a>
-                <a href="{{ route('admin.posts.index') }}" class="btn btn-primary">Refresh Search</a>
-
-            </div>
+            <h5 class="mb-0"> Admins Data</h5>
+            <a href="{{ route('admin.admins.index') }}" class="btn btn-primary">Refresh Search</a>
         </div>
-        @include('admin.post.filter.search-filter')
+        @include('admin.user.filter.search-filter')
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Title</th>
-                    <th>Category</th>
+                    <th>Full Name</th>
                     <th>User Name</th>
-                    <th>Views</th>
-                    <th>Status</th>
+                    <th>Email</th>
                     <th>Created At</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                @forelse($posts as $post)
+                @forelse($admins as $admin)
                     <tr>
 
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ substr($post->title, 0, 17) }}...</td>
-                        <td>{{ $post->category->name }}</td>
-                        <td>{{ $post->user->name ?? $post->admin->name }}</td>
-                        <td>{{ $post->num_of_views }}</td>
+                        <td>{{ $admin->name }}</td>
+                        <td>{{ $admin->user_name }}</td>
+                        <td>{{ $admin->email }}</td>
+                        <td>{{ $admin->created_at->format('Y-m-d') }}</td>
+
                         <td>
-                            <span class="badge rounded-pill @if($post->status === 0) bg-label-danger @else bg-label-success @endif me-1">{{ $post->status === 0 ? 'Inactive' : 'Active' }}</span>
+                            <span class="badge rounded-pill @if($admin->status === 0) bg-label-danger @else bg-label-success @endif me-1">{{ $admin->status === 0 ? 'Inactive' : 'Active' }}</span>
                         </td>
-                        <td>{{ $post->created_at->diffForHumans() }}</td>
-
-
                         <td>
                             <div class="dropdown">
                                 <button
@@ -56,27 +48,21 @@
                                     <i class="icon-base ri ri-more-2-line icon-18px"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    @if(Auth::guard('admin')->check() && $post->admin_id == Auth::guard('admin')->user()->id)
-                                        <a class="dropdown-item" href="{{ route('admin.posts.edit', $post->id) }}">
-                                            <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                            Edit Post</a
-                                        >
-                                    @endif
-                                    <a class="dropdown-item" href="{{ route('admin.posts.show',  ['post' => $post->id , 'page'=>request()->page]) }}">
-                                        <i class="icon-base ri ri-eye-line icon-18px me-1"></i>
-                                        Show Post</a
-                                    >
-                                    <a class="dropdown-item" href="{{ route('admin.posts.status', $post->id) }}">
-                                        <i class="icon-base ri ri-cursor-line icon-18px me-1"></i>
+                                    <a class="dropdown-item" href="{{ route('admin.admins.status', $admin->id) }}">
+                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
                                         Change Status</a
                                     >
+                                    <a class="dropdown-item" href="{{ route('admin.admins.show', $admin->id) }}">
+                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                        Show Admin</a
+                                    >
                                     <a class="dropdown-item" href="javascript:void(0)"
-                                       onclick="submitDeleteForm({{$post->id}})">
+                                       onclick="submitDeleteForm({{$admin->id}})">
                                         <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
                                         Delete</a
                                     >
-                                    <form id='fromId-{{ $post->id }}'
-                                          action="{{ route('admin.posts.destroy', $post->id) }}" method="POST"
+                                    <form id='fromId-{{ $admin->id }}'
+                                          action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST"
                                           style="display: none;">
                                         @csrf
                                         @method('DELETE')
@@ -88,7 +74,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">No Posts Found</td>
+                        <td colspan="6" class="text-center">No Admins Found</td>
                     </tr>
                 @endforelse
 
@@ -96,7 +82,7 @@
             </table>
             <div class="d-flex justify-content-center mt-3">
 
-                {{ $posts->appends(request()->input())->links() }}
+                {{ $admins->appends(request()->input())->links() }}
             </div>
         </div>
     </div>
@@ -109,7 +95,7 @@
         function submitDeleteForm(id) {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You won't to delete this post!",
+                text: "You won't to delete this user!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#8c57ff',
@@ -123,5 +109,4 @@
 
         }
     </script>
-
 @endpush

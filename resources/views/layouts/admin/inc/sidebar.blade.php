@@ -145,6 +145,28 @@
             </ul>
         </li>
 
+
+        {{-- Admin links --}}
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon icon-base ri ri-user-2-line"></i>
+                <div data-i18n="Layouts">Admins</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('admin.admins.index') }}" class="menu-link">
+                        <div data-i18n="Without menu">Admins</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.admins.create') }}" class="menu-link">
+                        <div data-i18n="Without navbar">Create Admin</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
             {{-- categories links --}}
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -181,6 +203,17 @@
                 </li>
             </ul>
         </li>
+
+
+        {{-- Setting links --}}
+        <li class="menu-item">
+            <a href="{{route('admin.setting.index')}}" class="menu-link">
+                <i class="menu-icon icon-base ri ri-tools-line"></i>
+                <div data-i18n="Basic">Setting</div>
+            </a>
+        </li>
+
+
 
 
 

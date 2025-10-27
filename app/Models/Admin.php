@@ -19,6 +19,7 @@ class Admin extends Authenticatable
         'user_name',
         'email',
         'password',
+        'status'
     ];
     protected $hidden = [
         'password',
@@ -27,4 +28,9 @@ class Admin extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

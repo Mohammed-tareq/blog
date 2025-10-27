@@ -46,7 +46,7 @@ class ImageManegment
         }
     }
 
-    private static function saveImageWithNewName($image,$path)
+    public static function saveImageWithNewName($image,$path)
     {
         $file = Str::uuid() . time() . '.' . $image->getClientOriginalExtension();
         return $image->storeAs('uploads/'.$path, $file, ['disk' => 'store']);
