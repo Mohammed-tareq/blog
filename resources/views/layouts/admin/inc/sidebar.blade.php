@@ -205,6 +205,28 @@
         </li>
 
 
+        {{-- Authorization links --}}
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon icon-base ri ri-lock-line"></i>
+                <div data-i18n="Layouts">Roles</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ route('admin.authorizations.index') }}" class="menu-link">
+                        <div data-i18n="Without menu">Posts</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.authorizations.create') }}" class="menu-link">
+                        <div data-i18n="Without menu">Create Post</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
         {{-- Setting links --}}
         <li class="menu-item">
             <a href="{{route('admin.setting.index')}}" class="menu-link">

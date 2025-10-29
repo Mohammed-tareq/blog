@@ -1,44 +1,48 @@
 @extends('layouts.admin.app')
 
 @section('title')
-    Admins
+    Roles
 @endsection
+
+@push('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+@endpush
 
 @section('content')
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"> Admins Data</h5>
-            <a href="{{ route('admin.admins.index') }}" class="btn btn-primary">Refresh Search</a>
+            <h5 class="mb-0"> Roles Data</h5>
         </div>
-        @include('admin.user.filter.search-filter')
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Full Name</th>
-                    <th>User Name</th>
-                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Permissions</th>
                     <th>Created At</th>
-                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                @forelse($admins as $admin)
+                @forelse($authorizations as $authoriz)
                     <tr>
 
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $admin->name }}</td>
-                        <td>{{ $admin->user_name }}</td>
-                        <td>{{ $admin->email }}</td>
-                        <td>{{ $admin->created_at->format('Y-m-d') }}</td>
-
+                        <td>{{ $authoriz->role }}</td>
                         <td>
-                            <span class="badge rounded-pill @if($admin->status === 0) bg-label-danger @else bg-label-success @endif me-1">{{ $admin->status === 0 ? 'Inactive' : 'Active' }}</span>
+                            <button class="btn btn-primary" href="javascript:void(0)" data-bs-toggle="modal"
+                                    data-bs-target="#show-permissions-{{ $authoriz->id }}">
+                                <i class="icon-base ri ri-eye-line icon-18px me-1"></i>
+                                Permissions
+                            </button
+                            >
                         </td>
+                        <td>{{ $authoriz->created_at->format('Y-m-d') }}</td>
+
                         <td>
                             <div class="dropdown">
                                 <button
@@ -48,21 +52,20 @@
                                     <i class="icon-base ri ri-more-2-line icon-18px"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('admin.admins.status', $admin->id) }}">
+
+                                    <a class="dropdown-item"
+                                       href="{{ route('admin.authorizations.edit', $authoriz->id) }}">
                                         <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Change Status</a
-                                    >
-                                    <a class="dropdown-item" href="{{ route('admin.admins.show', $admin->id) }}">
-                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Show Admin</a
+                                        Edit Role</a
                                     >
                                     <a class="dropdown-item" href="javascript:void(0)"
-                                       onclick="submitDeleteForm({{$admin->id}})">
+                                       onclick="submitDeleteForm({{$authoriz->id}})">
                                         <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
                                         Delete</a
                                     >
-                                    <form id='fromId-{{ $admin->id }}'
-                                          action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST"
+                                    <form id='fromId-{{ $authoriz->id }}'
+                                          action="{{ route('admin.authorizations.destroy', $authoriz->id) }}"
+                                          method="POST"
                                           style="display: none;">
                                         @csrf
                                         @method('DELETE')
@@ -71,7 +74,9 @@
                                 </div>
                             </div>
                         </td>
+                        @include('admin.authoriz.show', ['authoriz' => $authoriz,'id' => $authoriz->id])
                     </tr>
+
                 @empty
                     <tr>
                         <td colspan="6" class="text-center">No Admins Found</td>
@@ -82,7 +87,7 @@
             </table>
             <div class="d-flex justify-content-center mt-3">
 
-                {{ $admins->appends(request()->input())->links() }}
+                {{ $authorizations->appends(request()->input())->links() }}
             </div>
         </div>
     </div>

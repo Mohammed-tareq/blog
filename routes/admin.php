@@ -34,7 +34,7 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
 
     Route::middleware('auth:admin')->group(function () {
         //  routes for CRUD
-        Route::resource('roles',AuthorizController::class);
+        Route::resource('authorizations',AuthorizController::class)->except('show');
         Route::resource('users', UserController::class);
         Route::resource ('categories' , CategoryController::class)->except('show','edit','create');
         Route::resource ('posts' , PostController::class);

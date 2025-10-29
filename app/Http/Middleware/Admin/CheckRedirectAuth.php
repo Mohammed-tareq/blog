@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Http\Middleware\Admin;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
+
+class CheckRedirectAuth
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        if ($request->is('admin/login') || $request->is('admin/login/*')) {
+            if (Auth::guard('admin')->check()) {
+                return redirect()->intended('admin.home');
+            }
+        } elseif ($request->is('admin/*') && !Auth::guard('admin')->check()) {
+            noty()->error('You must login first.');
+            return redirect()->route('admin.login.show');
+
+        }
+
+        return $next($request);
+    }
+}

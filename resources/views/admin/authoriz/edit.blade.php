@@ -1,12 +1,8 @@
 @extends('layouts.admin.app')
 
 @section('title')
-    Role Create
+    Role Edit
 @endsection
-@push('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-@endpush
 
 @section('content')
     <div class="row mb-6 gy-6">
@@ -15,14 +11,15 @@
         <div class="col-xl">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Create Role</h5>
+                    <h5 class="mb-0">Edit Role</h5>
 
                     <a href="{{ route('admin.authorizations.index') }}" class="btn btn-primary">Back</a>
 
                 </div>
                 <div class="card-body">
-                    <form action="{{route('admin.authorizations.store')}}" method="post">
+                    <form action="{{route('admin.authorizations.update',$authoriz->id)}}" method="post">
                         @csrf
+                        @method('PUT')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-merge mb-6">
@@ -36,6 +33,7 @@
                                                 name="role"
                                                 id="basic-icon-default-fullname"
                                                 placeholder="Enter Name"
+                                                value="{{ $authoriz->role }}"
                                                />
                                         <label for="basic-icon-default-fullname">Role Name</label>
                                     </div>
@@ -56,7 +54,8 @@
                                         <div class="form-check form-switch mb-2">
                                             <input class="form-check-input" name="permissions[]" value="{{ $groupKey.".".$key }}"
                                                    type="checkbox"
-                                                   id="{{ $key.".".$value }}"/>
+                                                   id="{{ $key.".".$value }}"
+                                            @checked(in_array($groupKey.".".$key, $authoriz->permissions))/>
                                             <label class="form-check-label" for="{{ $key.".".$value  }}"
                                             >{{ $value }}</label>
                                         </div>
@@ -71,7 +70,7 @@
 
 
                             <div class="mt-2 col-12">
-                                <button type="submit" class="btn btn-primary btn-lg px-7">Create</button>
+                                <button type="submit" class="btn btn-primary btn-lg px-7">Edit</button>
                             </div>
                         </div>
                     </form>
