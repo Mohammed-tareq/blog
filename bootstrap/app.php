@@ -22,9 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('web', [CheckNotificationRead::class]);
         $middleware->redirectUsersTo(function () {
             if (Auth::guard('admin')->check()) {
-                return redirect()->intended('admin.home');
+                return route('admin.home');
             }
             return route('admin.login.show');
+        });
+        $middleware->redirectGuestsTo(function () {
+
         });
         $middleware->alias([
             'auth-admin' => CheckRedirectAuth::class,

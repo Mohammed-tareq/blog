@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\ForgetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\ResetPasswordController;
+use App\Http\Controllers\Admin\Authoriz\AuthorizController;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Post\PostController;
 use App\Http\Controllers\Admin\Setting\SettingController;
@@ -31,8 +32,9 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
         Route::post('/', 'resetPassword')->name('update');
     });
 
-    Route::middleware('auth-admin')->group(function () {
-        // users route for CRUD
+    Route::middleware('auth:admin')->group(function () {
+        //  routes for CRUD
+        Route::resource('roles',AuthorizController::class);
         Route::resource('users', UserController::class);
         Route::resource ('categories' , CategoryController::class)->except('show','edit','create');
         Route::resource ('posts' , PostController::class);
@@ -55,7 +57,7 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
 
 
 
-    Route::middleware('auth-admin')->group(function () {
+    Route::middleware('auth:admin')->group(function () {
 
         Route::get('/home', function () {
             return view('admin.index');
