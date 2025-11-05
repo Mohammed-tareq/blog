@@ -53,51 +53,55 @@
                     <div class="sn-content ">
                         <h1 class="sn-title">{{ $post->title }}</h1>
                         <div class="sn-meta mb-4">
-                            <span class="m-1"><i class="fa fa-user"></i> {{ $post->user->name ?? $post->admin->name }}</span>
+                            <span class="m-1"><i
+                                        class="fa fa-user"></i> {{ $post->user->name ?? $post->admin->name }}</span>
                             <span class="m-1"><i
                                         class="fa fa-calendar"></i> {{ $post->created_at->diffForHumans() }}</span>
                             <span class="m-1"><i class="fa fa-tags"></i> {{ $post->category->name }}</span>
                         </div>
                         {!! chunk_split($post->description, 40) !!}
                     </div>
-
-                    @if(!empty($post->comment_able))
-                    <!-- Comment Section -->
-                    <div class="comment-section">
-                        <!-- Comment Input -->
-                        <form id="commentForm">
-                            @csrf
-                            <div class="comment-input">
-                                <input type="hidden" name="post_id" value="{{$post->id}}">
-                                <input type="text" name="comment" placeholder="Add a comment..." id="commentBox"/>
-                                <button>Comment</button>
-                            </div>
-                        </form>
-                        <div class="alert alert-danger" style="display: none;" id="commentError">
-
-                        </div>
-
-                        <!-- Display Comments -->
-                        <div class="comments" id="comments">
-                            @foreach($post->comments as $post_comment)
-
-                                <div class="comment">
-                                    <img src="{{asset($post_comment->user->image)}}" alt="{{$post_comment->user->name}}"
-                                         class="comment-img"/>
-                                    <div class="comment-content">
-                                        <span class="username">{{$post_comment->user->name}}</span>
-                                        <p class="comment-text">{{ $post_comment->comment }}</p>
+                    @if(auth()->check() && auth()->user()->status !== 0)
+                        @if(!empty($post->comment_able))
+                            <!-- Comment Section -->
+                            <div class="comment-section">
+                                <!-- Comment Input -->
+                                <form id="commentForm">
+                                    @csrf
+                                    <div class="comment-input">
+                                        <input type="hidden" name="post_id" value="{{$post->id}}">
+                                        <input type="text" name="comment" placeholder="Add a comment..."
+                                               id="commentBox"/>
+                                        <button>Comment</button>
                                     </div>
-                                </div>
-                            @endforeach
+                                </form>
+                                <div class="alert alert-danger" style="display: none;" id="commentError">
 
-                            <!-- Add more comments here for demonstration -->
-                        </div>
-                        @if($post->comments()->count() > 2)
-                            <!-- Show More Button -->
-                            <button id="showMoreBtn" class="show-more-btn">Show more</button>
+                                </div>
+
+                                <!-- Display Comments -->
+                                <div class="comments" id="comments">
+                                    @foreach($post->comments as $post_comment)
+
+                                        <div class="comment">
+                                            <img src="{{asset($post_comment->user->image)}}"
+                                                 alt="{{$post_comment->user->name}}"
+                                                 class="comment-img"/>
+                                            <div class="comment-content">
+                                                <span class="username">{{$post_comment->user->name}}</span>
+                                                <p class="comment-text">{{ $post_comment->comment }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <!-- Add more comments here for demonstration -->
+                                </div>
+                                @if($post->comments()->count() > 2)
+                                    <!-- Show More Button -->
+                                    <button id="showMoreBtn" class="show-more-btn">Show more</button>
+                                @endif
+                            </div>
                         @endif
-                    </div>
                     @endif
 
                     <!-- Related News -->

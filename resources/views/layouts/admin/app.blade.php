@@ -7,6 +7,7 @@
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
     <meta name="robots" content="noindex, nofollow"/>
 
+
     <title>Admin | @yield('title')</title>
     <meta name="description" content=""/>
 
@@ -70,7 +71,10 @@
 </div>
 <!-- / Layout wrapper -->
 
-
+<script>
+    let role = 'admin';
+    let adminId = {{auth()->guard('admin')->user()->id}};
+</script>
 <!-- Core JS -->
 <script src="{{ asset('assets/admin/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="{{ asset('assets/admin/vendor/libs/popper/popper.js') }}"></script>
@@ -89,6 +93,9 @@
 <script src="{{ asset('assets/admin/js/dashboards-analytics.js') }}"></script>
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="{{ asset('build/assets/app-BiS2zVJo.js') }}"></script>
 @stack('js')
 </body>
 </html>

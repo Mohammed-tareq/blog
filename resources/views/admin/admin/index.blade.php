@@ -23,6 +23,7 @@
                     <th>Email</th>
                     <th>Created At</th>
                     <th>Status</th>
+                    <th>Related Role</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -35,41 +36,53 @@
                         <td>{{ $admin->user_name }}</td>
                         <td>{{ $admin->email }}</td>
                         <td>{{ $admin->created_at->format('Y-m-d') }}</td>
-
                         <td>
                             <span class="badge rounded-pill @if($admin->status === 0) bg-label-danger @else bg-label-success @endif me-1">{{ $admin->status === 0 ? 'Inactive' : 'Active' }}</span>
                         </td>
                         <td>
-                            <div class="dropdown">
-                                <button
-                                        type="button"
-                                        class="btn p-0 dropdown-toggle hide-arrow shadow-none"
-                                        data-bs-toggle="dropdown">
-                                    <i class="icon-base ri ri-more-2-line icon-18px"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('admin.admins.status', $admin->id) }}">
-                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Change Status</a
-                                    >
-                                    <a class="dropdown-item" href="{{ route('admin.admins.show', $admin->id) }}">
-                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Show Admin</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0)"
-                                       onclick="submitDeleteForm({{$admin->id}})">
-                                        <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
-                                        Delete</a
-                                    >
-                                    <form id='fromId-{{ $admin->id }}'
-                                          action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST"
-                                          style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
+                            <span class="badge rounded-pill  me-1">{{ $admin->authoriz->role ?? 'No Role' }}</span>
+                        </td>
 
-                                    </form>
+                        <td>
+
+                                <div class="dropdown">
+                                    <button
+                                            type="button"
+                                            class="btn p-0 dropdown-toggle hide-arrow shadow-none"
+                                            data-bs-toggle="dropdown">
+                                        <i class="icon-base ri ri-more-2-line icon-18px"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        @can('admin.status')
+                                            <a class="dropdown-item"
+                                               href="{{ route('admin.admins.status', $admin->id) }}">
+                                                <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                                Change Status</a
+                                            >
+                                        @endcan
+                                        @can('admin.update')
+                                            <a class="dropdown-item"
+                                               href="{{ route('admin.admins.edit', $admin->id) }}">
+                                                <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                                Edit Admin</a
+                                            >
+                                        @endcan
+                                        @can('admin.delete')
+                                            <a class="dropdown-item" href="javascript:void(0)"
+                                               onclick="submitDeleteForm({{$admin->id}})">
+                                                <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
+                                                Delete</a
+                                            >
+                                        @endcan
+                                        <form id='fromId-{{ $admin->id }}'
+                                              action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST"
+                                              style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
                         </td>
                     </tr>
                 @empty

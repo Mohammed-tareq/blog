@@ -22,6 +22,9 @@ class ContactFactory extends Factory
             'title' => fake()->sentence(3),
             'message' => fake()->paragraph(3),
             'ip_address' => fake()->ipv4(),
+            'status' => rand(0,1),
+            'phone' => fake()->phoneNumber(),
+            'country' => fake()->country(),
             'created_at' => $date = fake()->date('Y-m-d H:i:s'),
             'updated_at' => $date,
         ];

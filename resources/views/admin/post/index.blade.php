@@ -56,25 +56,34 @@
                                     <i class="icon-base ri ri-more-2-line icon-18px"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    @if(Auth::guard('admin')->check() && $post->admin_id == Auth::guard('admin')->user()->id)
-                                        <a class="dropdown-item" href="{{ route('admin.posts.edit', $post->id) }}">
-                                            <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                            Edit Post</a
+                                    @can('post.update')
+                                        @if(Auth::guard('admin')->check() && $post->admin_id == Auth::guard('admin')->user()->id)
+                                            <a class="dropdown-item" href="{{ route('admin.posts.edit', $post->id) }}">
+                                                <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                                Edit Post</a
+                                            >
+                                        @endif
+                                    @endcan
+                                    @can('post.read')
+                                        <a class="dropdown-item"
+                                           href="{{ route('admin.posts.show',  ['post' => $post->id , 'page'=>request()->page]) }}">
+                                            <i class="icon-base ri ri-eye-line icon-18px me-1"></i>
+                                            Show Post</a
                                         >
-                                    @endif
-                                    <a class="dropdown-item" href="{{ route('admin.posts.show',  ['post' => $post->id , 'page'=>request()->page]) }}">
-                                        <i class="icon-base ri ri-eye-line icon-18px me-1"></i>
-                                        Show Post</a
-                                    >
-                                    <a class="dropdown-item" href="{{ route('admin.posts.status', $post->id) }}">
-                                        <i class="icon-base ri ri-cursor-line icon-18px me-1"></i>
-                                        Change Status</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0)"
-                                       onclick="submitDeleteForm({{$post->id}})">
-                                        <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
-                                        Delete</a
-                                    >
+                                    @endcan
+                                    @can('post.status')
+                                        <a class="dropdown-item" href="{{ route('admin.posts.status', $post->id) }}">
+                                            <i class="icon-base ri ri-cursor-line icon-18px me-1"></i>
+                                            Change Status</a
+                                        >
+                                    @endcan
+                                    @can('post.delete')
+                                        <a class="dropdown-item" href="javascript:void(0)"
+                                           onclick="submitDeleteForm({{$post->id}})">
+                                            <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
+                                            Delete</a
+                                        >
+                                    @endcan
                                     <form id='fromId-{{ $post->id }}'
                                           action="{{ route('admin.posts.destroy', $post->id) }}" method="POST"
                                           style="display: none;">

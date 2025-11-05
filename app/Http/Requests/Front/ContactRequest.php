@@ -27,6 +27,7 @@ class ContactRequest extends FormRequest
             'phone' => 'required|string|max:20',
             'title' => 'required|string|max:60',
             'message' => 'required|string|max:500',
+            'country' => 'required|string|max:50',
         ];
     }
 
@@ -38,6 +39,7 @@ class ContactRequest extends FormRequest
             'phone' => ' Your Phone',
             'title' => 'Subject Title',
             'message' => ' Body Message',
+            'country' => 'Your Country',
         ];
     }
 }

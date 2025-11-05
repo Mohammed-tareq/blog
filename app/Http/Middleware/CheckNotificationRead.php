@@ -12,15 +12,22 @@ class CheckNotificationRead
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->query('notifiy')){
-            $notification = auth()->user()->unreadNotifications()->where('id' , $request->query('notifiy'))->first();
-          if($notification){
+        if ($request->query('notifiy')) {
+            $notifiyId = $request->query('notifiy');
+            $user = auth('admin')->user();
+            if (!$user) {
+                $user = auth()->user();
+            }
+            $notification = $user->unreadNotifications()->where('id', $notifiyId)->first();
+            if (!$notification) {
+                abort(404);
+            }
             $notification->markAsRead();
-          }
+
         }
         return $next($request);
     }

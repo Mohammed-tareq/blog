@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:category.read')->only('index');
+        $this->middleware('can:category.create')->only('store');
+        $this->middleware('can:category.update')->only('update');
+        $this->middleware('can:category.delete')->only('destroy');
+        $this->middleware('can:category.status')->only('changeStatus');
+    }
+
     public function index()
     {
         $searchBy = request()->keyword;
@@ -51,7 +60,7 @@ class CategoryController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|string|max:50|unique:categories,name,'.$id,
+            'name' => 'required|string|max:50|unique:categories,name,' . $id,
             'status' => 'required|in:0,1',
         ]);
         $category = Category::findOrFail($id);

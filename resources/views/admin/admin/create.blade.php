@@ -95,12 +95,33 @@
                                 <div class="input-group input-group-merge mb-6">
                                     <label class="input-group-text" for="inputGroupSelect01">Status</label>
                                     <select class="form-select" name="status" id="inputGroupSelect01">
-                                        <option selected="selected">Choose...</option>
+                                        <option selected="selected" disabled>Choose...</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
                                 </div>
                                 @error('status')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="input-group input-group-merge mb-6">
+                                    <label class="input-group-text" for="inputGroupSelect01">Role</label>
+                                    <select class="form-select" name="authoriz_id" id="inputGroupSelect01">
+                                        <option selected="selected" disabled>Choose...</option>
+                                        @forelse($authoriz as $auth)
+                                            <option value="{{ $auth->id }}">{{ $auth->role }}</option>
+
+                                        @empty
+                                            <option disabled>No Role Found</option>
+                                        @endforelse
+
+                                    </select>
+                                </div>
+                                @error('authoriz_id')
                                 <div class="alert alert-danger">
                                     {{ $message }}
                                 </div>

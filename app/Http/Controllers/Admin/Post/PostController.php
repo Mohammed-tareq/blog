@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Post;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Post\StorePostRequest;
 use App\Http\Requests\Front\PostUpdateRequest;
+use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Post;
 use App\Utils\ImageManegment;
@@ -15,6 +16,14 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:post.read')->only('index','show');
+        $this->middleware('can:post.create')->only('create', 'store');
+        $this->middleware('can:post.update')->only('edit', 'update','deleteSingleImage');
+        $this->middleware('can:post.delete')->only('destroy');
+        $this->middleware('can:post.status')->only('changeStatus');
+    }
 
     public function index()
     {
@@ -140,6 +149,27 @@ class PostController extends Controller
         }
         return response()->json(['message' => 'Invalid request'], 400);
 
+    }
+
+    public function showAllComments($id)
+    {
+        $post = Post::findOrFail($id);
+        $comments = $post->comments()->with('user')->get();
+
+        return response()->json($comments);
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $postId = $comment->post_id;
+        $comment->delete();
+        $post = Comment::with('user')->where('post_id', $postId)->get();
+        return response()->json([
+            'status' => '200',
+            'message' => 'Comment deleted successfully',
+            'data' => $post
+        ], 200);
     }
 
     private function checkCommantAble($request)

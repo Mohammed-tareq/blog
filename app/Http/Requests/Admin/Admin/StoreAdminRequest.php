@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Admin\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,6 +25,7 @@ class StoreAdminRequest extends FormRequest
             'name' => 'required|string|max:30',
             'user_name' => 'required|string|max:30|unique:admins,user_name',
             'email' => 'required|email|max:50|unique:admins,email',
+            'authoriz_id' => 'required|exists:authorizs,id',
             'password' => 'required|string|min:8|confirmed',
             'password_confirmation' => 'required',
         ];

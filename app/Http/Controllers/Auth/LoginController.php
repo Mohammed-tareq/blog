@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -39,7 +40,8 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth:web')->only('logout');
     }
-    protected function loggedOut( )
+
+    protected function loggedOut()
     {
         Session::flash('info', 'You have been logged out!');
         return redirect()->route('front.index');
@@ -50,5 +52,18 @@ class LoginController extends Controller
         Session::flash('success', 'You have logged in successfully!');
     }
 
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect('/');
+    }
 
 }

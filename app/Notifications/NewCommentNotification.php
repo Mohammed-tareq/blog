@@ -70,6 +70,7 @@ class NewCommentNotification extends Notification
             'user_name' => auth()->user()->name,
             'comment' => $this->comment->comment,
             "post_title" => $this->post->title,
+            'date' => now()->format('Y-m-d H:i:s'),
             'link' => route('front.post.single-post', $this->post->slug),
         ];
     }

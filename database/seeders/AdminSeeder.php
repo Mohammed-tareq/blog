@@ -18,6 +18,8 @@ class AdminSeeder extends Seeder
             'user_name' => 'tareq',
             'email' => 'admin@g.com',
             'password' => bcrypt('1234567'),
+            'status' => true,
+            'authoriz_id' => 1
         ]);
     }
 }

@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class AuthorizController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:role.read')->only('index');
+        $this->middleware('can:role.create')->only('create', 'store');
+        $this->middleware('can:role.update')->only('edit', 'update');
+        $this->middleware('can:role.delete')->only('destroy');
+    }
 
     public function index()
     {
@@ -38,21 +45,14 @@ class AuthorizController extends Controller
     }
 
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $authoriz = Authoriz::findorFail($id);
-        return   $authoriz->permissions;
         return view('admin.authoriz.edit', compact('authoriz'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(StoreRequest $request , $id)
+
+    public function update(StoreRequest $request, $id)
     {
         $authoriz = Authoriz::find($id);
         $authoriz->update($request->only('role', 'permissions'));
@@ -60,12 +60,14 @@ class AuthorizController extends Controller
         return redirect()->route('admin.authorizations.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
-        Authoriz::findorFail($id)->delete();
+        $authoriz = Authoriz::findorFail($id);
+        if($authoriz->admins->count() > 0){
+            noty()->error('You can not delete this role because it has admins');
+            return redirect()->route('admin.authorizations.index');
+        }
         noty()->success('Role Deleted Successfully');
         return redirect()->route('admin.authorizations.index');
     }

@@ -22,6 +22,37 @@
         <!-- /Search -->
 
         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
+            @can('notification.read')
+            <li class="nav-item dropdown mx-3">
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <sub id="notifyAdminCount" class="badge bg-danger rounded-pill text-white ">{{ auth()->guard('admin')->user()->unreadNotifications()->count() ?? 0}}</sub>
+                        <i class="icon-base ri ri-notification-line icon-md me-3"></i>
+
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end p-0" style="width: 320px;">
+                        <div class="list-group list-group-flush" id="notifyAdminList">
+                           @forelse (auth()->guard('admin')->user()->unreadNotifications()->take(10)->latest()->get() as $notification)
+                                <a href="{{ $notification->data['link'] }}?notify={{$notification->id}}"
+                                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    <span>{{ $notification->data['name'] }}</span>
+                                    <small class="text-muted">{{ $notification->data['date'] }}</small>
+                                </a>
+                         @empty
+                                <div id="notifyAdminListEmpty" class="list-group-item text-center text-muted">
+                                    No notifications
+                                </div>
+                           @endforelse
+                        </div>
+
+                    </div>
+                </div>
+
+            </li>
+            @endcan
+
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -30,7 +61,7 @@
                         href="javascript:void(0);"
                         data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                        <img src="../assets/img/avatars/1.png" alt="alt" class="rounded-circle"/>
+                        <img src="{{ asset('assets/admin/img/avatars/1.png') }}" alt="alt" class="rounded-circle"/>
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -54,17 +85,19 @@
                         <div class="dropdown-divider my-1"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('admin.profile.show') }}">
                             <i class="icon-base ri ri-user-line icon-md me-3"></i>
                             <span>My Profile</span>
                         </a>
                     </li>
+                    @can('profile.admin-update')
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">
                             <i class="icon-base ri ri-settings-4-line icon-md me-3"></i>
-                            <span>Settings</span>
+                            <span>Edit Profile</span>
                         </a>
                     </li>
+                    @endcan
                     <li>
                         <a class="dropdown-item" href="#">
                         <span class="d-flex align-items-center align-middle">
@@ -79,14 +112,14 @@
                     </li>
                     <li>
                         <form id="LogOut" action="{{ route('admin.logout') }}" method="Post">
-                        <div class="d-grid px-4 pt-2 pb-1">
+                            <div class="d-grid px-4 pt-2 pb-1">
                                 @csrf
-                            <button class="btn btn-danger d-flex" type="submit">
-                                <small class="align-middle">Logout</small>
-                                <i class="ri ri-logout-box-r-line ms-2 ri-xs"></i>
-                            </button>
-                        </div>
-                    </form>
+                                <button class="btn btn-danger d-flex" type="submit">
+                                    <small class="align-middle">Logout</small>
+                                    <i class="ri ri-logout-box-r-line ms-2 ri-xs"></i>
+                                </button>
+                            </div>
+                        </form>
                     </li>
                 </ul>
             </li>

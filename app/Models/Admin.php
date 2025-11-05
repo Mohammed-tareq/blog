@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Couchbase\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,7 +20,8 @@ class Admin extends Authenticatable
         'user_name',
         'email',
         'password',
-        'status'
+        'status',
+        'authoriz_id'
     ];
     protected $hidden = [
         'password',
@@ -33,4 +35,26 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    public function authoriz()
+    {
+        return $this->belongsTo(Authoriz::class);
+    }
+
+    public function hasPermission($authriozCheck)
+    {
+        $authorizations = $this->authoriz;
+        if (!$authorizations || !is_array($authorizations->permissions)) {
+            return false;
+        }
+        return in_array($authriozCheck, $authorizations->permissions);
+
+    }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return 'admins.'.$this->id;
+    }
+
+
 }

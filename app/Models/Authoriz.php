@@ -15,4 +15,8 @@ class Authoriz extends Model
         'permissions' => 'json'
     ];
 
+    public function admins()
+    {
+        return $this->hasMany(Admin::class);
+    }
 }

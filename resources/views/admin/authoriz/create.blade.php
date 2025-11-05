@@ -47,7 +47,7 @@
                                 @enderror
                             </div>
 
-                            @foreach(config('Authoriz.permission') as $groupKey => $permissionsName)
+                            @foreach(config('authoriz.permission') as $groupKey => $permissionsName)
                                 <div class="col-md-12 mt-3">
                                     <h3><b>{{ucfirst($groupKey)}} Permission</b></h3>
                                 </div>

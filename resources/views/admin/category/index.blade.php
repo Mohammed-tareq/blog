@@ -51,31 +51,36 @@
                                     <i class="icon-base ri ri-more-2-line icon-18px"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item"
-                                       href="{{ route('admin.categories.status', $category->id) }}">
-                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Change Status</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
-                                       data-bs-target="#edit-category-{{ $category->id }}">
-                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Edit Category</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0)"
-                                       onclick="submitDeleteForm({{$category->id}})">
-                                        <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
-                                        Delete</a
-                                    >
-
+                                    @can('category.status')
+                                        <a class="dropdown-item"
+                                           href="{{ route('admin.categories.status', $category->id) }}">
+                                            <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                            Change Status</a
+                                        >
+                                    @endcan
+                                    @can('category.update')
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+                                           data-bs-target="#edit-category-{{ $category->id }}">
+                                            <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                            Edit Category</a
+                                        >
+                                    @endcan
+                                    @can('category.delete')
+                                        <a class="dropdown-item" href="javascript:void(0)"
+                                           onclick="submitDeleteForm({{$category->id}})">
+                                            <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
+                                            Delete</a
+                                        >
+                                    @endcan
                                     {{-- delete form  --}}
                                     <form id='fromId-{{ $category->id }}'
-                                          action="{{ route('admin.categories.destroy', $category->id) }}" method="POST"
+                                          action="{{ route('admin.categories.destroy', $category->id) }}"
+                                          method="POST"
                                           style="display: none;">
                                         @csrf
                                         @method('DELETE')
 
                                     </form>
-
 
 
                                 </div>

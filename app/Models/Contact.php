@@ -13,6 +13,9 @@ class Contact extends Model
         'email',
         'title',
         'message',
-        'ip_address'
+        'ip_address',
+        'status',
+        'phone',
+        'country',
     ];
 }

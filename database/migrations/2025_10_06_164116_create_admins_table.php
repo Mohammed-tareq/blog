@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('user_name');
             $table->string('email')->unique();
+            $table->boolean('status')->default(true);
             $table->string('password');
+            $table->foreignId('authoriz_id')->nullable()->constrained('authorizs')->cascadeOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

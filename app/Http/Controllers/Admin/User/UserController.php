@@ -18,8 +18,7 @@ class UserController extends Controller
         $orderBy = request()->order ?? 'desc';
         $limit = request()->paginate ?? 10;
         $status = request()->status;
-        $users = User::when($searchBy, fn($q) => $q->where('name', 'like', '%' . $searchBy . '%')
-            ->orWhere('email', 'like', '%' . $searchBy . '%'))
+        $users = User::when($searchBy, fn($q) => $q->whereAny(['name', 'email'], 'like', '%' . $searchBy . '%'))
             ->when(!is_null($status), fn($q) => $q->where('status', $status))
             ->orderby($sortBy, $orderBy)
             ->paginate($limit);

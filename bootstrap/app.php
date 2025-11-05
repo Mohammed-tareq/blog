@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Admin\CheckRedirectAuth;
 use App\Http\Middleware\CheckNotificationRead;
+use App\Http\Middleware\UserActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -24,14 +25,16 @@ return Application::configure(basePath: dirname(__DIR__))
             if (Auth::guard('admin')->check()) {
                 return route('admin.home');
             }
-            return route('admin.login.show');
         });
         $middleware->redirectGuestsTo(function () {
-
+            if(!Auth::guard('admin')->check()){
+                return route('admin.login.show');
+            }
         });
         $middleware->alias([
-            'auth-admin' => CheckRedirectAuth::class,
+            'user.active' => UserActive::class,
         ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

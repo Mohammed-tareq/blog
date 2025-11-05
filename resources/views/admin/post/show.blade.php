@@ -190,6 +190,44 @@
                         </div>
                     </div>
                 </div>
+                @can('post.comment')
+                    <div class="card mt-4">
+                        <h5 class="card-header m-2">Comments</h5>
+                        <div class="card-body" id="comments">
+                            @if($post->comments->count() > 0)
+                                @foreach($post->comments()->take(5)->get() as $comment)
+                                    <div class="mb-2">
+                                        <p class="mb-2">
+                                            <img src="{{ asset($comment->user->image) }}"
+                                                 alt="{{ $comment->user->name }}"
+                                                 width="50" height="50" class="rounded-circle"/>
+                                            <span class="text-dark"><a
+                                                        href="{{ route('admin.users.show', $comment->user->id) }}">{{ $comment->user->name }}</a></span>
+                                        </p>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-2">
+                                                <span class="fw-bold text-primary">Comment:</span>
+                                                <span class="text-dark">{{ $comment->comment }}</span>
+                                            </p>
+                                            @can('post.comment-delete')
+                                                <button class="btn btn-danger text-white deleteComment"
+                                                        data-id="{{ $comment->id }}">Delete
+                                                </button>
+                                            @endcan
+                                        </div>
+
+                                    </div>
+                                @endforeach
+                                <div class="d-flex justify-content-center">
+                                    <button id="viewMoreComments" class="btn btn-primary">View More</button>
+                                </div>
+                            @else
+                                <p>No comments yet.</p>
+                            @endif
+
+                        </div>
+                    </div>
+                @endcan
             </div>
         </div>
         @endsection
@@ -213,6 +251,82 @@
                     })
 
                 }
+            </script>
+
+            <script>
+                const showUser = "{{route('admin.users.show',['user' => '__ID__'])}}";
+            </script>
+
+            <script>
+                @can('post.comment')
+                $(document).on('click', '#viewMoreComments', function (e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "{{route('admin.post.comments',$post->id)}}",
+                        type: 'get',
+                        success: function (data) {
+                            $('#comments').empty();
+
+                            $.each(data, function (key, comment) {
+                            let userUrl = showUser.replace('__ID__', comment.user.id);
+                                $('#comments').append(`
+                                <div class="mb-2">
+                               <p class="mb-2 mt-2">
+                                        <img src="{{asset('')}}${comment.user.image}" alt="${comment.user.name}"
+                                             width="50" height="50" class="rounded-circle"/>
+                                        <span class="text-dark"><a href="${userUrl}">${comment.user.name}</a></span>
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="mb-2">
+                                            <span class="fw-bold text-primary">Comment:</span>
+                                            <span class="text-dark">${comment.comment}</span>
+                                        </p>
+                                        <a  data-id="${comment.id}" class="btn btn-danger text-white deleteComment " >Delete</a>
+                                    </div>
+                                    </div>
+                              `)
+                            });
+                            $('#viewMoreComments').hide();
+
+                        },
+                    })
+                });
+                @endcan
+                @can('post.comment-delete')
+                $(document).on('click', '.deleteComment', function (e) {
+                    e.preventDefault();
+                    let id = $(this).data('id')
+                    $.ajax({
+                        url: "{{ route('admin.post.comment.delete',":comment-id") }}".replace(":comment-id", id),
+                        type: 'get',
+                        success: function (data) {
+                            $('#comments').empty()
+                            $.each(data.data, function (key, comment) {
+                            let userUrl = showUser.replace('__ID__', comment.user.id);
+                                $('#comments').append(`
+                                        <div class="mb-2">
+                                       <p class="mb-2 mt-2">
+                                                <img src="{{ asset('') }}${comment.user.image}" alt="${comment.user.name}"
+                                                     width="50" height="50" class="rounded-circle"/>
+                                                <span class="text-dark"><a href="${userUrl}">${comment.user.name}</a></span>
+                                            </p>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-2">
+                                                    <span class="fw-bold text-primary">Comment:</span>
+                                                    <span class="text-dark">${comment.comment}</span>
+                                                </p>
+                                                <a  data-id="${comment.id}" class="btn btn-danger text-white deleteComment " >Delete</a>
+                                            </div>
+                                            </div>
+                                      `)
+                            });
+                        }
+                    })
+
+                })
+                @endcan
+
             </script>
 
     @endpush

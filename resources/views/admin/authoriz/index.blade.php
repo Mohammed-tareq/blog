@@ -15,6 +15,10 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0"> Roles Data</h5>
+            <a href="{{ route('admin.authorizations.create') }}" class="btn btn-primary">
+                <i class="icon-base ri ri-add-line icon-18px me-1"></i>
+                Add Role
+            </a>
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
@@ -23,6 +27,7 @@
                     <th>#</th>
                     <th>Name</th>
                     <th>Permissions</th>
+                    <th>Related Admins</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
@@ -41,6 +46,7 @@
                             </button
                             >
                         </td>
+                        <td>{{ $authoriz->admins->count() }}</td>
                         <td>{{ $authoriz->created_at->format('Y-m-d') }}</td>
 
                         <td>
@@ -52,17 +58,20 @@
                                     <i class="icon-base ri ri-more-2-line icon-18px"></i>
                                 </button>
                                 <div class="dropdown-menu">
-
-                                    <a class="dropdown-item"
-                                       href="{{ route('admin.authorizations.edit', $authoriz->id) }}">
-                                        <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
-                                        Edit Role</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0)"
-                                       onclick="submitDeleteForm({{$authoriz->id}})">
-                                        <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
-                                        Delete</a
-                                    >
+                                    @can('role.update')
+                                        <a class="dropdown-item"
+                                           href="{{ route('admin.authorizations.edit', $authoriz->id) }}">
+                                            <i class="icon-base ri ri-pencil-line icon-18px me-1"></i>
+                                            Edit Role</a
+                                        >
+                                    @endcan
+                                    @can('role.delete')
+                                        <a class="dropdown-item" href="javascript:void(0)"
+                                           onclick="submitDeleteForm({{$authoriz->id}})">
+                                            <i class="icon-base ri ri-delete-bin-6-line icon-18px me-1"></i>
+                                            Delete</a
+                                        >
+                                    @endcan
                                     <form id='fromId-{{ $authoriz->id }}'
                                           action="{{ route('admin.authorizations.destroy', $authoriz->id) }}"
                                           method="POST"
@@ -86,7 +95,6 @@
                 </tbody>
             </table>
             <div class="d-flex justify-content-center mt-3">
-
                 {{ $authorizations->appends(request()->input())->links() }}
             </div>
         </div>

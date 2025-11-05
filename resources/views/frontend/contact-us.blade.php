@@ -19,7 +19,7 @@
                         <form action="{{route('front.contact.store')}}" method="post">
                             @csrf
                             <div class="form-row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <input
                                             name="name"
                                             type="text"
@@ -30,7 +30,7 @@
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <input
                                             name="email"
                                             type="email"
@@ -41,7 +41,7 @@
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <input
                                             name="phone"
                                             type="text"
@@ -49,6 +49,17 @@
                                             placeholder="Your Phone"
                                     />
                                     @error('phone')
+                                    <span class="text-danger">{{$message}}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input
+                                            name="country"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Your Country"
+                                    />
+                                    @error('country')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>

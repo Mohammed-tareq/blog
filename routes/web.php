@@ -41,7 +41,7 @@ Route::name('front.')->group(function () {
     });
 
 
-    Route::prefix('account')->name('dashboard.')->middleware(['auth:web' , 'verified'])->group(function () {
+    Route::prefix('account')->name('dashboard.')->middleware(['auth:web' , 'verified','user.active' ])->group(function () {
 
         Route::controller(ProfileController::class)->group(function () {
             Route::get('/profile', 'index')->name('profile');
@@ -69,6 +69,10 @@ Route::name('front.')->group(function () {
     });
 
     Route::match(['get', 'post'], '/search', SearchController::class)->name('search');
+
+    Route::get('/wait',function (){
+        return view('frontend.wait');
+    })->name('wait')->middleware('auth:web');
 });
 
 

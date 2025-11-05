@@ -13,7 +13,8 @@
             name="description"
     />
     <link rel="canonical" href="{{ url()->full() }}">
-    <link rel="robots" content="index,follow"/>
+    <meta name="robots" content="index, follow">
+
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon"/>
 
@@ -75,9 +76,11 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 <script>
     @auth
-        id = {{auth()->user()->id}};
-    route = "{{route('front.dashboard.profile.notification.deleteAll')}}";
+    let role = "user";
+    let id = {{auth()->user()->id}};
+    let route = "{{route('front.dashboard.profile.notification.deleteAll')}}";
     @endauth
+
 </script>
 
 <script src="{{asset('assets/front/vendor/front/file-input/js/fileinput.min.js')}}"></script>
@@ -85,7 +88,7 @@
 <script src="{{asset('assets/front/lib/easing/easing.min.js')}}"></script>
 <script src="{{asset('assets/front/lib/slick/slick.min.js')}}"></script>
 <script src="{{asset('assets/front/js/main.js')}}"></script>
-<script src="{{asset('/build/assets/app-CpYqkuAB.js')}}"></script>
+<script src="{{asset('/build/assets/app-BiS2zVJo.js')}}"></script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
