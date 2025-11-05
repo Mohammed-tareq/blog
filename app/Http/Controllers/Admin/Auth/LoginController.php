@@ -25,7 +25,13 @@ class LoginController extends Controller
         $request->validate($this->filter());
 
         if(Auth::guard('admin')->attempt($request->only('email', 'password'), $request->remember)){
-            noty()->success('You have logged in successfully!');
+
+            if(Auth::guard('admin')->user()->status == 0){
+                Auth::guard('admin')->logout();
+                noty()->error('Your account is not active!');
+                return redirect()->route('admin.login.show');
+            }
+            noty()->success('Invalid credentials!');
             return redirect()->intended('admin/home');
         }
         return redirect()->back()->withErrors(['email' => 'Invalid credentials']);

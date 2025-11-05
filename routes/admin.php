@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
+    Route::fallback(function () {
+        return response()->view('errors.404');
+    });
 
     Route::controller(LoginController::class)->group(function () {
         Route::get('/login', 'showLoginForm')->name('login.show');
@@ -36,7 +39,7 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
         Route::post('/', 'resetPassword')->name('update');
     });
 
-    Route::middleware(['auth:admin'])->group(function () {
+    Route::middleware(['auth:admin', 'admin.active'])->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
         //  routes for CRUD
         Route::resource('authorizations', AuthorizController::class)->except('show');
@@ -84,6 +87,7 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
 
 
     });
+    Route::get('/wait',fn()=>view('admin.wait'))->name('wait')->middleware('auth:admin');
 
 
 });

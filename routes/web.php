@@ -17,6 +17,9 @@ Route::redirect('/', '/home');
 
 
 Route::name('front.')->group(function () {
+    Route::fallback(function () {
+        return response()->view('errors.404');
+    });
     // home page route
     Route::get('/home', [HomeController::class, 'index'])->name('index');
     //new subscribes route in home page

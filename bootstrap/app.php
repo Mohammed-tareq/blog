@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\Admin\CheckRedirectAuth;
+use App\Http\Middleware\AdminActive;
 use App\Http\Middleware\CheckNotificationRead;
 use App\Http\Middleware\UserActive;
 use Illuminate\Foundation\Application;
@@ -33,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
         $middleware->alias([
             'user.active' => UserActive::class,
+            'admin.active' => AdminActive::class,
         ]);
 
     })
