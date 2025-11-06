@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\Frontend\NotificationController;
-use App\Http\Controllers\Frontend\SettingUserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\ContactUsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewSubscribeController;
-use App\Http\Controllers\Frontend\CategoryController;
+use App\Http\Controllers\Frontend\NotificationController;
 use App\Http\Controllers\Frontend\PostController;
-use App\Http\Controllers\Frontend\ContactUsController;
-use App\Http\Controllers\Frontend\SearchController;
-use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\SettingUserController;
+use App\Http\Controllers\Frontend\SocailiteController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/home');
 
@@ -93,4 +94,9 @@ Route::controller(VerificationController::class)->prefix('email')->name('verific
 });
 
 Auth::routes();
+
+Route::controller(SocailiteController::class)->group(function () {
+   Route::get('auth/{provider}/redirect', 'redirect')->name('google.redirect');
+   Route::get('auth/{provider}/callback', 'callback')->name('google.callback');
+});
 

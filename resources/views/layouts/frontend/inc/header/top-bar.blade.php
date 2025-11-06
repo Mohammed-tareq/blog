@@ -16,9 +16,7 @@
                     @endguest
 
                     @auth
-                        <a href="javascript:void(0);" onclick="if(confirm('Are You Sure You Want To Logout')){
-                    document.getElementById('logoutForm').submit();
-                    } return false ">Logout</a>
+                        <a href="javascript:void(0);" onclick="submitDeleteForm()">Logout</a>
                     @endauth
                     <form id="logoutForm" action="{{route('logout')}}" method="post">
                         @csrf
@@ -29,3 +27,23 @@
     </div>
 </div>
 <!-- Top Bar Start -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    function submitDeleteForm() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't to Logout!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#8c57ff',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Logout'
+        }).then(result => {
+            if (result.isConfirmed) {
+                document.getElementById('logoutForm').submit();
+            }
+        })
+
+    }
+</script>

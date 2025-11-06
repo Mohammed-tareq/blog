@@ -70,6 +70,11 @@
                             </div>
                         </div>
                     </form>
+                    <div class="row mt-3 d-flex justify-content-center">
+                        <a href="{{ route('google.redirect','google') }}" class="btn btn-outline-primary rounded-circle"><i class="fa-brands fa-google"></i></a>
+
+
+                    </div>
                 </div>
             </div>
         </div>

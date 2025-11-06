@@ -8,18 +8,7 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center justify-content-end" id="navbar-collapse">
-        <!-- Search -->
-        <div class="navbar-nav align-items-center">
-            <div class="nav-item d-flex align-items-center">
-                <i class="icon-base ri ri-search-line icon-lg lh-0"></i>
-                <input
-                        type="text"
-                        class="form-control border-0 shadow-none"
-                        placeholder="Search..."
-                        aria-label="Search..."/>
-            </div>
-        </div>
-        <!-- /Search -->
+
 
         <ul class="navbar-nav flex-row align-items-center ms-md-auto">
             @can('notification.read')
@@ -114,7 +103,7 @@
                         <form id="LogOut" action="{{ route('admin.logout') }}" method="Post">
                             <div class="d-grid px-4 pt-2 pb-1">
                                 @csrf
-                                <button class="btn btn-danger d-flex" type="submit">
+                                <button class="btn btn-danger d-flex" type="button" onclick="submitDeleteForm()">
                                     <small class="align-middle">Logout</small>
                                     <i class="ri ri-logout-box-r-line ms-2 ri-xs"></i>
                                 </button>
@@ -127,3 +116,21 @@
         </ul>
     </div>
 </nav>
+<script>
+    function submitDeleteForm() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't to delete this user!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#8c57ff',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(result => {
+            if (result.isConfirmed) {
+                document.getElementById('LogOut').submit();
+            }
+        })
+
+    }
+</script>

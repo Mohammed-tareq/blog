@@ -43,7 +43,7 @@ class LoginController extends Controller
 
     protected function loggedOut()
     {
-        Session::flash('info', 'You have been logged out!');
+        Session::flash('success', 'You have been logged out!');
         return redirect()->route('front.index');
     }
 
