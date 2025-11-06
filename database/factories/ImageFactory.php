@@ -17,9 +17,13 @@ class ImageFactory extends Factory
      */
     public function definition(): array
     {
-        return [
+        $images = ['https://images.pexels.com/photos/879109/pexels-photo-879109.jpeg', 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
+            'https://images.pexels.com/photos/3861961/pexels-photo-3861961.jpeg',
+            'https://images.pexels.com/photos/4974915/pexels-photo-4974915.jpeg'];
 
-                'path' => fake()->imageUrl(),
+        return [
+            'path' => $images[rand(0,3)],
         ];
     }
+
 }
