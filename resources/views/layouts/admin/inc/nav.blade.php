@@ -100,10 +100,10 @@
                         <div class="dropdown-divider my-1"></div>
                     </li>
                     <li>
-                        <form id="LogOut" action="{{ route('admin.logout') }}" method="Post">
+                        <form id="LogOutAdmin" action="{{ route('admin.logout') }}" method="Post">
                             <div class="d-grid px-4 pt-2 pb-1">
                                 @csrf
-                                <button class="btn btn-danger d-flex" type="button" onclick="submitDeleteForm()">
+                                <button class="btn btn-danger d-flex" type="button" onclick="submitDeleteFormAdmin()">
                                     <small class="align-middle">Logout</small>
                                     <i class="ri ri-logout-box-r-line ms-2 ri-xs"></i>
                                 </button>
@@ -117,18 +117,18 @@
     </div>
 </nav>
 <script>
-    function submitDeleteForm() {
+    function submitDeleteFormAdmin() {
         Swal.fire({
             title: 'Are you sure?',
-            text: "You won't to delete this user!",
+            text: "You won't to logOut!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#8c57ff',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, logOut!'
         }).then(result => {
             if (result.isConfirmed) {
-                document.getElementById('LogOut').submit();
+                document.getElementById('LogOutAdmin').submit();
             }
         })
 

@@ -73,6 +73,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('status', 1);
     }
 
+    public function status(){
+        return $this->status == 1 ? 'Active' : 'Inactive';
+    }
+
+
     public function receivesBroadcastNotificationsOn(): string
     {
         return 'users.'.$this->id;

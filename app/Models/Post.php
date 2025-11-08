@@ -58,6 +58,27 @@ class Post extends Model
         return $query->where('status', 1);
     }
 
+    public function scopeActiveUser($q)
+    {
+       $q->where(function($q){
+           $q->whereHas('user',fn($q) => $q->active())
+           ->orWhere('user_id',null);
+       });
+    }
+
+    public function scopeActiveCategory($q)
+    {
+        $q->whereHas('category',fn($q) => $q->active());
+    }
+
+    public function status()
+    {
+        return $this->status == 1 ? 'Active' : 'Inactive';
+    }
+    public function comment_able()
+    {
+        return $this->comment_able == 1 ? 'Active' : 'Inactive';
+    }
 
     public function sluggable(): array
     {
