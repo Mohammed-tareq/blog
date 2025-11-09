@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminProfile\AdminProfileController;
 use App\Http\Controllers\Admin\Auth\ForgetPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
@@ -8,11 +9,11 @@ use App\Http\Controllers\Admin\Authoriz\AuthorizController;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\Contact\ContactAdminCotroller;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\Post\PostController;
 use App\Http\Controllers\Admin\Notification\NotificationAdminController;
+use App\Http\Controllers\Admin\Post\PostController;
+use App\Http\Controllers\Admin\RelatedSite\RelatedSiteController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\User\UserController;
-use App\Http\Controllers\Admin\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -61,6 +62,14 @@ Route::group(['prefix' => 'admin', 'as' => "admin."], function () {
             Route::get('/', 'index')->name('index');
             Route::post('/update/{id}', 'update')->name('update');
         });
+
+        Route::controller(RelatedSiteController::class)->name('setting.site.')->prefix('setting/site')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/update/{id}', 'update')->name('update');
+            Route::post('/delete/{id}', 'delete')->name('delete');
+        });
+
+
 
         //===================== contact =========================//
         Route::controller(ContactAdminCotroller::class)->name('contacts.')->prefix('contacts')->group(function () {

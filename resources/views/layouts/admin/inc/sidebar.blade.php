@@ -164,13 +164,31 @@
         @endcan
 
         @can('setting.read')
-            {{-- Setting links --}}
             <li class="menu-item">
-                <a href="{{route('admin.setting.index')}}" class="menu-link">
-                    <i class="menu-icon icon-base ri ri-tools-line"></i>
-                    <div data-i18n="Basic">Settings</div>
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon icon-base ri ri-lock-line"></i>
+                    <div data-i18n="Layouts">Setting</div>
                 </a>
+
+                <ul class="menu-sub">
+                    {{-- Setting links --}}
+                    <li class="menu-item">
+                        <a href="{{route('admin.setting.index')}}" class="menu-link">
+                            <i class="menu-icon icon-base ri ri-tools-line"></i>
+                            <div data-i18n="Basic">Settings</div>
+                        </a>
+                    </li>
+
+                    {{-- Setting links --}}
+                    <li class="menu-item">
+                        <a href="{{route('admin.setting.site.index')}}" class="menu-link">
+                            <i class="menu-icon icon-base ri ri-tools-line"></i>
+                            <div data-i18n="Basic">Sites</div>
+                        </a>
+                    </li>
+                </ul>
             </li>
+
         @endcan
 
 

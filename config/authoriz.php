@@ -56,6 +56,9 @@ return [
         'setting' => [
             'read' => 'Read Setting',
             'update' => 'Update Setting',
+            'add-social' => 'Add Social',
+            'delete-social' => 'Delete Social',
+            'edit-social' => 'Edit Social'
         ],
 
         'profile' => [
