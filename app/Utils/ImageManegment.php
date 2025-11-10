@@ -26,6 +26,8 @@ class ImageManegment
             $path = self::saveImageWithNewName($image,'users');
             $user->update(['image' => $path]);
         endif;
+
+
     }
 
     public static function deleteImagesForPost($post)
