@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Category\CategoryController;
 use App\Http\Controllers\Api\ContactUs\ContactController;
 use App\Http\Controllers\Api\General\GeneralController;
@@ -17,6 +18,12 @@ Route::prefix('v1')->group(function () {
         Route::post('register', 'register');
         Route::post('register-only', 'registerOnly');
     });
+
+    Route::controller(VerifyEmailController::class)->prefix('auth')->middleware('auth:sanctum')->group(function () {
+        Route::post('verify-email', 'verifyEmail');
+        Route::get('send-otp', 'sendOtpAgain');
+    });
+
     //    ========================  Login  ======================== //
     Route::post('auth/login', LoginController::class);
     //    ========================  Logout  ======================== //

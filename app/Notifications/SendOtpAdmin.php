@@ -12,9 +12,7 @@ class SendOtpAdmin extends Notification
 {
     use Queueable;
     protected $otp;
-    /**
-     * Create a new notification instance.
-     */
+
     public function __construct()
     {
         $this->otp = new Otp();

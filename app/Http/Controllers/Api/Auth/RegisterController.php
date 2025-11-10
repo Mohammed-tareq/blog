@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\StoreRequest;
 use App\Models\User;
+use App\Notifications\SendOtpVerifyEmail;
 use App\Utils\ImageManegment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,7 @@ class RegisterController extends Controller
                 ImageManegment::storeImage($request, null, $user);
             }
             DB::commit();
+            $user->notify(new SendOtpVerifyEmail());
 
             $token = $user->createToken('user_token', [], now()->addWeek())->plainTextToken;
             return apiResponse('200', 'Register Successfully', ['token' => $token]);
@@ -54,6 +56,8 @@ class RegisterController extends Controller
                 ImageManegment::storeImage($request, null, $user);
             }
             DB::commit();
+
+            $user->notify(new SendOtpVerifyEmail());
 
             return apiResponse('200', 'Register Successfully');
 
