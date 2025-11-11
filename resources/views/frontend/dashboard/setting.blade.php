@@ -55,6 +55,10 @@
                         <label for="profile-image">Profile Image:</label>
                         <input type="file" id="profile-image"  name="image" />
                     </div>
+                    <div class="form-group">
+                        <img id="profile-image-show" class="image-thumbnail"
+                        src="{{ asset($user->image) }}" width="100" height="100" alt="Profile Image"/>
+                    </div>
                     @error('image')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -140,3 +144,21 @@
         </div>    </div>
 
 @endsection
+
+@push('js')
+    <script>
+
+        $(document).on('change','#profile-image',function(e){
+            e.preventDefault();
+            let file = this.files[0];
+            if(file){
+                let reader = new FileReader()
+                reader.onload = function(e){
+                    $('#profile-image-show').attr('src',e.target.result)
+                }
+                reader.readAsDataURL(file)
+            }
+        })
+
+    </script>
+@endpush

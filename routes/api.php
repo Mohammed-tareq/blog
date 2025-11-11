@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
+use App\Http\Controllers\Api\Auth\Password\ForgetPasswordController;
+use App\Http\Controllers\Api\Auth\Password\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\Category\CategoryController;
@@ -10,27 +12,41 @@ use App\Http\Controllers\Api\General\GeneralController;
 use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Search\SearchController;
 use App\Http\Controllers\Api\Setting\SettingController;
+use App\Http\Controllers\Api\Account\ProfileController;
+use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    //    ========================  Register  ======================== //
-    Route::controller(RegisterController::class)->prefix('auth')->group(function () {
-        Route::post('register', 'register');
-        Route::post('register-only', 'registerOnly');
+
+    Route::prefix('auth')->group(function () {
+
+        //    ========================  Register  ======================== //
+        Route::controller(RegisterController::class)->group(function () {
+            Route::post('register', 'register');
+            Route::post('register-only', 'registerOnly');
+        });
+        //  ========================  Verify Email  ======================== //
+        Route::controller(VerifyEmailController::class)->middleware('auth:sanctum')->group(function () {
+            Route::post('verify-email', 'verifyEmail');
+        });
+        //  ========================  Forget Password  ======================== //
+        Route::controller(ForgetPasswordController::class)->group(function () {
+            Route::post('forget-password', 'forgetPassword');
+        });
+        //  ========================  Reset Password  ======================== //
+        Route::controller(ResetPasswordController::class)->group(function () {
+            Route::post('reset-password', 'resetPassword');
+        });
+
+        //    ========================  Login  ======================== //
+        Route::post('login', LoginController::class);
+        //    ========================  Logout  ======================== //
+        Route::controller(LogoutController::class)->middleware('auth:sanctum')->group(function () {
+            Route::delete('logout', 'logout');
+            Route::delete('logout-all', 'logoutAll');
+        });
     });
 
-    Route::controller(VerifyEmailController::class)->prefix('auth')->middleware('auth:sanctum')->group(function () {
-        Route::post('verify-email', 'verifyEmail');
-        Route::get('send-otp', 'sendOtpAgain');
-    });
-
-    //    ========================  Login  ======================== //
-    Route::post('auth/login', LoginController::class);
-    //    ========================  Logout  ======================== //
-    Route::controller(LogoutController::class)->prefix('auth')->middleware('auth:sanctum')->group(function () {
-        Route::delete('logout', 'logout');
-        Route::delete('logout-all', 'logoutAll');
-    });
 //    ========================  General  ======================== //
     Route::get('/posts/{keyword?}', [GeneralController::class, 'index']);
 //    ========================  Post  ======================== //
@@ -57,9 +73,12 @@ Route::prefix('v1')->group(function () {
 
 
     // ========================== protected routes ========================== //
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum')->prefix('account')->group(function () {
         Route::get('/user', function (Request $request) {
-            return request()->user();
+            return UserResource::make(request()->user());
         });
+
+        Route::put('/setting/update/',[ProfileController::class,'update']);
+        Route::put('/setting/update/password',[ProfileController::class,'updatePassword']);
     });
 });

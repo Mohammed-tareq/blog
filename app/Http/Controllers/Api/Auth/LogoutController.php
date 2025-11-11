@@ -11,7 +11,7 @@ class LogoutController extends Controller
 {
     public function logout()
     {
-        Auth::guard('sanctum')->currentِAccessToken()->delete();
+        Auth::guard('sanctum')->user()->currentAccessToken()->delete();
         return apiResponse('200', 'Logout Successfully');
     }
 

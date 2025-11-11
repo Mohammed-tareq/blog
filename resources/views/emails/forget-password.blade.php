@@ -37,11 +37,11 @@
 <body>
 
     <div class="container">
-        <h2 style="color: #10b981; text-align: center;">Account Verification OTP</h2>
+        <h2 style="color: #10b981; text-align: center;">Account Forget Password OTP</h2>
         <p>Hello,</p>
-        <p>Thank you for registering! Your OTP for email verification is:</p>
+        <p>Thank you for registering! Your OTP for email  is:</p>
         <h3 style="text-align: center; font-size: 36px; color: #ffffff;">{{ $otp }}</h3>
-        <p style="text-align: center;">Use this OTP to verify your account.</p>
+        <p style="text-align: center;">Use this OTP to reset your password.</p>
         <p>If you did not create an account, please ignore this email.</p>
         
 
