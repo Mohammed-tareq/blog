@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Account\Posts\PostMangeController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\Password\ForgetPasswordController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Api\Post\PostController;
 use App\Http\Controllers\Api\Search\SearchController;
 use App\Http\Controllers\Api\Setting\SettingController;
 use App\Http\Controllers\Api\Account\ProfileController;
+use App\Http\Controllers\Api\Account\Posts\PostAccountController;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Route;
 
@@ -77,8 +79,22 @@ Route::prefix('v1')->group(function () {
         Route::get('/user', function (Request $request) {
             return UserResource::make(request()->user());
         });
-
-        Route::put('/setting/update/',[ProfileController::class,'update']);
-        Route::put('/setting/update/password',[ProfileController::class,'updatePassword']);
+    //======================= update data user ==========================
+        Route::controller(ProfileController::class)->group(function () {
+            Route::put('/setting/update/', 'update');
+            Route::put('/setting/update/password', 'updatePassword');
+        });
+    //======================= posts data user ==========================
+        Route::controller(PostAccountController::class)->prefix('posts')->group(function () {
+            Route::get('/', 'getPosts');
+            Route::get('/comments', 'getPostsComments');
+        });
+    //======================= posts data user ==========================
+        Route::controller(PostMangeController::class)->prefix('post')->group(function () {
+            Route::get('{id}/comments',"getPostComments");
+            Route::post('/store', 'store');
+            Route::put('/{id}/update', 'update');
+            Route::delete('/destroy/{id} ','destroy');
+        });
     });
 });

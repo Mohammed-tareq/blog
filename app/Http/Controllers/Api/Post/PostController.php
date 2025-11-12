@@ -22,6 +22,7 @@ class PostController extends Controller
         if (!$post) {
             return apiResponse(404, 'Post Not Found');
         }
+        $post->increment('num_of_views');
         return apiResponse(200, 'Post Found', PostResource::make($post));
     }
 

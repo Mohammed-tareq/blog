@@ -27,7 +27,7 @@ class StorePostRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'images' => 'required|array|min:1|max:5',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'comment_able' => 'nullable|in:on',
+            'comment_able' => 'nullable|in:on,1',
             'tags' => 'nullable',
             'small_desc' => 'required|string|max:170',
 

@@ -22,19 +22,25 @@ class PostResource extends JsonResource
     {
 
         $data = [
+            'post_id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
             'views' => $this->num_of_views,
             'status' => $this->status(),
             'publisher' => $this->whenLoaded('admin') || $this->whenLoaded('user')
-                ? ($this->user_id === null ? AdminResource::make($this->admin) : UserResource::make($this->user))
-                : $this->when($request->is('api/v1/category/*'), $this->user_id === null
-                    ? AdminResource::make($this->admin)
-                    : UserResource::make($this->user)
+                ? ($this->user_id === null ?
+                    AdminResource::make($this->admin)
+                    : UserResource::make($this->user))
+
+                : $this->when($request->is('api/v1/category/*'),
+                    $this->user_id === null
+                        ? AdminResource::make($this->admin)
+                        : UserResource::make($this->user)
                 ),
 
 
             'image' => ImageResource::collection($this->images),
+            'comments' => new CommentCollection($this->whenLoaded('comments')),
             'comments_count' => $this->whenCounted('comments'),
 
             $this->mergeWhen($request->is('api/v1/post/show/*'), [
