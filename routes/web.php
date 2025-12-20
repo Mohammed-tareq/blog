@@ -44,7 +44,7 @@ Route::name('front.')->group(function () {
         Route::post('/store', [ContactUsController::class, 'store'])->name('store');
     });
 
-
+Auth::guard('web')->user();
     Route::prefix('account')->name('dashboard.')->middleware(['auth:web' , 'verified','user.active' ])->group(function () {
 
         Route::controller(ProfileController::class)->group(function () {

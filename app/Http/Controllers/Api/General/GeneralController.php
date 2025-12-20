@@ -34,7 +34,7 @@ class GeneralController extends Controller
         $category_posts = $this->categoryPosts();
 
         $data = [
-            'all_posts' => (new PostCollection($posts))->response()->getData(true),
+            'all_posts' => (new PostCollection($posts)->response()->getData(true)),
             'popular_posts' => new PostCollection($popular_posts),
             'latest_posts' => new PostCollection($latest_posts),
             'oldest_posts' => new PostCollection($oldest_posts),
